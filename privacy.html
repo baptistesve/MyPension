@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MyPension — Confidentialité / Privacy</title>
+<meta name="referrer" content="no-referrer">
+<meta name="color-scheme" content="dark light">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<style>
+  :root{--bg:#0b1020;--card:#151d38;--line:#26315a;--txt:#e8ecf8;--mut:#8e9ac0;--acc:#9bb0ff}
+  @media (prefers-color-scheme:light){:root{--bg:#f3f5fb;--card:#fff;--line:#dfe4f2;--txt:#141a33;--mut:#5b6690;--acc:#3f5fe0}}
+  body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  .wrap{max-width:760px;margin:0 auto;padding:20px 16px 60px}
+  header{display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap}
+  header .b{display:flex;align-items:center;gap:10px} header img{width:40px;height:40px;border-radius:10px}
+  h1{font-size:1.4rem;margin:0} h2{font-size:1.05rem;margin:1.6em 0 .4em}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px 18px 14px;margin-top:16px}
+  a{color:var(--acc)} .mut{color:var(--mut);font-size:.9rem} code{font-size:.88em}
+  table{border-collapse:collapse;width:100%;font-size:.92rem} td,th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left;vertical-align:top}
+  .seg button{background:transparent;color:var(--txt);border:1px solid var(--line);padding:6px 12px;cursor:pointer;font:inherit}
+  .seg button:first-child{border-radius:8px 0 0 8px} .seg button:last-child{border-radius:0 8px 8px 0;border-left:0}
+  .seg button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+  [data-l]{display:none} html[lang=fr] [data-l=fr], html[lang=en] [data-l=en]{display:block}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="b"><img src="icon-192.png" alt="MP"><h1>MyPension</h1></div>
+  <div class="seg"><button data-set="fr">Français</button><button data-set="en">English</button></div>
+</header>
+
+<!-- ======================= FRANÇAIS ======================= -->
+<div data-l="fr">
+<div class="card">
+<h2>Politique de confidentialité</h2>
+<p><b>En bref : MyPension ne collecte aucune donnée.</b> Il n'y a pas de serveur MyPension, pas de compte, pas de statistiques, pas de publicité, pas de cookies de suivi.</p>
+
+<h2>Où sont mes données ?</h2>
+<ul>
+  <li><b>Sur votre appareil</b> : profil, soldes 3a/LPP, hypothèses et résultats sont enregistrés dans le stockage local du navigateur (<code>localStorage</code>).</li>
+  <li><b>Dans votre propre Dropbox, si vous la connectez</b> : un fichier <code>mypension-data.json</code> (et une copie par mois) est écrit dans le dossier réservé à l'application de <b>votre</b> Dropbox (<i>Applications › …</i>). L'application n'a accès qu'à ce dossier. Les jetons de connexion restent sur votre appareil.</li>
+  <li>Personne d'autre — ni l'auteur de l'application, ni la personne qui vous l'a partagée — ne peut voir vos données.</li>
+</ul>
+
+<h2>Services tiers contactés</h2>
+<table>
+<tr><th>Service</th><th>Pourquoi</th><th>Ce qui est envoyé</th></tr>
+<tr><td>GitHub Pages (<code>github.io</code>)</td><td>Hébergement des fichiers de l'application</td><td>Requêtes de chargement de la page (journaux techniques de GitHub)</td></tr>
+<tr><td>Dropbox (<code>dropbox.com</code>, <code>dropboxapi.com</code>)</td><td>Synchronisation, seulement si vous la choisissez</td><td>Votre fichier de données, vers votre propre compte</td></tr>
+<tr><td>Relais fiscal (Cloudflare Workers) puis calculateur de l'AFC/ESTV (<code>swisstaxcalculator.estv.admin.ch</code>)</td><td>Calcul exact de l'impôt sur un retrait en capital, seulement si le relais est configuré <b>et</b> que vous cliquez sur « Calcul exact »</td><td>Canton/commune, état civil, nombre d'enfants, sexe, âge au versement et montant du capital — sans nom ni identifiant. Le relais ne stocke rien.</td></tr>
+</table>
+<p class="mut">Sans relais configuré, aucun calcul ne quitte votre appareil : l'estimation fiscale utilise des tableaux intégrés à l'application. Ces services ont leurs propres politiques de confidentialité.</p>
+
+<h2>Nature de l'outil</h2>
+<p>MyPension est un outil de simulation. Il ne fournit ni conseil financier, fiscal ou juridique, ni recommandation de produit. Vérifiez toute décision auprès de votre caisse de pension, de votre fondation 3a et de votre administration fiscale.</p>
+
+<h2>Supprimer vos données / révoquer l'accès</h2>
+<ul>
+  <li>Sur l'appareil : onglet Données › <i>Réinitialiser</i>, ou effacez les données du site dans votre navigateur.</li>
+  <li>Dropbox : supprimez le dossier <i>Applications › …</i> et retirez l'accès dans <a href="https://www.dropbox.com/account/connected_apps" rel="noopener">Paramètres › Applications connectées</a>.</li>
+</ul>
+<p class="mut">Dernière mise à jour : octobre 2026.</p>
+</div>
+</div>
+
+<!-- ======================= ENGLISH ======================= -->
+<div data-l="en">
+<div class="card">
+<h2>Privacy policy</h2>
+<p><b>In short: MyPension collects no data.</b> There is no MyPension server, no account, no analytics, no ads and no tracking cookies.</p>
+
+<h2>Where is my data?</h2>
+<ul>
+  <li><b>On your device</b>: profile, 3a/pension-fund balances, assumptions and results are stored in the browser's local storage (<code>localStorage</code>).</li>
+  <li><b>In your own Dropbox, if you connect it</b>: a file <code>mypension-data.json</code> (plus one copy per month) is written to the app's dedicated folder in <b>your</b> Dropbox (<i>Apps › …</i>). The app can only access that folder. Sign-in tokens stay on your device.</li>
+  <li>Nobody else — neither the app's author nor the person who shared it with you — can see your data.</li>
+</ul>
+
+<h2>Third-party services contacted</h2>
+<table>
+<tr><th>Service</th><th>Why</th><th>What is sent</th></tr>
+<tr><td>GitHub Pages (<code>github.io</code>)</td><td>Hosting the app files</td><td>Page-load requests (GitHub's technical logs)</td></tr>
+<tr><td>Dropbox (<code>dropbox.com</code>, <code>dropboxapi.com</code>)</td><td>Sync, only if you choose it</td><td>Your data file, to your own account</td></tr>
+<tr><td>Tax relay (Cloudflare Workers), then the ESTV tax calculator (<code>swisstaxcalculator.estv.admin.ch</code>)</td><td>Exact tax on a lump-sum withdrawal, only if the relay is configured <b>and</b> you click "Exact calculation"</td><td>Canton/municipality, civil status, number of children, sex, age at payment and capital amount — no name or identifier. The relay stores nothing.</td></tr>
+</table>
+<p class="mut">Without a relay, no calculation leaves your device: tax estimates use tables built into the app. These services have their own privacy policies.</p>
+
+<h2>Nature of the tool</h2>
+<p>MyPension is a simulation tool. It provides no financial, tax or legal advice and no product recommendation. Check any decision with your pension fund, your 3a provider and your tax office.</p>
+
+<h2>Deleting your data / revoking access</h2>
+<ul>
+  <li>On the device: Data tab › <i>Reset</i>, or clear this site's data in your browser.</li>
+  <li>Dropbox: delete the <i>Apps › …</i> folder and remove access under <a href="https://www.dropbox.com/account/connected_apps" rel="noopener">Settings › Connected apps</a>.</li>
+</ul>
+<p class="mut">Last updated: October 2026.</p>
+</div>
+</div>
+
+<p style="margin-top:20px"><a href="./" id="back">← MyPension</a></p>
+</div>
+<script>
+(function(){
+  var q=new URLSearchParams(location.search).get("lang"), l=null;
+  try{ l=localStorage.getItem("mypension.lang"); }catch(e){}
+  if(q==="fr"||q==="en") l=q;
+  if(l!=="fr"&&l!=="en") l=/^fr/i.test(navigator.language||"")?"fr":"en";
+  function set(x){ document.documentElement.lang=x; document.querySelectorAll("[data-set]").forEach(function(b){ b.classList.toggle("on", b.getAttribute("data-set")===x); }); }
+  set(l);
+  document.querySelectorAll("[data-set]").forEach(function(b){ b.onclick=function(){ var x=b.getAttribute("data-set"); set(x); try{ localStorage.setItem("mypension.lang",x); }catch(e){} }; });
+})();
+</script>
+</body>
+</html>

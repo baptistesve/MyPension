@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="fr-CH">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MyPension</title>
+<meta name="description" content="MyPension — simulateur de prévoyance suisse (3a, LPP, AVS, retraite) / Swiss pension planner">
+<meta name="theme-color" content="#0b1020">
+<meta name="color-scheme" content="dark light">
+<meta name="referrer" content="no-referrer">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="MyPension">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<script src="chart.umd.min.js"></script>
+<script src="params-2026.js"></script>
+<script src="tax-tables-2026.js"></script>
+<script src="config.js" onerror="window.MYPENSION_CONFIG=window.MYPENSION_CONFIG||{}"></script>
+<style>
+:root{
+  --bg:#0b1020; --bg2:#111831; --card:#151d38; --card2:#1b2546; --line:#26315a;
+  --txt:#e8ecf8; --mut:#8e9ac0; --acc:#6c8cff; --acc2:#9b6cff;
+  --pos:#2fd08a; --neg:#ff5c7a; --warn:#ffb547; --shadow:0 10px 30px rgba(0,0,0,.35);
+  --inp:#0f1630;
+}
+[data-theme=light]{
+  --bg:#f3f5fb; --bg2:#e9edf7; --card:#ffffff; --card2:#f6f8fd; --line:#dfe4f1;
+  --txt:#18203a; --mut:#66708f; --acc:#4361ee; --acc2:#7b4dff;
+  --pos:#109a5f; --neg:#d93556; --warn:#c77700; --shadow:0 8px 24px rgba(30,40,80,.08);
+  --inp:#f3f5fb;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:radial-gradient(1200px 600px at 10% -10%,rgba(108,140,255,.18),transparent 60%),
+             radial-gradient(900px 500px at 100% 0%,rgba(155,108,255,.14),transparent 60%),var(--bg);
+  color:var(--txt);min-height:100vh;font-size:15px;line-height:1.45;
+  padding-top:env(safe-area-inset-top);padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+a{color:var(--acc)}
+.wrap{max-width:1180px;margin:0 auto;padding:18px 18px 60px}
+header.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:space-between;margin-bottom:12px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:42px;height:42px;border-radius:12px;box-shadow:var(--shadow)}
+.brand h1{font-size:20px;margin:0;line-height:1.1}
+.brand .subt{color:var(--mut);font-size:12px}
+.tools{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+nav.tabs{display:flex;gap:6px;flex-wrap:wrap;margin:6px 0 16px;position:sticky;top:0;z-index:5;padding:8px 0;background:linear-gradient(var(--bg) 70%,transparent)}
+nav.tabs a{padding:7px 14px;border-radius:999px;background:var(--card);border:1px solid var(--line);color:var(--txt);text-decoration:none;font-size:14px;display:inline-flex;gap:6px;align-items:center}
+nav.tabs a i{font-style:normal}
+nav.tabs a:hover{border-color:var(--acc)}
+nav.tabs a.on{background:linear-gradient(135deg,var(--acc),var(--acc2));border-color:transparent;color:#fff;font-weight:600}
+.btn{border:1px solid var(--line);background:var(--card);color:var(--txt);padding:8px 13px;border-radius:10px;cursor:pointer;font-size:14px;font-family:inherit;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.btn:hover{border-color:var(--acc)}
+.btn.primary{background:linear-gradient(135deg,var(--acc),var(--acc2));border:0;color:#fff;font-weight:600}
+.btn.danger:hover{border-color:var(--neg);color:var(--neg)}
+.btn.sm{padding:5px 9px;font-size:13px;border-radius:8px}
+select,input{font-family:inherit;font-size:14px;color:var(--txt);background:var(--inp);border:1px solid var(--line);border-radius:8px;padding:7px 9px;min-width:0}
+input:focus,select:focus{outline:2px solid var(--acc);outline-offset:-1px}
+input.num{text-align:right;font-variant-numeric:tabular-nums}
+input[type=checkbox]{width:18px;height:18px;accent-color:var(--acc)}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:1fr 1fr}
+.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:18px;box-shadow:var(--shadow);min-width:0}
+.card h2{font-size:16px;margin:0 0 12px}
+.card h3{font-size:14px;margin:14px 0 8px;color:var(--mut);text-transform:uppercase;letter-spacing:.06em}
+.fields{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px 14px}
+.fld{display:flex;flex-direction:column;gap:3px;min-width:0}
+.fld input,.fld select{width:100%}
+.fld label{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:.06em}
+.fld .h{font-size:11.5px;color:var(--mut);line-height:1.35}
+.fld.chk{flex-direction:row;align-items:center;gap:8px}
+.fld.chk label{text-transform:none;letter-spacing:0;font-size:13px;color:var(--txt)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin:4px 0}
+.kpi{background:var(--card2);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.kpi .l{color:var(--mut);font-size:12px;text-transform:uppercase;letter-spacing:.06em}
+.kpi .v{font-size:20px;font-weight:700;margin-top:4px;font-variant-numeric:tabular-nums}
+.kpi .s{font-size:12px;color:var(--mut)}
+.kpi.hl{background:linear-gradient(135deg,rgba(108,140,255,.25),rgba(155,108,255,.18)),var(--card2)}
+.pos{color:var(--pos)} .neg{color:var(--neg)} .warnc{color:var(--warn)}
+.chartbox{position:relative;height:300px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:7px 8px;border-bottom:1px solid var(--line);text-align:left;white-space:nowrap}
+th{color:var(--mut);font-weight:600;font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+td.r,th.r{text-align:right;font-variant-numeric:tabular-nums}
+tr.me td{background:rgba(108,140,255,.12);font-weight:600}
+.tablewrap{overflow-x:auto}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.muted{color:var(--mut)} .small{font-size:12px}
+.note{font-size:12.5px;color:var(--mut);border-left:3px solid var(--line);padding:4px 10px;margin:10px 0}
+.alert{border-radius:12px;padding:10px 14px;margin:10px 0;font-size:14px;border:1px solid var(--line)}
+.alert.warn{border-color:rgba(255,181,71,.7);background:linear-gradient(90deg,rgba(255,181,71,.16),transparent 80%)}
+.alert.err{border-color:var(--neg);background:linear-gradient(90deg,rgba(255,92,122,.16),transparent 80%)}
+.alert.ok{border-color:rgba(47,208,138,.6);background:linear-gradient(90deg,rgba(47,208,138,.14),transparent 80%)}
+.alert.info{border-color:rgba(108,140,255,.6);background:linear-gradient(90deg,rgba(108,140,255,.14),transparent 80%)}
+.disc{border:1px solid rgba(255,181,71,.7);background:linear-gradient(90deg,rgba(255,181,71,.18),transparent 85%),var(--card);border-radius:14px;padding:10px 14px;margin:0 0 14px;font-size:13.5px}
+.disc summary{cursor:pointer;font-weight:600}
+.disc p{margin:8px 0 0}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(30px);background:var(--card);border:1px solid var(--line);padding:10px 16px;border-radius:12px;box-shadow:var(--shadow);opacity:0;transition:.25s;z-index:50;font-size:14px}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+footer{margin-top:36px;color:var(--mut);font-size:12px;text-align:center}
+.fspill{border:1px solid var(--line);background:var(--card);color:var(--mut);font-size:12px;padding:3px 10px;border-radius:999px;cursor:pointer;font-family:inherit;display:inline-flex;gap:6px;align-items:center}
+.fspill .d{width:8px;height:8px;border-radius:50%;background:var(--mut)}
+.fspill.ok{color:var(--pos);border-color:rgba(47,208,138,.45)} .fspill.ok .d{background:var(--pos)}
+.fspill.pending .d{background:var(--acc)} .fspill.err{color:var(--neg);border-color:var(--neg)} .fspill.err .d{background:var(--neg)}
+.fspill.warn{color:var(--warn);border-color:rgba(255,181,71,.6)} .fspill.warn .d{background:var(--warn)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{border:0;background:var(--card);color:var(--mut);padding:7px 11px;font-family:inherit;font-size:13px;cursor:pointer}
+.seg button.on{background:linear-gradient(135deg,var(--acc),var(--acc2));color:#fff;font-weight:600}
+section.tab{display:none}
+section.tab.on{display:block}
+.acc3a{display:grid;grid-template-columns:1fr 160px 110px auto;gap:8px;align-items:center;margin-bottom:8px}
+.acc3a input{width:100%}
+.srcs{font-size:12px;word-break:break-all}
+.srcs li{margin:2px 0}
+dialog.modal{border:1px solid var(--line);background:var(--card);color:var(--txt);border-radius:18px;padding:20px;max-width:520px;width:calc(100% - 32px);box-shadow:var(--shadow)}
+dialog.modal::backdrop{background:rgba(5,8,20,.6);backdrop-filter:blur(3px)}
+dialog.modal h3{margin:0 0 8px;font-size:17px}
+.big{font-size:clamp(24px,4vw,34px);font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+@media (max-width:900px){.g2{grid-template-columns:1fr}}
+@media (max-width:640px){
+  .wrap{padding:12px 10px 50px}.card{padding:14px;border-radius:14px}
+  body{padding-bottom:calc(74px + env(safe-area-inset-bottom))}
+  nav.tabs{position:fixed;top:auto;bottom:0;left:0;right:0;margin:0;z-index:20;display:grid;grid-template-columns:repeat(6,1fr);gap:0;
+    background:var(--card);border-top:1px solid var(--line);padding:6px 4px calc(6px + env(safe-area-inset-bottom));box-shadow:0 -6px 20px rgba(0,0,0,.25)}
+  nav.tabs a{flex-direction:column;gap:2px;border:0;background:transparent;padding:4px 1px;font-size:10.5px;border-radius:10px;text-align:center}
+  nav.tabs a.on{background:rgba(108,140,255,.18);color:var(--txt)}
+  nav.tabs a i{font-size:19px;line-height:1}
+  input,select{font-size:16px!important}
+  .tools{width:100%;justify-content:space-between}
+  .acc3a{grid-template-columns:1fr 96px 52px 34px;gap:6px}.acc3a input{padding:7px 6px}
+  .fields{grid-template-columns:1fr 1fr}
+  .kpis{grid-template-columns:1fr 1fr}
+  .kpi .v{font-size:17px}
+  .chartbox{height:260px}
+}
+@media print{nav.tabs,.tools,.btn{display:none!important} section.tab{display:block!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">
+      <img class="logo" src="icon-192.png" alt="MP">
+      <div><h1>MyPension</h1><div class="subt" data-i18n="subtitle"></div></div>
+    </div>
+    <div class="tools">
+      <button class="fspill" id="fsStatus"><span class="d"></span><span id="fsStatusTxt">…</span></button>
+      <div class="seg" id="langSeg"><button data-lang="fr">FR</button><button data-lang="en">EN</button></div>
+      <button class="btn sm" id="themeBtn" data-i18n-title="theme">◐</button>
+    </div>
+  </header>
+
+  <details class="disc" id="disc">
+    <summary>⚠️ <span data-i18n="discShort"></span></summary>
+    <p data-i18n-html="discLong"></p>
+  </details>
+  <div id="banners"></div>
+
+  <nav class="tabs" id="tabs">
+    <a href="#profil" data-tab="profil"><i>👤</i><span data-i18n="tabProfile"></span></a>
+    <a href="#p3a" data-tab="p3a"><i>🏦</i><span data-i18n="tab3a"></span></a>
+    <a href="#lpp" data-tab="lpp"><i>🏛️</i><span data-i18n="tabLpp"></span></a>
+    <a href="#retrait" data-tab="retrait"><i>📤</i><span data-i18n="tabWithdraw"></span></a>
+    <a href="#retraite" data-tab="retraite"><i>🏖️</i><span data-i18n="tabFire"></span></a>
+    <a href="#donnees" data-tab="donnees"><i>💾</i><span data-i18n="tabData"></span></a>
+  </nav>
+
+  <section class="tab" id="profil">
+    <div class="card"><h2 data-i18n="profileTitle"></h2><div id="fProfile"></div>
+      <div id="profileOut"></div></div>
+  </section>
+
+  <section class="tab" id="p3a">
+    <div class="grid g2">
+      <div class="card"><h2 data-i18n="p3aTitle"></h2><div id="p3aAccounts"></div>
+        <button class="btn sm" id="add3a">＋ <span data-i18n="add3a"></span></button>
+        <div id="f3a" style="margin-top:12px"></div></div>
+      <div class="card"><h2 data-i18n="p3aResult"></h2><div id="out3a"></div></div>
+    </div>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="card"><h2 data-i18n="retroTitle"></h2><div id="retroForm"></div><div id="retroOut"></div></div>
+      <div class="card"><h2 data-i18n="stagger3aTitle"></h2><div id="stagger3a"></div></div>
+    </div>
+  </section>
+
+  <section class="tab" id="lpp">
+    <div class="grid g2">
+      <div class="card"><h2 data-i18n="lppTitle"></h2><div id="fLpp"></div></div>
+      <div class="card"><h2 data-i18n="buybackTitle"></h2><div id="outLpp"></div></div>
+    </div>
+  </section>
+
+  <section class="tab" id="retrait">
+    <div class="card"><h2 data-i18n="wdTitle"></h2><div id="fWd"></div><div id="outWd"></div></div>
+    <div class="grid g2" style="margin-top:16px">
+      <div class="card"><h2 data-i18n="cantonCmp"></h2><div id="cmpCantons"></div></div>
+      <div class="card"><h2 data-i18n="taxMethod"></h2><div id="taxMethod"></div></div>
+    </div>
+  </section>
+
+  <section class="tab" id="retraite">
+    <div class="grid g2">
+      <div class="card"><h2 data-i18n="fireTitle"></h2><div id="fFire"></div>
+        <div class="row" style="margin-top:10px"><button class="btn sm" data-act="importMW">⤒ <span data-i18n="importMW"></span></button></div></div>
+      <div class="card"><h2 data-i18n="fireResult"></h2><div id="outFire"></div></div>
+    </div>
+    <div class="card" style="margin-top:16px"><h2 data-i18n="fireChart"></h2><div class="chartbox"><canvas id="fireChart"></canvas></div><div id="fireNotes"></div></div>
+  </section>
+
+  <section class="tab" id="donnees">
+    <div class="grid g2">
+      <div class="card"><h2 data-i18n="dataTitle"></h2>
+        <p class="small muted" data-i18n="dataLocal"></p>
+        <div class="row">
+          <button class="btn" data-act="export">⤓ <span data-i18n="exportJson"></span></button>
+          <button class="btn" data-act="import">⤒ <span data-i18n="importJson"></span></button>
+          <button class="btn" data-act="importMW">⤒ <span data-i18n="importMW"></span></button>
+          <button class="btn danger" data-act="reset">↺ <span data-i18n="reset"></span></button>
+        </div>
+        <p class="small muted" id="lastExportTxt"></p>
+        <div id="mwOut"></div>
+        <div id="fsPanel"></div>
+      </div>
+      <div class="card"><h2 data-i18n="paramsTitle"></h2><div id="paramsOut"></div></div>
+    </div>
+  </section>
+
+  <footer>
+    <div><b>MyPension</b> · <span data-i18n="footer"></span> · <a id="privacyLink" href="privacy.html" data-i18n="privacy"></a></div>
+    <div id="verTxt" style="margin-top:4px"></div>
+  </footer>
+</div>
+<input type="file" id="fileIn" accept=".json,application/json" hidden>
+<div class="toast" id="toast"></div>
+
+<dialog class="modal" id="firstDlg">
+  <h3>MyPension</h3>
+  <p data-i18n-html="discLong"></p>
+  <div class="row" style="justify-content:flex-end"><button class="btn primary" id="firstOk" data-i18n="understood"></button></div>
+</dialog>
+<dialog class="modal" id="conflictDlg">
+  <h3 data-i18n="cfTitle"></h3>
+  <p class="small muted" data-i18n="cfText"></p>
+  <div class="row" style="justify-content:flex-end">
+    <button class="btn" id="cfKeepLocal" data-i18n="cfKeepLocal"></button>
+    <button class="btn primary" id="cfKeepRemote" data-i18n="cfKeepRemote"></button>
+  </div>
+</dialog>
+<dialog class="modal" id="mwDlg">
+  <h3 data-i18n="importMW"></h3>
+  <div id="mwDlgBody"></div>
+  <div class="row" style="justify-content:flex-end;margin-top:12px">
+    <button class="btn" id="mwCancel" data-i18n="cancel"></button>
+    <button class="btn primary" id="mwApply" data-i18n="apply"></button>
+  </div>
+</dialog>
+<script>
+/* ================= Textes FR / EN (mêmes clés, garanties par la structure [fr, en]) ================= */
+const TXT = {
+subtitle:["Prévoyance suisse","Swiss pension planner"],
+theme:["Thème clair / sombre","Light / dark theme"],
+discShort:["Simulation uniquement — pas un conseil financier, fiscal ni juridique.","Simulation only — not financial, tax or legal advice."],
+discLong:["MyPension est un <b>outil de simulation</b> gratuit. Les résultats sont <b>approximatifs</b> (hypothèses simplifiées, tableaux fiscaux interpolés, rendements supposés) et <b>ne constituent ni un conseil financier, fiscal ou juridique, ni une recommandation de produit</b>. Les règles et barèmes peuvent changer. Avant toute décision (rachat LPP, retrait en capital, versement 3a), vérifiez auprès de votre <b>caisse de pension</b>, de votre <b>fondation 3a</b> et de votre <b>administration fiscale cantonale</b>, ou d'un conseiller qualifié. Vos données restent sur votre appareil.",
+          "MyPension is a free <b>simulation tool</b>. Results are <b>approximate</b> (simplified assumptions, interpolated tax tables, assumed returns) and <b>are not financial, tax or legal advice, nor a product recommendation</b>. Rules and rates can change. Before any decision (pension-fund buy-in, lump-sum withdrawal, pillar 3a payment), check with your <b>pension fund</b>, your <b>3a provider</b> and your <b>cantonal tax office</b>, or a qualified adviser. Your data stays on your device."],
+understood:["J'ai compris","I understand"],
+tabProfile:["Profil","Profile"], tab3a:["3a","3a"], tabLpp:["LPP","Pension fund"], tabWithdraw:["Retraits","Withdrawals"], tabFire:["Retraite","Retirement"], tabData:["Données","Data"],
+profileTitle:["Votre profil","Your profile"],
+birthYear:["Année de naissance","Year of birth"],
+ageIs:["Âge en fin d'année : {a} ans · âge de référence AVS : {r}","Age at year end: {a} · AHV reference age: {r}"],
+gender:["Sexe (âge de référence AVS)","Sex (AHV reference age)"], genderHelp:["Femmes nées 1961–1963 : âge de référence relevé par étapes (AVS 21).","Women born 1961–1963: reference age raised in steps (AHV 21)."],
+male:["Homme","Male"], female:["Femme","Female"],
+canton:["Canton","Canton"], commune:["Commune (facultatif)","Municipality (optional)"], communePh:["p. ex. Winterthur","e.g. Winterthur"],
+communeHelp:["Les estimations utilisent le chef-lieu ; une autre commune élargit la fourchette.","Estimates use the cantonal capital; another municipality widens the range."],
+civil:["État civil","Civil status"], single:["Célibataire / seul·e","Single"], marriedOpt:["Marié·e / partenariat enregistré","Married / registered partnership"],
+children:["Enfants à charge","Dependent children"], childrenHelp:["Non pris en compte dans les tableaux fiscaux (voir note).","Not included in the tax tables (see note)."],
+childrenNote:["Les enfants réduisent l'impôt dans de nombreux cantons ; l'estimation intégrée l'ignore (prudente). Le calcul exact via relais ESTV en tient compte.","Children reduce tax in many cantons; the built-in estimate ignores them (conservative). The exact ESTV calculation via relay takes them into account."],
+status:["Situation professionnelle","Employment status"], employee:["Salarié·e affilié·e à une caisse LPP","Employee with a pension fund (BVG)"], self:["Indépendant·e sans LPP","Self-employed without BVG"],
+income:["Revenu brut annuel (CHF)","Gross annual income (CHF)"], incomeHelp:["Salaire AVS brut, ou revenu net d'indépendant.","Gross AHV salary, or net self-employed income."],
+spouseIncome:["Revenu brut du/de la conjoint·e","Spouse's gross income"],
+taxableOverride:["Revenu imposable (taxation)","Taxable income (assessment)"],
+taxableHelp:["Idéalement le revenu imposable cantonal de votre dernière taxation. Vide = estimation heuristique.","Ideally the cantonal taxable income from your last assessment. Empty = heuristic estimate."],
+retireAge:["Âge de retraite / d'arrêt souhaité","Planned retirement / stop age"], retireAgeHelp:["Âge auquel vous cessez de travailler.","Age at which you stop working."],
+summary:["Résumé","Summary"], taxableK:["Revenu imposable","Taxable income"], heuristic:["estimation heuristique","heuristic estimate"], fromAssessment:["selon votre taxation","from your assessment"],
+incomeTaxK:["Impôt sur le revenu (approx.)","Income tax (approx.)"], marginalK:["Taux marginal (approx.)","Marginal rate (approx.)"],
+marginalS:["économie d'impôt par CHF déduit","tax saved per CHF deducted"], refAgeK:["Âge de référence AVS","AHV reference age"], refAgeS:["atteint en {y}","reached in {y}"],
+heuristicNote:["Revenu imposable estimé à {x} par une heuristique (brut − cotisations sociales ≈ 6.4 % − part LPP estimée − 3a, puis −12 % de déductions forfaitaires). Saisissez la valeur de votre taxation pour plus de précision.","Taxable income estimated at {x} with a heuristic (gross − social contributions ≈ 6.4% − estimated BVG share − 3a, then −12% flat deductions). Enter the value from your assessment for better accuracy."],
+paramsOld:["Les paramètres légaux intégrés datent d'une année antérieure : vérifiez la mise à jour de l'application.","The built-in legal parameters are from an earlier year: check for an app update."],
+p3aTitle:["Pilier 3a : comptes et versements","Pillar 3a: accounts and contributions"], add3a:["Ajouter un compte 3a","Add a 3a account"],
+accName:["Compte","Account"], balance:["Solde (CHF)","Balance (CHF)"], wdAge:["Âge de retrait","Withdrawal age"],
+ageRange3a:["Retrait possible entre {a} et {b} ans (5 ans avant / après l'âge de référence ; après celui-ci seulement en cas d'activité lucrative).","Withdrawal possible between ages {a} and {b} (5 years before / after reference age; after it only if still working)."],
+contrib:["Versement annuel prévu (CHF)","Planned annual contribution (CHF)"], contribHelp:["Maximum {y} : {m}.","{y} maximum: {m}."],
+ret3a:["Rendement annuel net 3a (%)","Net annual 3a return (%)"], retHelp:["Hypothèse après frais. En termes réels pour des CHF d'aujourd'hui.","Assumption after fees. Use a real return for today's CHF."],
+p3aResult:["3a : résultat","3a: result"], max3aK:["Plafond {y}","{y} limit"],
+max3aEmp:["« petit 3a » (avec LPP)","\"small 3a\" (with BVG)"], max3aSelf:["{p} du revenu, max. {m} (sans LPP)","{p} of income, max {m} (no BVG)"],
+taxSaving3aK:["Économie d'impôt (approx.)","Tax saving (approx.)"], perYear:["par an, au taux marginal estimé","per year, at the estimated marginal rate"],
+balance3aK:["Solde 3a actuel","Current 3a balance"], nAccounts:["{n} compte(s)","{n} account(s)"],
+proj3aK:["3a au dernier retrait","3a at last withdrawal"], proj3aS:["rendement supposé {r}/an","assumed return {r}/yr"],
+over3a:["Le versement dépasse le plafond ({m}) ; seul le plafond est déductible et pris en compte.","The contribution exceeds the limit ({m}); only the limit is deductible and used."],
+work3aAfter:["Après l'âge de référence, les versements 3a ne sont possibles que si vous exercez encore une activité lucrative.","After reference age, 3a contributions are only allowed if you still have earned income."],
+retroTitle:["Rachat 3a rétroactif (dès 2026)","Retroactive 3a buy-in (from 2026)"],
+retroIntro:["Depuis l'année fiscale {y}, vous pouvez combler des lacunes de cotisation 3a nées à partir de {g} (jusqu'à 10 ans en arrière). Par année, le rachat est limité au « petit » montant ({s}), en plus du versement ordinaire, et il est entièrement déductible.","Since tax year {y} you can fill 3a contribution gaps arising from {g} onwards (up to 10 years back). Per year the buy-in is capped at the \"small\" amount ({s}), on top of the ordinary contribution, and is fully deductible."],
+retroNone:["Aucune année de lacune rachetable pour l'instant (rachats possibles dès l'année fiscale {y}).","No buy-in-eligible gap year yet (buy-ins possible from tax year {y})."],
+year:["Année","Year"], maxThatYear:["Max. de l'année","Max that year"], paidThatYear:["Versé cette année-là","Paid that year"], gap:["Lacune","Gap"],
+retroPlanned:["Rachat prévu cette année (CHF)","Buy-in planned this year (CHF)"], retroMaxTxt:["Maximum rachetable cette année : {m}.","Maximum buy-in this year: {m}."],
+retroAllowedK:["Rachat maximal cette année","Max buy-in this year"], retroSavingK:["Économie d'impôt du rachat","Buy-in tax saving"], retroSavingS:["soit ≈ {m} du montant","≈ {m} of the amount"],
+retroOver:["Montant supérieur au maximum rachetable ({m}).","Amount above the maximum buy-in ({m})."],
+retroNeedFull:["Condition : le versement ordinaire de l'année ({m}) doit être entièrement effectué avant un rachat.","Condition: this year's ordinary contribution ({m}) must be paid in full before a buy-in."],
+retroCond:["Conditions (OFAS)","Conditions (FSIO)"],
+retroC1:["Revenu soumis à l'AVS en Suisse l'année du rachat et l'année de la lacune.","AHV-liable earned income in Switzerland both in the buy-in year and in the gap year."],
+retroC2:["Versement ordinaire de l'année du rachat effectué intégralement.","Ordinary contribution of the buy-in year paid in full."],
+retroC3:["Un rachat par an ; plusieurs années de lacune peuvent être regroupées, dans la limite du « petit » montant.","One buy-in per year; several gap years can be combined, within the \"small\" amount."],
+retroC4:["Lacunes rachetables : seulement à partir de 2025, sur 10 ans au maximum.","Eligible gaps: only from 2025 onwards, 10 years back at most."],
+retroC5:["Impossible après avoir perçu la prestation de vieillesse 3a.","Not possible after drawing the 3a old-age benefit."],
+sourceLbl:["Source :","Source:"],
+stagger3aTitle:["Échelonner le 3a sur plusieurs comptes","Staggering 3a across accounts"],
+stagger3aIntro:["Calcul purement mathématique : les retraits en capital étant imposés séparément et de façon progressive, répartir le 3a sur plusieurs comptes retirés des années différentes réduit l'impôt total. Ce n'est pas une recommandation de produit.","Purely mathematical: lump-sum withdrawals are taxed separately and progressively, so splitting 3a across several accounts withdrawn in different years lowers total tax. This is not a product recommendation."],
+nAcc:["Comptes","Accounts"], wdAges:["Âges de retrait","Withdrawal ages"], capital:["Capital","Capital"], taxEst:["Impôt ≈","Tax ≈"], savingVs1:["Économie vs 1","Saving vs 1"],
+stagger3aNote:["Hypothèses : comptes de même taille, un retrait par année, aucun autre capital retiré ces années-là (le LPP est intégré dans l'onglet Retraits). Tableaux fiscaux {y} interpolés.","Assumptions: equal-sized accounts, one withdrawal per year, no other capital withdrawn in those years (BVG is included in the Withdrawals tab). Interpolated tax tables."],
+lppTitle:["2e pilier (LPP) : votre certificat","2nd pillar (BVG): your certificate"],
+lppBalance:["Avoir de vieillesse actuel","Current retirement savings"], fromCert:["Voir votre certificat de prévoyance.","See your pension certificate."],
+maxBuyback:["Rachat maximal possible","Maximum possible buy-in"], buyback:["Rachat prévu (CHF)","Planned buy-in (CHF)"],
+buybackYears:["Réparti sur","Spread over"], y1:["1 an","1 year"], y2:["2 ans","2 years"], y3:["3 ans","3 years"], y4:["4 ans","4 years"], y5:["5 ans","5 years"],
+credits:["Bonifications annuelles (employeur + employé)","Annual savings credits (employer + employee)"], creditsHelp:["Vide = minimum LPP selon l'âge sur le salaire coordonné.","Empty = BVG legal minimum by age on the coordinated salary."],
+projected:["Capital projeté à l'âge de référence (certificat)","Projected capital at reference age (certificate)"], projectedHelp:["Facultatif : sert à calibrer la projection.","Optional: used to calibrate the projection."],
+interest:["Taux d'intérêt supposé (%)","Assumed interest rate (%)"], interestHelp:["Taux minimal LPP {m} (partie obligatoire).","BVG minimum rate {m} (mandatory part)."],
+conv:["Taux de conversion (%)","Conversion rate (%)"], convHelp:["Taux de votre caisse (certificat). 6.8 % = minimum légal sur la seule partie obligatoire.","Your fund's rate (certificate). 6.8% = legal minimum on the mandatory part only."],
+capitalShare:["Part retirée en capital (%)","Share taken as lump sum (%)"], capitalShareHelp:["0 = rente seulement, 100 = capital seulement (selon règlement de la caisse).","0 = annuity only, 100 = lump sum only (subject to fund rules)."],
+wefOpen:["J'ai un versement anticipé EPL (logement) non remboursé","I have an unrepaid home-ownership advance (WEF)"],
+buybackTitle:["Rachat LPP : effet fiscal","BVG buy-in: tax effect"],
+buybackSavingK:["Économie d'impôt (approx.)","Tax saving (approx.)"], spreadOver:["réparti sur {k} ans","spread over {k} years"], oneYear:["en une année","in one year"],
+netCostK:["Coût net du rachat","Net cost of buy-in"], effRate:["économie ≈ {p} du montant","saving ≈ {p} of amount"],
+lppAtRetK:["Capital LPP à {a} ans","BVG capital at age {a}"], lppAtRetS:["dont effet du rachat ≈ {b}","of which buy-in effect ≈ {b}"],
+lppRenteK:["Rente LPP si 100 % rente","BVG annuity if 100% annuity"], lppRenteS:["par an, taux de conversion {c}","per year, conversion rate {c}"],
+spreadCmp:["En une seule année, l'économie serait ≈ {a} ; répartie sur {k} ans ≈ {b} (progressivité, à revenu constant).","In a single year the saving would be ≈ {a}; spread over {k} years ≈ {b} (progressive rates, constant income)."],
+overMaxBuyback:["Le rachat dépasse le maximum indiqué sur le certificat ({m}).","The buy-in exceeds the maximum on your certificate ({m})."],
+noMaxBuyback:["Indiquez le rachat maximal de votre certificat : la caisse le calcule selon votre règlement.","Enter the maximum buy-in from your certificate: the fund calculates it under its rules."],
+lockHit:["Dernier rachat en {y}, retrait en capital prévu en {w} : moins de 3 ans. Les prestations issues du rachat ne pourraient pas être retirées en capital, et la déduction fiscale risque d'être refusée.","Last buy-in in {y}, lump-sum withdrawal planned in {w}: less than 3 years. Benefits from the buy-in could not be withdrawn as a lump sum, and the tax deduction may be denied."],
+lockRule:["Règle des 3 ans (art. 79b al. 3 LPP) : les prestations résultant d'un rachat ne peuvent pas être versées sous forme de capital pendant 3 ans (retraite, départ à l'étranger, EPL). Chaque rachat ouvre un nouveau délai. Les tribunaux refusent souvent la déduction en cas de retrait en capital dans ce délai.","3-year rule (Art. 79b para. 3 BVG): benefits resulting from a buy-in cannot be paid out as a lump sum for 3 years (retirement, leaving Switzerland, home ownership). Each buy-in starts a new period. Courts often deny the deduction if capital is withdrawn within that period."],
+wefRule:["Tant qu'un versement anticipé EPL n'est pas remboursé, les rachats volontaires ne sont en principe pas possibles (art. 79b al. 3 LPP).","As long as a WEF advance is not repaid, voluntary buy-ins are generally not allowed (Art. 79b para. 3 BVG)."],
+convNote:["Le taux minimal de 6.8 % ne s'applique qu'à la partie obligatoire. Beaucoup de caisses « enveloppantes » appliquent un taux plus bas sur l'ensemble : utilisez celui de votre certificat.","The 6.8% minimum applies only to the mandatory part. Many \"envelope\" funds apply a lower rate overall: use the one on your certificate."],
+wdTitle:["Retraits en capital : une année ou échelonnés ?","Lump-sum withdrawals: one year or staggered?"],
+wdIntro:["Les capitaux (3a, LPP, libre passage) sont imposés séparément du revenu, de façon progressive, et additionnés s'ils sont retirés la même année. Modifiez les âges de retrait des comptes 3a dans l'onglet 3a.","Lump sums (3a, BVG, vested benefits) are taxed separately from income, progressively, and added up if withdrawn in the same year. Change 3a withdrawal ages in the 3a tab."],
+otherCap:["Autre capital (libre passage…)","Other capital (vested benefits…)"], otherCapHelp:["Facultatif.","Optional."], otherAge:["Âge de retrait de cet autre capital","Withdrawal age of this other capital"],
+wdEvents:["Retraits prévus","Planned withdrawals"], item:["Élément","Item"], age:["Âge","Age"],
+wdEditHint:["Âges 3a : onglet 3a. Part LPP en capital et âge : onglets LPP et Profil.","3a ages: 3a tab. BVG lump-sum share and age: BVG and Profile tabs."],
+vestedNote:["Arrêt avant 58 ans : l'avoir LPP passe sur un compte de libre passage (pas de rente), retiré au plus tôt à {a} ans dans ce modèle.","Stopping before 58: BVG savings move to a vested-benefits account (no annuity), withdrawn at age {a} at the earliest in this model."],
+lppCapLbl:["LPP – capital","BVG – lump sum"], lppVestedLbl:["Libre passage (ex-LPP)","Vested benefits (ex-BVG)"], otherCapLbl:["Autre capital","Other capital"],
+wdCompare:["Comparaison","Comparison"], oneYearK:["Tout la même année","All in one year"], staggeredK:["Échelonné sur {n} années","Staggered over {n} years"], staggeredK1:["Échelonné (1 seule année)","Staggered (single year)"], taxYears:["{n} années fiscales","{n} tax years"], taxYears1:["1 année fiscale","1 tax year"],
+wdSavingK:["Économie d'impôt","Tax saving"], ofCapital:["≈ {p} du capital","≈ {p} of capital"], totalCapK:["Capital total retiré","Total capital withdrawn"], effTax:["taux effectif ≈ {p}","effective rate ≈ {p}"],
+fedTax:["IFD","Federal"], ccTax:["Canton + commune","Canton + mun."], range:["Fourchette","Range"], exactEstv:["ESTV exact","ESTV exact"],
+exactBtn:["Calcul exact ESTV (via relais)","Exact ESTV calculation (via relay)"], exactWorking:["Calcul en cours…","Calculating…"],
+exactDone:["Montants exacts ESTV, année fiscale {y}, commune choisie, sans impôt ecclésiastique.","Exact ESTV amounts, tax year {y}, selected municipality, no church tax."],
+exactFail:["Échec du relais : {e}. L'estimation intégrée reste affichée.","Relay failed: {e}. The built-in estimate is still shown."], communeNotFound:["Commune introuvable : chef-lieu utilisé.","Municipality not found: cantonal capital used."],
+aggNote:["Les retraits d'une même année fiscale sont additionnés pour l'impôt ; l'échelonnement n'agit qu'entre années différentes.","Withdrawals in the same tax year are added up for tax; staggering only works across different years."],
+aggMarried:["Pour un couple marié, les capitaux des deux conjoints retirés la même année sont additionnés.","For a married couple, both spouses' lump sums withdrawn in the same year are added up."],
+cantonPractice:["Certains cantons regardent de près les échelonnements abusifs (p. ex. nombreux comptes 3a retirés juste avant la retraite) et les règles de chaque caisse limitent les options. Vérifiez auprès de votre canton et de votre caisse.","Some cantons scrutinise abusive staggering (e.g. many 3a accounts withdrawn just before retirement), and each fund's rules limit the options. Check with your canton and your fund."],
+cantonCmp:["Comparaison des 26 chefs-lieux","Comparison of the 26 cantonal capitals"], chefLieu:["Chef-lieu","Capital"],
+cmpIntro:["Impôt estimé sur {x} retirés en une fois, selon le canton (chef-lieu, sans Église).","Estimated tax on {x} withdrawn at once, by canton (capital city, no church tax)."],
+cmpNote:["Indicatif. L'impôt dépend du domicile au moment du versement ; un déménagement a bien d'autres conséquences.","Indicative. Tax depends on your residence at the time of payment; moving has many other consequences."],
+taxMethod:["Méthode fiscale","Tax method"],
+taxMethodTxt:["Estimation intégrée : tableaux calculés le {d} avec le calculateur fiscal de l'AFC/ESTV (année fiscale {y}) pour les 26 chefs-lieux, célibataire et marié, puis interpolés.","Built-in estimate: tables computed on {d} with the ESTV tax calculator (tax year {y}) for the 26 cantonal capitals, single and married, then interpolated."],
+tm1:["Impôt fédéral sur les capitaux : 1/5 du barème ordinaire, imposé à part (art. 38 LIFD).","Federal capital tax: 1/5 of the ordinary tariff, taxed separately (Art. 38 DBG)."],
+tm2:["Canton + commune : selon la loi cantonale ; chef-lieu ; sans impôt ecclésiastique ni enfants.","Canton + municipality: per cantonal law; capital city; no church tax or children."],
+tm3:["Fourchette affichée : ±10 % sur la part cantonale/communale (±20 % si autre commune), ±3 % sur l'IFD.","Range shown: ±10% on the cantonal/municipal part (±20% for another municipality), ±3% on federal tax."],
+tm4:["Barèmes {y} appliqués aux années futures (en CHF d'aujourd'hui).","Current tariffs applied to future years (in today's CHF)."],
+relayOn:["Relais ESTV configuré : bouton « Calcul exact » disponible.","ESTV relay configured: \"Exact calculation\" button available."],
+relayOff:["L'API du calculateur ESTV n'est pas appelable directement depuis un navigateur (pas d'en-têtes CORS). Pour des montants exacts, déployez le relais gratuit worker.js (voir GUIDE.md) ou utilisez le calculateur officiel.","The ESTV calculator API cannot be called directly from a browser (no CORS headers). For exact amounts, deploy the free worker.js relay (see GUIDE.md) or use the official calculator."],
+estvLink:["Calculateur fiscal officiel AFC/ESTV ↗","Official ESTV tax calculator ↗"],
+fireTitle:["Retraite et indépendance financière","Retirement & financial independence"],
+otherAssets:["Autre épargne / placements (CHF)","Other savings / investments (CHF)"], otherAssetsHelp:["Hors 2e et 3e piliers. Importable depuis MyWealth.","Excluding 2nd and 3rd pillars. Importable from MyWealth."],
+monthlySavings:["Épargne mensuelle libre (CHF)","Monthly free savings (CHF)"], monthlySavingsHelp:["Hors versements 3a et rachats LPP.","Excluding 3a payments and BVG buy-ins."],
+spending:["Dépenses annuelles à la retraite (CHF)","Annual spending in retirement (CHF)"], spendingHelp:["En CHF d'aujourd'hui, impôts courants compris.","In today's CHF, including running taxes."],
+retPre:["Rendement réel avant retraite (%)","Real return before retirement (%)"], retPost:["Rendement réel après retraite (%)","Real return after retirement (%)"],
+infl:["Inflation (%)","Inflation (%)"], inflHelp:["Sert à réduire la valeur réelle de la rente LPP (souvent non indexée).","Used to erode the real value of the BVG annuity (often not indexed)."],
+horizon:["Horizon (âge)","Horizon (age)"], avsMissing:["Années AVS manquantes","Missing AHV years"], avsMissingHelp:["Selon votre extrait de compte individuel (CI).","According to your individual account statement (IK)."],
+avsOverride:["Rente AVS mensuelle connue (CHF)","Known monthly AHV pension (CHF)"], avsOverrideHelp:["Facultatif : montant de votre estimation de rente officielle.","Optional: amount from your official pension estimate."],
+importMW:["Importer depuis MyWealth","Import from MyWealth"],
+fireResult:["Quand pourriez-vous arrêter ?","When could you stop working?"],
+earliestK:["Arrêt possible dès","Could stop from"], ageN:["{a} ans","age {a}"], after70:["après 70 ans","after 70"], ageRange:["{a}–{b} ans selon rendement ±1 pt","{a}–{b} depending on return ±1 pt"],
+gapK:["Manque à {a} ans","Shortfall at {a}"], marginK:["Marge à {a} ans","Buffer at {a}"],
+gapS:["capital supplémentaire nécessaire à cet âge","extra capital needed at that age"], marginS:["capital dont vous pourriez vous passer","capital you could do without"],
+avsK:["Rente AVS (ménage, approx.)","AHV pension (household, approx.)"], avsS:["{m}/mois × {n}","{m}/month × {n}"], avsOverrideS:["votre montant : {m}/mois × {n}","your amount: {m}/month × {n}"],
+lppRenteK2:["Rente LPP","BVG annuity"], lppMix:["{p} % pris en capital","{p}% taken as lump sum"], vestedShort:["libre passage : capital uniquement","vested benefits: lump sum only"],
+coupleCap:["Rentes de couple plafonnées à 150 % de la rente maximale (art. 35 LAVS).","Couple pensions capped at 150% of the maximum pension (Art. 35 AHVG)."],
+failAt:["Avec un arrêt à {r} ans, l'épargne libre serait épuisée vers {a} ans.","Stopping at {r}, free savings would run out around age {a}."],
+okAt:["Avec un arrêt à {r} ans, l'épargne tient jusqu'à {h} ans selon ces hypothèses.","Stopping at {r}, savings last until age {h} under these assumptions."],
+fireAssump:["Modèle annuel en CHF d'aujourd'hui. AVS dès l'âge de référence (formule simplifiée, revenu actuel ≈ revenu moyen, 13e rente comprise). Impôts sur les retraits en capital déduits ; impôts courants à inclure dans les dépenses. Retraite anticipée LPP dès 58 ans sans réduction du taux de conversion (en réalité souvent réduit). Cotisations AVS de non-actif et rente de survivant ignorées.","Annual model in today's CHF. AHV from reference age (simplified formula, current income ≈ average income, 13th pension included). Lump-sum withdrawal taxes deducted; running taxes should be part of spending. Early BVG retirement from 58 without conversion-rate reduction (often reduced in reality). Non-employed AHV contributions and survivor benefits ignored."],
+fireChart:["Projection : accumulation et consommation","Projection: accumulation and drawdown"], dsLiquid:["Épargne libre","Free savings"],
+chartNote:["Arrêt à {s} ans. Impôts estimés sur les retraits en capital : {t}.","Stop at {s}. Estimated taxes on lump-sum withdrawals: {t}."],
+dataTitle:["Vos données","Your data"],
+dataLocal:["Tout est enregistré uniquement dans ce navigateur. Exportez un fichier JSON pour le sauvegarder ou le transférer.","Everything is stored only in this browser. Export a JSON file to back it up or move it."],
+exportJson:["Exporter (JSON)","Export (JSON)"], importJson:["Importer (JSON)","Import (JSON)"], reset:["Réinitialiser","Reset"],
+lastExport:["Dernier export : {d}","Last export: {d}"], never:["jamais","never"],
+exported:["Fichier exporté.","File exported."], imported:["Données importées.","Data imported."],
+invalidFile:["Fichier non reconnu.","File not recognised."], futureFile:["Ce fichier vient d'une version plus récente de MyPension.","This file comes from a newer MyPension version."],
+confirmImport:["Remplacer vos données actuelles par celles du fichier ?","Replace your current data with the file's data?"],
+confirmReset:["Effacer toutes vos données MyPension sur cet appareil ?","Erase all your MyPension data on this device?"], resetDone:["Données réinitialisées.","Data reset."],
+notMyWealth:["Ce n'est pas un export MyWealth (comptes / positions).","This is not a MyWealth export (accounts / positions)."],
+mwFound:["Export MyWealth : {a} compte(s), {p} position(s). Montants convertis en CHF avec les taux du fichier.","MyWealth export: {a} account(s), {p} position(s). Amounts converted to CHF with the file's rates."],
+mwOther:["Comptes et titres (hors prévoyance)","Accounts & securities (excl. pension)"], mwPv:["Comptes « prévoyance »","\"Pension\" accounts"],
+mwUnknown:["Devise(s) sans taux ignorée(s) : {c}","Currency(ies) without a rate ignored: {c}"],
+mwApplyOther:["Utiliser comme « autre épargne »","Use as \"other savings\""], mwApplyPv:["Remplacer les comptes 3a par le total « prévoyance »","Replace 3a accounts with the \"pension\" total"],
+mwNote:["Les comptes « prévoyance » de MyWealth peuvent inclure du libre passage : vérifiez.","MyWealth \"pension\" accounts may include vested benefits: check."],
+mwDone:["Import MyWealth appliqué.","MyWealth import applied."], apply:["Appliquer","Apply"], cancel:["Annuler","Cancel"],
+paramsTitle:["Paramètres légaux et sources","Legal parameters & sources"],
+paramsIntro:["Valeurs pour {y}, vérifiées le {d} auprès des sources officielles (OFAS/BSV, AFC/ESTV, Fedlex).","Values for {y}, verified on {d} against official sources (FSIO/BSV, ESTV, Fedlex)."],
+pSmall:["3a – petit montant (avec LPP)","3a – small amount (with BVG)"], pLarge:["3a – grand montant (sans LPP, max. 20 %)","3a – large amount (no BVG, max 20%)"],
+pAvs:["Rente AVS individuelle min. – max. / mois","Individual AHV pension min – max / month"], pCouple:["Plafond rentes de couple","Couple pension cap"], p13:["13e rente AVS dès","13th AHV pension from"],
+pEntry:["LPP – seuil d'entrée","BVG – entry threshold"], pCoord:["LPP – déduction de coordination","BVG – coordination deduction"], pUpper:["LPP – limite supérieure","BVG – upper limit"],
+pMinInt:["LPP – taux d'intérêt minimal","BVG – minimum interest rate"], pConv:["LPP – taux de conversion minimal","BVG – minimum conversion rate"],
+pLock:["Blocage du capital après rachat","Lump-sum lock after buy-in"], pFedCap:["IFD sur capitaux (part du barème)","Federal capital tax (share of tariff)"], years:["ans","years"], sources:["Sources","Sources"],
+verTxt:["Version {v} · paramètres vérifiés le {d}","Version {v} · parameters verified {d}"],
+footer:["Gratuit, sans compte, données sur votre appareil","Free, no account, data on your device"], privacy:["Confidentialité","Privacy"],
+demoBanner:["Valeurs d'exemple (45 ans, Zurich, CHF 120'000) : remplacez-les par les vôtres dans l'onglet Profil.","Example values (age 45, Zurich, CHF 120'000): replace them with yours in the Profile tab."],
+cfTitle:["Deux versions différentes","Two different versions"], cfText:["Vos données ont été modifiées sur cet appareil et dans Dropbox. Laquelle garder ?","Your data changed both on this device and in Dropbox. Which one to keep?"],
+cfKeepLocal:["Garder cet appareil","Keep this device"], cfKeepRemote:["Garder Dropbox","Keep Dropbox"],
+cloudSync:["Synchronisation Dropbox (facultative)","Dropbox sync (optional)"],
+cloudNotConfigured:["Non configurée sur cette copie (clé Dropbox vide dans config.js).","Not configured on this copy (empty Dropbox key in config.js)."],
+cloudPitch:["Gardez vos données synchronisées entre vos appareils, dans le dossier de l'application de votre Dropbox.","Keep your data in sync across devices, in the app folder of your Dropbox."],
+loginDropbox:["Se connecter à Dropbox","Connect Dropbox"], connectedTo:["Connecté à Dropbox {a}. Fichier :","Connected to Dropbox {a}. File:"], lastSync:["Dernière synchronisation :","Last sync:"],
+syncNow:["Synchroniser","Sync now"], logout:["Se déconnecter","Disconnect"], confirmLogout:["Déconnecter Dropbox sur cet appareil ?","Disconnect Dropbox on this device?"],
+stSynced:["Synchronisé","Synced"], stSyncing:["Synchronisation…","Syncing…"], stOffline:["Hors ligne","Offline"], stReauth:["Reconnexion Dropbox requise","Dropbox reconnect needed"],
+stError:["Erreur de synchronisation","Sync error"], stLocal:["Données locales","Local data"], stStorageBlocked:["stockage bloqué","storage blocked"],
+loadedFrom:["Données chargées depuis Dropbox.","Data loaded from Dropbox."], dbxCancelled:["Connexion Dropbox annulée.","Dropbox sign-in cancelled."],
+errDbxRefused:["Dropbox a refusé la connexion","Dropbox refused the sign-in"], errDbxRevoked:["Accès Dropbox révoqué ou expiré.","Dropbox access revoked or expired."],
+errSession:["Session expirée.","Session expired."], errNotConnected:["Non connecté.","Not connected."], errUnreadable:["Fichier {name} illisible.","File {name} unreadable."]
+};
+const I18N = {fr:{}, en:{}};
+for(const k in TXT){ I18N.fr[k]=TXT[k][0]; I18N.en[k]=TXT[k][1]; }
+/* ================= Utilitaires ================= */
+const $ = id => document.getElementById(id);
+const PRM = window.MP_PARAMS, TX = window.MP_TAX;
+const cfg = () => window.MYPENSION_CONFIG || {};
+const YEAR = new Date().getFullYear();
+const APP_VERSION = "1.0.0";
+function yp(map, y){ // paramètres de l'année y (cumulés depuis la première année connue)
+  const ks = Object.keys(map).map(Number).sort((a,b)=>a-b); let o = {};
+  for(const k of ks){ if(k<=y || k===ks[0]) o = Object.assign({}, o, map[k]); }
+  return o;
+}
+function maxParamYear(map){ return Math.max(...Object.keys(map).map(Number)); }
+function fmtNum(n, dec=0){
+  if(n==null || !isFinite(n)) return "—";
+  const neg = n<0; n=Math.abs(n);
+  let [i,f] = n.toFixed(dec).split(".");
+  i = i.replace(/\B(?=(\d{3})+(?!\d))/g,"'");
+  return (neg?"-":"")+i+(f?"."+f:"");
+}
+function chf(n, dec=0){ return n==null||!isFinite(n) ? "—" : "CHF "+fmtNum(n,dec); }
+function r100(n){ return Math.round(n/100)*100; }
+function pct(x, dec=1){ return fmtNum(x*100,dec)+(LANG==="fr"?" %":"%"); }
+function parseNum(str){
+  if(typeof str==="number") return str;
+  if(str==null) return NaN;
+  let s=String(str).trim().replace(/[\s'’`]/g,"").replace(/^CHF/i,"").replace(/%$/,"");
+  if(s.indexOf(",")>=0 && s.indexOf(".")<0) s=s.replace(",","."); else s=s.replace(/,/g,"");
+  if(s==="") return NaN;
+  return Number(s);
+}
+const MONTHS = { fr:["janv.","févr.","mars","avr.","mai","juin","juil.","août","sept.","oct.","nov.","déc."], en:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"] };
+function toDate(iso){ return iso instanceof Date? iso : new Date(typeof iso==="string" && iso.length===10? iso+"T12:00:00" : iso); }
+function fmtDate(iso){
+  if(!iso) return "—"; const d=toDate(iso); if(isNaN(d)) return String(iso);
+  if(LANG==="en") return d.getDate()+" "+MONTHS.en[d.getMonth()]+" "+d.getFullYear();
+  return String(d.getDate()).padStart(2,"0")+"."+String(d.getMonth()+1).padStart(2,"0")+"."+d.getFullYear();
+}
+function hm(d){ d=toDate(d); return String(d.getHours()).padStart(2,"0")+":"+String(d.getMinutes()).padStart(2,"0"); }
+function fmtDT(d){ d=toDate(d); return isNaN(d)? "—" : fmtDate(d)+" "+hm(d); }
+function esc(s){ return String(s==null?"":s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c])); }
+function toast(msg){ const el=$("toast"); el.textContent=msg; el.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(()=>el.classList.remove("show"),2600); }
+function clamp(x,a,b){ return Math.min(b,Math.max(a,x)); }
+function today(){ const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+
+/* ================= Langue ================= */
+const LANG_KEY = "mypension.lang";
+function detectLang(){
+  try{ const q=new URLSearchParams(location.search).get("lang"); if(q==="fr"||q==="en") return q; }catch(e){}
+  try{ const l=localStorage.getItem(LANG_KEY); if(l==="fr"||l==="en") return l; }catch(e){}
+  const n=(navigator.languages&&navigator.languages[0])||navigator.language||"en";
+  return /^fr/i.test(n)? "fr" : "en";
+}
+let LANG = detectLang();
+window.__i18nMissing = [];
+function t(key, vars){
+  let s = I18N[LANG] && I18N[LANG][key];
+  if(s==null){ window.__i18nMissing.push(LANG+":"+key); s = I18N.fr[key]!=null? I18N.fr[key] : key; }
+  if(vars) s = s.replace(/\{(\w+)\}/g, (m,k)=> vars[k]!=null? vars[k] : m);
+  return s;
+}
+function applyI18n(){
+  document.documentElement.lang = LANG==="fr"? "fr-CH" : "en";
+  document.querySelectorAll("[data-i18n]").forEach(el=>{ el.textContent=t(el.dataset.i18n); });
+  document.querySelectorAll("[data-i18n-html]").forEach(el=>{ el.innerHTML=t(el.dataset.i18nHtml); });
+  document.querySelectorAll("[data-i18n-title]").forEach(el=>{ el.title=t(el.dataset.i18nTitle); });
+  document.querySelectorAll("#langSeg button").forEach(b=>b.classList.toggle("on", b.dataset.lang===LANG));
+  $("privacyLink").href = "privacy.html?lang="+LANG;
+}
+function setLang(l){ if(l!=="fr"&&l!=="en") return; LANG=l; try{ localStorage.setItem(LANG_KEY,l); }catch(e){} applyI18n(); renderAll(true); }
+
+/* ================= État & stockage ================= */
+const STORE_KEY = "mypension.v1";
+const SCHEMA_VERSION = 1;
+function defaultState(){
+  return {
+    app:"mypension", schemaVersion:SCHEMA_VERSION, savedAt:null, theme:"dark",
+    meta:{ lastExport:null, created:new Date().toISOString(), touched:false, disclaimerOk:false },
+    profile:{ birthYear:YEAR-45, gender:"m", canton:"ZH", commune:"", civil:"single", children:0,
+              income:120000, spouseIncome:0, status:"employee", taxableOverride:0, retireAge:65 },
+    p3a:{ accounts:[{name:"3a – 1", balance:20000},{name:"3a – 2", balance:20000}], contrib:yp(PRM.pillar3a.byYear,YEAR).small, ret:3, paid:{}, retro:0 },
+    lpp:{ balance:250000, maxBuyback:80000, buyback:20000, buybackYears:1, credits:0, interest:1.25, conv:6.8, projected:0, capitalShare:100, wef:false },
+    wd:{ ages:[], other:0, otherAge:65 },
+    fire:{ otherAssets:100000, monthlySavings:1500, retPre:3, retPost:2, infl:1, spending:70000, horizon:95, avsMissing:0, avsOverride:0 }
+  };
+}
+function isMPData(j){ return !!j && typeof j==="object" && j.app==="mypension" && j.profile && typeof j.profile==="object"; }
+function migrate(s){
+  const d=defaultState();
+  const o=Object.assign({}, d, s);
+  for(const k of ["meta","profile","p3a","lpp","wd","fire"]) o[k]=Object.assign({}, d[k], s[k]||{});
+  if(!Array.isArray(o.p3a.accounts)) o.p3a.accounts=d.p3a.accounts;
+  if(!Array.isArray(o.wd.ages)) o.wd.ages=[];
+  if(!o.p3a.paid || typeof o.p3a.paid!=="object") o.p3a.paid={};
+  o.app="mypension"; o.schemaVersion=SCHEMA_VERSION;
+  return o;
+}
+let S = (()=>{ try{ const r=localStorage.getItem(STORE_KEY); if(r) return migrate(JSON.parse(r)); }catch(e){ console.warn(e); } return defaultState(); })();
+let saveOk=true, lastKey=null;
+function dataKey(o){ const c=Object.assign({},o); delete c.savedAt; c.meta=Object.assign({},c.meta); delete c.meta.lastExport; return JSON.stringify(c); }
+function writeLocal(){ try{ localStorage.setItem(STORE_KEY, JSON.stringify(S)); saveOk=true; }catch(e){ saveOk=false; } }
+function save(){
+  const k=dataKey(S); if(k===lastKey) return;
+  lastKey=k; S.savedAt=new Date().toISOString(); writeLocal(); Cloud_schedule(); renderSyncUI();
+}
+function getK(path){ return path.split(".").reduce((o,k)=>o==null?o:o[k], S); }
+function setK(path,v){ const ks=path.split("."); let o=S; for(let i=0;i<ks.length-1;i++) o=o[ks[i]]; o[ks[ks.length-1]]=v; }
+
+/* ================= Calculs : profil ================= */
+function age(){ return YEAR - S.profile.birthYear; }
+function married(){ return S.profile.civil==="married"; }
+function relKey(){ return married()? "married" : "single"; }
+function refAge(){
+  if(S.profile.gender!=="f") return PRM.ahv.referenceAge.men;
+  const w=PRM.ahv.referenceAge.women, by=S.profile.birthYear;
+  if(by<=1960) return w[1960]; if(by>=1964) return w[1964]; return w[by];
+}
+function retireAge(){ return clamp(Math.round(S.profile.retireAge||65), Math.max(age(),40), 75); }
+function householdIncome(){ return (S.profile.income||0) + (married()? (S.profile.spouseIncome||0) : 0); }
+function bvgY(){ return yp(PRM.bvg.byYear, YEAR); }
+function coordSalary(g){
+  const b=bvgY(); if(!(g>=b.entryThreshold)) return 0;
+  return clamp(Math.min(g,b.upperLimit)-b.coordination, b.minCoordinated, b.maxCoordinated);
+}
+function ageCreditRate(a){ for(const [lo,hi,r] of PRM.bvg.ageCredits) if(a>=lo && a<=hi) return r; return 0; }
+function lppEmployeeEstimate(){ return S.profile.status==="employee"? ageCreditRate(age())*coordSalary(S.profile.income)/2 : 0; }
+function max3a(y){
+  const v=yp(PRM.pillar3a.byYear, y||YEAR);
+  if(S.profile.status==="self") return Math.max(0, Math.min(v.large, PRM.pillar3a.largePct*(S.profile.income||0)));
+  return v.small;
+}
+// revenu imposable : valeur de la taxation si fournie, sinon heuristique (étiquetée comme telle)
+function taxableIsHeuristic(){ return !(S.profile.taxableOverride>0); }
+function taxableBase(){ // avant déduction 3a de l'année
+  if(S.profile.taxableOverride>0) return S.profile.taxableOverride + Math.min(S.p3a.contrib||0, max3a());
+  const one = g => { if(!(g>0)) return 0; const soc = S.profile.status==="self"? 0.10*g : 0.064*g; return g - soc; };
+  let x = one(S.profile.income) - lppEmployeeEstimate();
+  if(married()) x += one(S.profile.spouseIncome) - (S.profile.spouseIncome>0? ageCreditRate(age())*coordSalary(S.profile.spouseIncome)/2 : 0);
+  return Math.max(0, x*0.88);
+}
+function taxable(){ return Math.max(0, taxableBase() - Math.min(S.p3a.contrib||0, max3a())); }
+
+/* ================= Calculs : impôts (tableaux ESTV précalculés) ================= */
+function interp(xs, rows, x){ // rows : [[fed, cc], ...] → {fed, cc}
+  if(!(x>0)) return {fed:0, cc:0};
+  const f = i => ({fed:rows[i][0], cc:rows[i][1]});
+  if(x<=xs[0]){ const a=f(0), k=x/xs[0]; return {fed:a.fed*k, cc:a.cc*k}; }
+  for(let i=1;i<xs.length;i++){
+    if(x<=xs[i]){ const a=f(i-1), b=f(i), k=(x-xs[i-1])/(xs[i]-xs[i-1]); return {fed:a.fed+(b.fed-a.fed)*k, cc:a.cc+(b.cc-a.cc)*k}; }
+  }
+  const n=xs.length-1, a=f(n-1), b=f(n), k=(x-xs[n])/(xs[n]-xs[n-1]); // extrapolation au taux marginal du dernier segment
+  return {fed:b.fed+(b.fed-a.fed)*k, cc:b.cc+(b.cc-a.cc)*k};
+}
+function cantonData(){ return TX.cantons[S.profile.canton] || TX.cantons.ZH; }
+function capTax(amount, ct){ const c=ct? TX.cantons[ct] : cantonData(); const r=interp(TX.capitalGrid, c.cap[relKey()], amount); r.total=r.fed+r.cc; return r; }
+function incTax(x){ const r=interp(TX.incomeGrid, cantonData().inc[relKey()], x); r.total=r.fed+r.cc; return r; }
+function deductionSaving(ded, base){ base = base==null? taxable() : base; return incTax(base).total - incTax(Math.max(0, base-ded)).total; }
+function marginalRate(base){ base = base==null? taxable() : base; return deductionSaving(1000, base)/1000; }
+// fourchette indicative : ±10 % (chef-lieu) ou ±20 % (autre commune) sur la part canton+commune, ±3 % sur l'IFD
+function band(r){
+  const otherCommune = S.profile.commune && S.profile.commune.trim().toLowerCase()!==cantonData().capital.toLowerCase();
+  const w = otherCommune? 0.20 : 0.10;
+  return { lo: r.fed*0.97 + r.cc*(1-w), hi: r.fed*1.03 + r.cc*(1+w), w };
+}
+function rangeTxt(r){ const b=band(r); return chf(r100(b.lo))+" – "+fmtNum(r100(b.hi)); }
+
+/* ================= Calculs : 3a ================= */
+function sum3a(){ return S.p3a.accounts.reduce((s,a)=>s+(+a.balance||0),0); }
+function earliest3a(){ return Math.ceil(refAge() - PRM.pillar3a.withdrawYearsBeforeRef); }
+function latest3a(){ return Math.floor(refAge() + PRM.pillar3a.withdrawYearsAfterRef); }
+function default3aAges(){
+  const n=S.p3a.accounts.length, R=retireAge(), lo=earliest3a(), hi=Math.max(Math.ceil(refAge()), Math.min(R, latest3a()));
+  const last=clamp(R, lo, hi);
+  return S.p3a.accounts.map((a,i)=> clamp(last-(n-1-i), lo, hi));
+}
+function w3aAges(){ const d=default3aAges(); return S.p3a.accounts.map((a,i)=> { const v=S.wd.ages[i]; return v? clamp(v, earliest3a(), latest3a()) : d[i]; }); }
+// valeur d'un compte 3a à l'âge A (cotisation répartie également entre les comptes, tant que l'on travaille)
+function proj3aAccount(i, A, opts){
+  opts=opts||{}; const n=S.p3a.accounts.length, r=(S.p3a.ret||0)/100, stop=opts.stop||retireAge();
+  let v=+S.p3a.accounts[i].balance||0;
+  const c=Math.min(S.p3a.contrib||0, max3a())/n;
+  for(let a=age(); a<A; a++){ v*=1+r; if(a<stop && a<latest3a()) v+=c; if(a===age() && i===0) v+=(S.p3a.retro||0); }
+  return v;
+}
+function proj3aTotal(A, opts){ return S.p3a.accounts.reduce((s,_,i)=>s+proj3aAccount(i,A,opts),0); }
+function retroGaps(){
+  const out=[]; if(YEAR < PRM.pillar3a.retroFirstYear) return out;
+  const from=Math.max(PRM.pillar3a.retroGapFromYear, YEAR-PRM.pillar3a.retroMaxYearsBack);
+  for(let y=from; y<YEAR; y++){ const mx=max3a(y), paid=+(S.p3a.paid[y]||0); out.push({y, mx, paid, gap:Math.max(0, mx-paid)}); }
+  return out;
+}
+function retroMax(){ const g=retroGaps().reduce((s,x)=>s+x.gap,0); return Math.min(g, yp(PRM.pillar3a.byYear,YEAR).small); }
+
+/* ================= Calculs : LPP ================= */
+function lppCredit(a){ if(S.lpp.credits>0) return S.lpp.credits; return S.profile.status==="employee"? ageCreditRate(a)*coordSalary(S.profile.income) : 0; }
+function lppProj(A, opts){
+  opts=opts||{}; const i=(S.lpp.interest||0)/100, stop=opts.stop||retireAge(), withBuy=opts.buyback!==false;
+  const k=Math.max(1, Math.round(S.lpp.buybackYears||1));
+  let base=+S.lpp.balance||0, buy=0;
+  for(let a=age(); a<A; a++){
+    base*=1+i; buy*=1+i;
+    if(a<stop) base+=lppCredit(a);
+    if(withBuy && a-age()<k) buy+=(S.lpp.buyback||0)/k;
+  }
+  if(S.lpp.projected>0 && !opts.raw){ // calibrage sur le capital projeté du certificat (à l'âge de référence, cotisations jusque-là)
+    const ref=Math.round(refAge()), calc=lppProj(ref, {stop:ref, buyback:false, raw:true});
+    if(calc>0){ const f=S.lpp.projected/calc; if(isFinite(f) && f>0.3 && f<3) base*=f; }
+  }
+  return base+buy;
+}
+function lppAccessAge(stop){
+  const ref=refAge(), early=PRM.bvg.earliestEarlyRetirement;
+  if(stop<early) return {age:Math.ceil(ref-5), vested:true};
+  if(stop<=ref) return {age:stop, vested:false};
+  return {age:Math.min(stop, Math.floor(ref+5)), vested:false};
+}
+
+/* ================= Calculs : AVS ================= */
+function avsMonthlyFull(ram){
+  const a=yp(PRM.ahv.byYear, YEAR), f=PRM.ahv.formula, m=a.minMonthly;
+  if(ram<=f.minMultiple*m) return m;
+  if(ram>=f.maxMultiple*m) return a.maxMonthly;
+  const v = ram<=f.kneeMultiple*m ? f.lowFactor*m + f.lowSlope*ram : f.highFactor*m + f.highSlope*ram;
+  return clamp(v, m, a.maxMonthly);
+}
+function avsAnnual(){ // ménage, CHF/an, 13e rente comprise
+  const a=yp(PRM.ahv.byYear, YEAR), months = YEAR>=PRM.ahv.thirteenthFrom? 13 : 12;
+  if(S.fire.avsOverride>0) return {annual:S.fire.avsOverride*months, monthly:S.fire.avsOverride, override:true, months};
+  const scale = clamp((PRM.ahv.fullYears-(S.fire.avsMissing||0))/PRM.ahv.fullYears, 0, 1);
+  let monthly;
+  if(married()){ // splitting simplifié : moyenne des deux revenus pour chaque conjoint
+    const ram=(S.profile.income+(S.profile.spouseIncome||0))/2;
+    monthly=Math.min(2*avsMonthlyFull(ram)*scale, PRM.ahv.coupleCapPct*a.maxMonthly);
+  } else monthly=avsMonthlyFull(S.profile.income)*scale;
+  return {annual:monthly*months, monthly, override:false, months, capped: married() && 2*avsMonthlyFull((S.profile.income+(S.profile.spouseIncome||0))/2)*scale > PRM.ahv.coupleCapPct*a.maxMonthly};
+}
+
+/* ================= Retraits en capital : plan ================= */
+function withdrawalPlan(stop){
+  stop = stop||retireAge();
+  const ev=[], ages=w3aAges();
+  S.p3a.accounts.forEach((a,i)=> ev.push({label:a.name||("3a "+(i+1)), kind:"3a", age:ages[i], amount:proj3aAccount(i, ages[i], {stop})}));
+  const acc=lppAccessAge(stop), share = acc.vested? 1 : clamp((S.lpp.capitalShare||0)/100,0,1);
+  const lppCap=lppProj(acc.age, {stop});
+  if(share>0) ev.push({label:t(acc.vested? "lppVestedLbl" : "lppCapLbl"), kind:"lpp", age:acc.age, amount:lppCap*share});
+  if(S.wd.other>0) ev.push({label:t("otherCapLbl"), kind:"other", age:S.wd.otherAge||stop, amount:S.wd.other});
+  return {ev, lppCap, share, acc};
+}
+function groupByAge(ev){ const m={}; ev.forEach(e=>{ m[e.age]=(m[e.age]||0)+e.amount; }); return Object.keys(m).map(Number).sort((a,b)=>a-b).map(a=>({age:a, amount:m[a], tax:capTax(m[a])})); }
+
+/* ================= Retraite / FIRE : simulation annuelle (CHF d'aujourd'hui) ================= */
+function simulate(stop, o){
+  o=o||{}; const F=S.fire, rd=o.retDelta||0;
+  const rPre=(F.retPre||0)/100+rd, rPost=(F.retPost||0)/100+rd, infl=(F.infl||0)/100;
+  const plan=withdrawalPlan(stop), groups=groupByAge(plan.ev);
+  const capByAge={}; groups.forEach(g=>capByAge[g.age]=g);
+  const ages3=w3aAges(), ref=refAge(), avs=avsAnnual().annual;
+  const rente = plan.acc.vested? 0 : plan.lppCap*(1-plan.share)*(S.lpp.conv||0)/100;
+  let L=+F.otherAssets||0, minL=Infinity, failAge=null, rows=[], taxes=0;
+  for(let a=age(); a<=F.horizon; a++){
+    if(a===stop && o.extra) L+=o.extra;
+    const working=a<stop;
+    let v3=0; S.p3a.accounts.forEach((_,i)=>{ if(a<ages3[i]) v3+=proj3aAccount(i,a,{stop}); });
+    const vL = a<plan.acc.age? lppProj(a,{stop}) : 0;
+    let inc=0, out=0;
+    if(capByAge[a]){ inc+=capByAge[a].amount-capByAge[a].tax.total; taxes+=capByAge[a].tax.total; }
+    const avsY = a+1<=ref? 0 : avs*Math.min(1, a+1-ref);
+    const lppY = a>=plan.acc.age? rente/Math.pow(1+infl, a-plan.acc.age) : 0; // rente LPP non indexée → perd en valeur réelle
+    if(working) inc+=(F.monthlySavings||0)*12; else { inc+=avsY+lppY; out=F.spending||0; }
+    rows.push({a, L:Math.max(L,0), v3, vL, avsY, lppY, out, Lraw:L});
+    L = L*(1+(working?rPre:rPost)) + inc - out;
+    if(!working){ if(L<minL) minL=L; if(L<0 && failAge==null) failAge=a; }
+  }
+  return {ok: failAge==null, failAge, minL, rows, plan, rente, avs, taxes, stop};
+}
+function earliestStop(o){ for(let s=Math.max(age(),45); s<=70; s++){ if(simulate(s,o).ok) return s; } return null; }
+function gapAt(stop){ // capital supplémentaire nécessaire (>0) ou marge (<0) à l'âge d'arrêt
+  if(simulate(stop).ok){ let lo=0, hi=5e7; if(simulate(stop,{extra:-hi}).ok) return -hi;
+    for(let i=0;i<40;i++){ const m=(lo+hi)/2; if(simulate(stop,{extra:-m}).ok) lo=m; else hi=m; } return -lo; }
+  let lo=0, hi=1e8; if(!simulate(stop,{extra:hi}).ok) return Infinity;
+  for(let i=0;i<40;i++){ const m=(lo+hi)/2; if(simulate(stop,{extra:m}).ok) hi=m; else lo=m; } return hi;
+}
+/* ================= Champs de formulaire ================= */
+const CANTONS = () => Object.keys(TX.cantons).map(k=>[k, k+" – "+TX.cantons[k].name]);
+function fld(k, type, lbl, opts){ return Object.assign({k, type, lbl}, opts||{}); }
+function fieldsHTML(list){
+  return `<div class="fields">`+list.map(f=>{
+    const v=getK(f.k), help=f.help? `<span class="h">${typeof f.help==="function"? f.help() : t(f.help)}</span>` : "";
+    if(f.type==="chk") return `<div class="fld chk"><input type="checkbox" id="f_${f.k}" data-k="${f.k}" data-t="chk" ${v?"checked":""}><label for="f_${f.k}">${esc(t(f.lbl))}</label></div>`;
+    let inp;
+    if(f.type==="sel"){ const op=typeof f.options==="function"? f.options() : f.options;
+      inp=`<select id="f_${f.k}" data-k="${f.k}" data-t="sel">`+op.map(([val,l])=>`<option value="${esc(val)}" ${String(v)===String(val)?"selected":""}>${esc(f.raw? l : t(l))}</option>`).join("")+`</select>`; }
+    else if(f.type==="txt") inp=`<input id="f_${f.k}" data-k="${f.k}" data-t="txt" value="${esc(v||"")}" ${f.ph?`placeholder="${esc(t(f.ph))}"`:""}>`;
+    else inp=`<input class="num" id="f_${f.k}" inputmode="decimal" data-k="${f.k}" data-t="num" data-dec="${f.dec||0}" ${f.zero?'data-zero="1"':""} value="${v||v===0&&f.zero? (f.plain? String(v) : fmtNum(v,f.dec||0)) : ""}" ${f.plain?'data-plain="1"':""} ${f.ph?`placeholder="${esc(typeof f.ph==="function"? f.ph() : t(f.ph))}"`:""}>`;
+    return `<div class="fld"><label for="f_${f.k}">${esc(t(f.lbl))}</label>${inp}${help}</div>`;
+  }).join("")+`</div>`;
+}
+const F_PROFILE = () => [
+  fld("profile.birthYear","num","birthYear",{plain:true, help:()=>t("ageIs",{a:age(), r:fmtNum(refAge(),2).replace(/\.00$/,"").replace(".25",".25")})}),
+  fld("profile.gender","sel","gender",{options:[["m","male"],["f","female"]], help:"genderHelp"}),
+  fld("profile.canton","sel","canton",{options:CANTONS, raw:true}),
+  fld("profile.commune","txt","commune",{ph:"communePh", help:"communeHelp"}),
+  fld("profile.civil","sel","civil",{options:[["single","single"],["married","marriedOpt"]]}),
+  fld("profile.children","num","children",{zero:true, help:"childrenHelp"}),
+  fld("profile.status","sel","status",{options:[["employee","employee"],["self","self"]]}),
+  fld("profile.income","num","income",{help:"incomeHelp"}),
+  ...(married()? [fld("profile.spouseIncome","num","spouseIncome",{zero:true})] : []),
+  fld("profile.taxableOverride","num","taxableOverride",{ph:()=>"≈ "+fmtNum(r100(taxable())), help:"taxableHelp"}),
+  fld("profile.retireAge","num","retireAge",{plain:true, help:"retireAgeHelp"})
+];
+const F_3A = () => [
+  fld("p3a.contrib","num","contrib",{zero:true, help:()=>t("contribHelp",{m:chf(max3a()), y:YEAR})}),
+  fld("p3a.ret","num","ret3a",{dec:1, zero:true, help:"retHelp"})
+];
+const F_LPP = () => [
+  fld("lpp.balance","num","lppBalance",{zero:true, help:"fromCert"}),
+  fld("lpp.maxBuyback","num","maxBuyback",{zero:true, help:"fromCert"}),
+  fld("lpp.buyback","num","buyback",{zero:true}),
+  fld("lpp.buybackYears","sel","buybackYears",{options:[1,2,3,4,5].map(n=>[n,"y"+n])}),
+  fld("lpp.credits","num","credits",{ph:()=>"≈ "+fmtNum(r100(lppCredit(age()))), help:"creditsHelp"}),
+  fld("lpp.projected","num","projected",{help:"projectedHelp"}),
+  fld("lpp.interest","num","interest",{dec:2, zero:true, help:()=>t("interestHelp",{m:pct(bvgY().minInterest,2)})}),
+  fld("lpp.conv","num","conv",{dec:2, zero:true, help:"convHelp"}),
+  fld("lpp.capitalShare","num","capitalShare",{zero:true, help:"capitalShareHelp"}),
+  fld("lpp.wef","chk","wefOpen")
+];
+const F_WD = () => [
+  fld("wd.other","num","otherCap",{zero:true, help:"otherCapHelp"}),
+  fld("wd.otherAge","num","otherAge",{plain:true})
+];
+const F_FIRE = () => [
+  fld("fire.otherAssets","num","otherAssets",{zero:true, help:"otherAssetsHelp"}),
+  fld("fire.monthlySavings","num","monthlySavings",{zero:true, help:"monthlySavingsHelp"}),
+  fld("fire.spending","num","spending",{zero:true, help:"spendingHelp"}),
+  fld("fire.retPre","num","retPre",{dec:1, zero:true}),
+  fld("fire.retPost","num","retPost",{dec:1, zero:true}),
+  fld("fire.infl","num","infl",{dec:1, zero:true, help:"inflHelp"}),
+  fld("fire.horizon","num","horizon",{plain:true}),
+  fld("fire.avsMissing","num","avsMissing",{zero:true, help:"avsMissingHelp"}),
+  fld("fire.avsOverride","num","avsOverride",{help:"avsOverrideHelp"})
+];
+function kpi(l, v, s, cls){ return `<div class="kpi ${cls||""}"><div class="l">${l}</div><div class="v">${v}</div>${s?`<div class="s">${s}</div>`:""}</div>`; }
+function heurNote(){ return taxableIsHeuristic()? `<div class="note">ℹ️ ${t("heuristicNote",{x:chf(r100(taxable()))})}</div>` : ""; }
+
+/* ================= Rendu par onglet ================= */
+function renderForms(){
+  $("fProfile").innerHTML=fieldsHTML(F_PROFILE());
+  $("f3a").innerHTML=fieldsHTML(F_3A());
+  $("fLpp").innerHTML=fieldsHTML(F_LPP());
+  $("fWd").innerHTML=`<p class="small muted">${t("wdIntro")}</p>`+fieldsHTML(F_WD())+`<div id="wdAges"></div>`;
+  $("fFire").innerHTML=fieldsHTML(F_FIRE());
+  render3aAccounts(); renderRetroForm();
+}
+function renderRetroForm(){
+  const gaps=retroGaps(), small=yp(PRM.pillar3a.byYear,YEAR).small;
+  let h=`<p class="small muted">${t("retroIntro",{s:chf(small), y:PRM.pillar3a.retroFirstYear, g:PRM.pillar3a.retroGapFromYear})}</p>`;
+  if(!gaps.length) h+=`<div class="alert info">${t("retroNone",{y:PRM.pillar3a.retroFirstYear})}</div>`;
+  else{
+    h+=`<div class="tablewrap"><table><tr><th>${t("year")}</th><th class="r">${t("maxThatYear")}</th><th class="r">${t("paidThatYear")}</th><th class="r">${t("gap")}</th></tr>`+
+      gaps.map(g=>`<tr><td>${g.y}</td><td class="r">${fmtNum(g.mx)}</td><td class="r"><input class="num" style="width:110px" inputmode="decimal" data-paid="${g.y}" value="${S.p3a.paid[g.y]!=null? fmtNum(S.p3a.paid[g.y]) : ""}" placeholder="0"></td><td class="r" id="gap_${g.y}">${fmtNum(g.gap)}</td></tr>`).join("")+`</table></div>`;
+    h+=fieldsHTML([fld("p3a.retro","num","retroPlanned",{zero:true, help:()=>`<span id="retroHelp">${t("retroMaxTxt",{m:chf(retroMax())})}</span>`})]);
+  }
+  $("retroForm").innerHTML=h;
+}
+function render3aAccounts(){
+  $("p3aAccounts").innerHTML=`<div class="acc3a small muted"><span>${t("accName")}</span><span>${t("balance")}</span><span>${t("wdAge")}</span><span></span></div>`+
+    S.p3a.accounts.map((a,i)=>`<div class="acc3a"><input data-acc="${i}" data-f="name" value="${esc(a.name)}">
+      <input class="num" inputmode="decimal" data-acc="${i}" data-f="balance" value="${fmtNum(+a.balance||0)}">
+      <input class="num" inputmode="numeric" data-acc="${i}" data-f="age" value="${w3aAges()[i]}">
+      <button class="btn sm danger" data-del3a="${i}" ${S.p3a.accounts.length<2?"disabled":""}>✕</button></div>`).join("")+
+    `<div class="small muted">${t("ageRange3a",{a:earliest3a(), b:latest3a()})}</div>`;
+}
+function renderProfileOut(){
+  const T=taxable(), it=incTax(T);
+  $("profileOut").innerHTML=`<h3>${t("summary")}</h3><div class="kpis">
+    ${kpi(t("taxableK"), chf(r100(T)), taxableIsHeuristic()? t("heuristic") : t("fromAssessment"))}
+    ${kpi(t("incomeTaxK"), "≈ "+chf(r100(it.total)), rangeTxt(it))}
+    ${kpi(t("marginalK"), "≈ "+pct(marginalRate(T),0), t("marginalS"))}
+    ${kpi(t("refAgeK"), fmtNum(refAge(),2).replace(/\.00$/,""), t("refAgeS",{y:S.profile.birthYear+Math.ceil(refAge())}))}
+  </div>${heurNote()}
+  ${S.profile.children>0? `<div class="note">${t("childrenNote")}</div>` : ""}
+  ${YEAR>maxParamYear(PRM.pillar3a.byYear)? `<div class="alert warn">${t("paramsOld")}</div>` : ""}`;
+}
+function render3aOut(){
+  const mx=max3a(), c=Math.min(S.p3a.contrib||0, mx), sav=deductionSaving(c, taxableBase()), R=retireAge();
+  const v=proj3aTotal(Math.max(...w3aAges()));
+  $("out3a").innerHTML=`<div class="kpis">
+    ${kpi(t("max3aK",{y:YEAR}), chf(mx), S.profile.status==="self"? t("max3aSelf",{p:pct(PRM.pillar3a.largePct,0), m:chf(yp(PRM.pillar3a.byYear,YEAR).large)}) : t("max3aEmp"))}
+    ${kpi(t("taxSaving3aK"), "≈ "+chf(r100(sav)), t("perYear"), "hl")}
+    ${kpi(t("balance3aK"), chf(sum3a()), t("nAccounts",{n:S.p3a.accounts.length}))}
+    ${kpi(t("proj3aK"), "≈ "+chf(r100(v)), t("proj3aS",{r:pct((S.p3a.ret||0)/100,1)}))}
+  </div>
+  ${(S.p3a.contrib||0)>mx? `<div class="alert warn">${t("over3a",{m:chf(mx)})}</div>` : ""}
+  ${R>=refAge()+0.01 && S.profile.retireAge>refAge()? `<div class="note">${t("work3aAfter")}</div>` : ""}
+  ${heurNote()}`;
+  // rachat rétroactif (le formulaire est rendu par renderRetroForm ; ici seulement les résultats)
+  const gaps=retroGaps(), mxr=retroMax();
+  gaps.forEach(g=>{ const c=$("gap_"+g.y); if(c) c.textContent=fmtNum(g.gap); });
+  const rh=$("retroHelp"); if(rh) rh.textContent=t("retroMaxTxt",{m:chf(mxr)});
+  let h="";
+  if(gaps.length){
+    const rb=Math.min(S.p3a.retro||0, mxr), rs=deductionSaving(rb, taxable());
+    h+=`<div class="kpis">${kpi(t("retroAllowedK"), chf(mxr))}${kpi(t("retroSavingK"), "≈ "+chf(r100(rs)), rb>0? t("retroSavingS",{m:pct(rs/rb,0)}) : "", "hl")}</div>`;
+    if((S.p3a.retro||0)>mxr) h+=`<div class="alert warn">${t("retroOver",{m:chf(mxr)})}</div>`;
+    if((S.p3a.contrib||0)<mx && (S.p3a.retro||0)>0) h+=`<div class="alert err">${t("retroNeedFull",{m:chf(mx)})}</div>`;
+  }
+  h+=`<h3>${t("retroCond")}</h3><ul class="small">${["retroC1","retroC2","retroC3","retroC4","retroC5"].map(k=>`<li>${t(k)}</li>`).join("")}</ul>
+    <div class="small muted">${t("sourceLbl")} <a href="${PRM.pillar3a.sources[0]}" target="_blank" rel="noopener">OFAS/BSV</a> · <a href="${PRM.pillar3a.sources[2]}" target="_blank" rel="noopener">FAQ OFAS</a></div>`;
+  $("retroOut").innerHTML=h;
+  // échelonnement 3a : 1 à 5 comptes (calcul purement mathématique)
+  const R2=clamp(retireAge(), earliest3a(), Math.max(Math.ceil(refAge()), Math.min(retireAge(), latest3a())));
+  let rows=""; let base=null;
+  for(let n=1;n<=5;n++){
+    let tax=0, gross=0;
+    for(let i=0;i<n;i++){ const A=Math.max(earliest3a(), R2-(n-1-i)); const v=proj3aTotal(A)/n; gross+=v; tax+=capTax(v).total; }
+    if(base==null) base=tax;
+    rows+=`<tr><td>${n}</td><td>${n===1? R2 : Math.max(earliest3a(),R2-n+1)+"–"+R2}</td><td class="r">${fmtNum(r100(gross))}</td><td class="r">≈ ${fmtNum(r100(tax))}</td><td class="r ${base-tax>0?"pos":""}">${n===1?"—":fmtNum(r100(base-tax))}</td></tr>`;
+  }
+  $("stagger3a").innerHTML=`<p class="small muted">${t("stagger3aIntro")}</p><div class="tablewrap"><table><tr><th>${t("nAcc")}</th><th>${t("wdAges")}</th><th class="r">${t("capital")}</th><th class="r">${t("taxEst")}</th><th class="r">${t("savingVs1")}</th></tr>${rows}</table></div>
+    <div class="note">${t("stagger3aNote",{y:TX.taxYear})}</div>`;
+}
+function renderLppOut(){
+  const B=S.lpp.buyback||0, k=Math.max(1,Math.round(S.lpp.buybackYears||1)), T=taxable();
+  const one=deductionSaving(B, T), spread=k*deductionSaving(B/k, T);
+  const R=retireAge(), acc=lppAccessAge(R), capR=lppProj(acc.age), capNoBuy=lppProj(acc.age,{buyback:false});
+  const lastBuyYear=YEAR+k-1, wdYear=YEAR+(acc.age-age()), share=acc.vested?1:(S.lpp.capitalShare||0)/100;
+  let h=`<div class="kpis">
+    ${kpi(t("buybackSavingK"), "≈ "+chf(r100(k>1? spread : one)), k>1? t("spreadOver",{k}) : t("oneYear"), "hl")}
+    ${kpi(t("netCostK"), "≈ "+chf(r100(B-(k>1?spread:one))), B>0? t("effRate",{p:pct((k>1?spread:one)/B,0)}) : "")}
+    ${kpi(t("lppAtRetK",{a:acc.age}), "≈ "+chf(r100(capR)), t("lppAtRetS",{b:chf(r100(capR-capNoBuy))}))}
+    ${kpi(t("lppRenteK"), "≈ "+chf(r100(capR*(S.lpp.conv||0)/100)), t("lppRenteS",{c:pct((S.lpp.conv||0)/100,2)}))}
+  </div>`;
+  if(B>0 && k>1) h+=`<div class="note">${t("spreadCmp",{a:chf(r100(one)), b:chf(r100(spread)), k})}</div>`;
+  if(S.lpp.maxBuyback>0 && B>S.lpp.maxBuyback) h+=`<div class="alert err">${t("overMaxBuyback",{m:chf(S.lpp.maxBuyback)})}</div>`;
+  if(S.lpp.maxBuyback===0 && B>0) h+=`<div class="alert warn">${t("noMaxBuyback")}</div>`;
+  if(B>0 && share>0 && wdYear-lastBuyYear<PRM.bvg.buybackLockYears) h+=`<div class="alert err">⛔ ${t("lockHit",{y:lastBuyYear, w:wdYear})}</div>`;
+  h+=`<div class="alert warn">🔒 ${t("lockRule")}</div>`;
+  if(S.lpp.wef) h+=`<div class="alert err">${t("wefRule")}</div>`;
+  h+=`<div class="note">${t("convNote")}</div>${heurNote()}
+    <div class="small muted">${t("sourceLbl")} <a href="${PRM.bvg.sources[3]}" target="_blank" rel="noopener">Art. 79b LPP/BVG</a> · <a href="${PRM.bvg.sources[0]}" target="_blank" rel="noopener">OFAS/BSV</a></div>`;
+  $("outLpp").innerHTML=h;
+}
+function renderWdOut(){
+  const R=retireAge(), plan=withdrawalPlan(R), groups=groupByAge(plan.ev);
+  const total=plan.ev.reduce((s,e)=>s+e.amount,0), oneTax=capTax(total), stTax=groups.reduce((s,g)=>s+g.tax.total,0);
+  // âges 3a éditables
+  $("wdAges").innerHTML=`<h3>${t("wdEvents")}</h3><div class="tablewrap"><table><tr><th>${t("item")}</th><th class="r">${t("age")}</th><th class="r">${t("year")}</th><th class="r">${t("capital")}</th></tr>`+
+    plan.ev.map(e=>`<tr><td>${esc(e.label)}</td><td class="r">${e.age}</td><td class="r">${YEAR+e.age-age()}</td><td class="r">${fmtNum(r100(e.amount))}</td></tr>`).join("")+`</table></div>
+    <div class="small muted">${t("wdEditHint")}</div>${plan.acc.vested? `<div class="alert warn">${t("vestedNote",{a:plan.acc.age})}</div>`:""}`;
+  let h=`<h3>${t("wdCompare")}</h3><div class="kpis">
+    ${kpi(t("oneYearK"), "≈ "+chf(r100(oneTax.total)), rangeTxt(oneTax))}
+    ${kpi(t(groups.length>1?"staggeredK":"staggeredK1",{n:groups.length}), "≈ "+chf(r100(stTax)), t(groups.length>1?"taxYears":"taxYears1",{n:groups.length}))}
+    ${kpi(t("wdSavingK"), "≈ "+chf(r100(oneTax.total-stTax)), total>0? t("ofCapital",{p:pct((oneTax.total-stTax)/total,1)}) : "", "hl")}
+    ${kpi(t("totalCapK"), chf(r100(total)), t("effTax",{p: total>0? pct(stTax/total,1) : "—"}))}
+  </div>
+  <div class="tablewrap"><table><tr><th>${t("age")}</th><th>${t("year")}</th><th class="r">${t("capital")}</th><th class="r">${t("fedTax")}</th><th class="r">${t("ccTax")}</th><th class="r">${t("taxEst")}</th><th class="r">${t("range")}</th><th class="r" id="exactHdr">${cfg().TAX_RELAY_URL? t("exactEstv") : ""}</th></tr>`+
+    groups.map((g,i)=>`<tr><td>${g.age}</td><td>${YEAR+g.age-age()}</td><td class="r">${fmtNum(r100(g.amount))}</td><td class="r">${fmtNum(r100(g.tax.fed))}</td><td class="r">${fmtNum(r100(g.tax.cc))}</td><td class="r"><b>≈ ${fmtNum(r100(g.tax.total))}</b></td><td class="r small">${rangeTxt(g.tax).replace("CHF ","")}</td><td class="r" id="exact_${i}"></td></tr>`).join("")+`</table></div>`;
+  if(cfg().TAX_RELAY_URL) h+=`<div class="row" style="margin-top:8px"><button class="btn sm" data-act="exact">🔎 ${t("exactBtn")}</button><span class="small muted" id="exactMsg"></span></div>`;
+  h+=`<div class="note">${t("aggNote")}${married()? " "+t("aggMarried") : ""}</div><div class="note">${t("cantonPractice")}</div>`;
+  $("outWd").innerHTML=h;
+  // comparaison cantonale (montant total en une fois)
+  const list=Object.keys(TX.cantons).map(ct=>({ct, tax:capTax(total, ct).total})).sort((a,b)=>a.tax-b.tax);
+  $("cmpCantons").innerHTML=`<p class="small muted">${t("cmpIntro",{x:chf(r100(total))})}</p><div class="tablewrap" style="max-height:420px;overflow:auto"><table><tr><th>#</th><th>${t("canton")}</th><th>${t("chefLieu")}</th><th class="r">${t("taxEst")}</th><th class="r">%</th></tr>`+
+    list.map((x,i)=>`<tr class="${x.ct===S.profile.canton?"me":""}"><td>${i+1}</td><td>${x.ct}</td><td>${esc(TX.cantons[x.ct].capital)}</td><td class="r">≈ ${fmtNum(r100(x.tax))}</td><td class="r">${total>0? fmtNum(x.tax/total*100,1) : "—"}</td></tr>`).join("")+`</table></div><div class="note">${t("cmpNote")}</div>`;
+  $("taxMethod").innerHTML=`<p class="small">${t("taxMethodTxt",{d:fmtDate(TX.computedOn), y:TX.taxYear})}</p>
+    <ul class="small"><li>${t("tm1")}</li><li>${t("tm2")}</li><li>${t("tm3")}</li><li>${t("tm4",{y:TX.taxYear})}</li></ul>
+    <p class="small">${cfg().TAX_RELAY_URL? t("relayOn") : t("relayOff")}</p>
+    <p class="small"><a href="${TX.source}" target="_blank" rel="noopener">${t("estvLink")}</a></p>`;
+}
+let fireChart=null;
+function renderFireOut(){
+  const R=retireAge(), sim=simulate(R), es=earliestStop(), esLo=earliestStop({retDelta:0.01}), esHi=earliestStop({retDelta:-0.01});
+  const gap=gapAt(R), av=avsAnnual();
+  const rangeAge = (esLo!=null||esHi!=null)? t("ageRange",{a:esLo!=null?esLo:"—", b:esHi!=null?esHi:"> 70"}) : "";
+  let h=`<div class="kpis">
+    ${kpi(t("earliestK"), es!=null? t("ageN",{a:es}) : t("after70"), rangeAge, "hl")}
+    ${kpi(t(gap>0? "gapK" : "marginK",{a:R}), isFinite(gap)? chf(r100(Math.abs(gap))) : "—", t(gap>0? "gapS" : "marginS"))}
+    ${kpi(t("avsK"), "≈ "+chf(r100(av.annual)), t(av.override? "avsOverrideS" : "avsS",{m:chf(r100(av.monthly)), n:av.months}))}
+    ${kpi(t("lppRenteK2"), sim.rente>0? "≈ "+chf(r100(sim.rente)) : "—", sim.plan.acc.vested? t("vestedShort") : t("lppMix",{p:fmtNum((sim.plan.share)*100,0)}))}
+  </div>`;
+  if(av.capped) h+=`<div class="note">${t("coupleCap")}</div>`;
+  if(!sim.ok) h+=`<div class="alert err">${t("failAt",{a:sim.failAge, r:R})}</div>`; else h+=`<div class="alert ok">${t("okAt",{r:R, h:S.fire.horizon})}</div>`;
+  h+=`<div class="note">${t("fireAssump")}</div>`;
+  $("outFire").innerHTML=h;
+  const rows=sim.rows, css=getComputedStyle(document.documentElement), col=v=>css.getPropertyValue(v).trim();
+  const data={labels:rows.map(r=>r.a), datasets:[
+    {label:t("dsLiquid"), data:rows.map(r=>Math.round(r.L)), backgroundColor:"rgba(108,140,255,.45)", borderColor:"#6c8cff", fill:true, pointRadius:0, stack:"s"},
+    {label:"3a", data:rows.map(r=>Math.round(r.v3)), backgroundColor:"rgba(47,208,138,.45)", borderColor:"#2fd08a", fill:true, pointRadius:0, stack:"s"},
+    {label:LANG==="fr"?"LPP":"BVG", data:rows.map(r=>Math.round(r.vL)), backgroundColor:"rgba(255,181,71,.45)", borderColor:"#ffb547", fill:true, pointRadius:0, stack:"s"}
+  ]};
+  const opts={responsive:true, maintainAspectRatio:false, animation:false, interaction:{mode:"index", intersect:false},
+    scales:{x:{ticks:{color:col("--mut")}, grid:{color:col("--line")}}, y:{stacked:true, ticks:{color:col("--mut"), callback:v=>fmtNum(v/1000)+"k"}, grid:{color:col("--line")}}},
+    plugins:{legend:{labels:{color:col("--txt")}}, tooltip:{callbacks:{label:c=>c.dataset.label+": CHF "+fmtNum(c.raw)}}}};
+  if(typeof Chart!=="undefined"){
+    if(fireChart){ fireChart.data=data; fireChart.options=opts; fireChart.update(); }
+    else fireChart=new Chart($("fireChart"), {type:"line", data, options:opts});
+  }
+  $("fireNotes").innerHTML=`<div class="note">${t("chartNote",{s:R, t:chf(r100(sim.taxes))})}</div>`;
+}
+function renderParams(){
+  const p3=yp(PRM.pillar3a.byYear,YEAR), ah=yp(PRM.ahv.byYear,YEAR), b=bvgY();
+  const li=a=>`<ul class="srcs">${a.map(u=>`<li><a href="${u}" target="_blank" rel="noopener">${esc(u)}</a></li>`).join("")}</ul>`;
+  $("paramsOut").innerHTML=`<p class="small muted">${t("paramsIntro",{d:fmtDate(PRM.verifiedOn), y:YEAR})}</p>
+  <div class="tablewrap"><table>
+   <tr><td>${t("pSmall")}</td><td class="r">${chf(p3.small)}</td></tr>
+   <tr><td>${t("pLarge")}</td><td class="r">${chf(p3.large)}</td></tr>
+   <tr><td>${t("pAvs")}</td><td class="r">${chf(ah.minMonthly)} – ${fmtNum(ah.maxMonthly)}</td></tr>
+   <tr><td>${t("pCouple")}</td><td class="r">${fmtNum(PRM.ahv.coupleCapPct*100,0)} %</td></tr>
+   <tr><td>${t("p13")}</td><td class="r">${PRM.ahv.thirteenthFrom}</td></tr>
+   <tr><td>${t("pEntry")}</td><td class="r">${chf(b.entryThreshold)}</td></tr>
+   <tr><td>${t("pCoord")}</td><td class="r">${chf(b.coordination)}</td></tr>
+   <tr><td>${t("pUpper")}</td><td class="r">${chf(b.upperLimit)}</td></tr>
+   <tr><td>${t("pMinInt")}</td><td class="r">${pct(b.minInterest,2)}</td></tr>
+   <tr><td>${t("pConv")}</td><td class="r">${pct(PRM.bvg.minConversionRate,1)}</td></tr>
+   <tr><td>${t("pLock")}</td><td class="r">${PRM.bvg.buybackLockYears} ${t("years")}</td></tr>
+   <tr><td>${t("pFedCap")}</td><td class="r">1/5</td></tr>
+  </table></div>
+  <h3>${t("sources")}</h3>${li([...PRM.pillar3a.sources, ...PRM.ahv.sources, ...PRM.bvg.sources, ...PRM.tax.sources, ...PRM.legal.sources])}`;
+  $("verTxt").textContent=t("verTxt",{v:APP_VERSION, d:fmtDate(PRM.verifiedOn)});
+}
+function renderBanners(){
+  const B=[];
+  if(!S.meta.touched) B.push(`<div class="alert info">${t("demoBanner")}</div>`);
+  $("banners").innerHTML=B.join("");
+}
+function renderOutputs(){
+  try{ renderProfileOut(); }catch(e){ console.error(e); }
+  try{ render3aOut(); }catch(e){ console.error(e); }
+  try{ renderLppOut(); }catch(e){ console.error(e); }
+  try{ renderWdOut(); }catch(e){ console.error(e); }
+  try{ if(curTab()==="retraite") renderFireOut(); }catch(e){ console.error(e); }
+  renderBanners();
+}
+function renderAll(full){
+  if(full){ renderForms(); renderParams(); }
+  renderOutputs(); renderSyncUI();
+  $("lastExportTxt").textContent=t("lastExport",{d:S.meta.lastExport? fmtDT(S.meta.lastExport) : t("never")});
+}
+
+/* ================= Onglets ================= */
+const TABS=["profil","p3a","lpp","retrait","retraite","donnees"];
+function curTab(){ const h=location.hash.slice(1); return TABS.includes(h)? h : "profil"; }
+function showTab(){
+  const c=curTab();
+  TABS.forEach(id=>$(id).classList.toggle("on", id===c));
+  document.querySelectorAll("#tabs a").forEach(a=>a.classList.toggle("on", a.dataset.tab===c));
+  if(c==="retraite") try{ renderFireOut(); }catch(e){ console.error(e); }
+}
+window.addEventListener("hashchange", ()=>{ showTab(); window.scrollTo(0,0); setTimeout(()=>window.scrollTo(0,0),0); });
+
+/* ================= Saisie ================= */
+let reformTimer=null;
+function onInput(el, commit){
+  const k=el.dataset.k; if(!k) return;
+  let v;
+  if(el.dataset.t==="chk") v=el.checked;
+  else if(el.dataset.t==="sel"){ v=el.value; if(/^\d+$/.test(v) && k!=="profile.canton") v=+v; }
+  else if(el.dataset.t==="txt") v=el.value;
+  else { v=parseNum(el.value); if(!isFinite(v)) v=0; if(k==="profile.birthYear") v=clamp(Math.round(v)||YEAR-45, YEAR-80, YEAR-18); if(k==="fire.horizon") v=clamp(Math.round(v),70,105); if(k==="lpp.capitalShare") v=clamp(v,0,100); if(v<0) v=0;
+    if(commit) el.value = v||el.dataset.zero? (el.dataset.plain? String(v) : fmtNum(v, +el.dataset.dec||0)) : ""; }
+  setK(k, v); S.meta.touched=true; save();
+  // champs dont dépend la structure des formulaires
+  if(commit && /^profile\.(civil|birthYear|gender|status|canton|retireAge)$/.test(k)){ clearTimeout(reformTimer); reformTimer=setTimeout(()=>renderAll(true),0); }
+  else renderOutputs();
+}
+document.addEventListener("input", e=>{
+  const el=e.target;
+  if(el.dataset.k && el.dataset.t!=="sel" && el.dataset.t!=="chk") onInput(el,false);
+});
+document.addEventListener("change", e=>{
+  const el=e.target;
+  if(el.dataset.k) return onInput(el,true);
+  if(el.dataset.acc!=null){
+    const i=+el.dataset.acc, f=el.dataset.f;
+    if(f==="name") S.p3a.accounts[i].name=el.value;
+    else if(f==="balance"){ const v=parseNum(el.value); S.p3a.accounts[i].balance=isFinite(v)&&v>0? v : 0; el.value=fmtNum(S.p3a.accounts[i].balance); }
+    else if(f==="age"){ const v=Math.round(parseNum(el.value)); S.wd.ages[i]= isFinite(v)? clamp(v, earliest3a(), latest3a()) : null; }
+    S.meta.touched=true; save(); render3aAccounts(); renderOutputs();
+  }
+  if(el.dataset.paid){ const v=parseNum(el.value); S.p3a.paid[el.dataset.paid]=isFinite(v)&&v>=0? v : 0; S.meta.touched=true; save(); renderOutputs(); }
+});
+$("add3a").onclick=()=>{ if(S.p3a.accounts.length>=10) return; S.p3a.accounts.push({name:"3a – "+(S.p3a.accounts.length+1), balance:0}); S.wd.ages=[]; S.meta.touched=true; save(); render3aAccounts(); renderOutputs(); };
+document.addEventListener("click", e=>{
+  const d=e.target.closest("[data-del3a]");
+  if(d){ const i=+d.dataset.del3a; S.p3a.accounts.splice(i,1); S.wd.ages.splice(i,1); S.meta.touched=true; save(); render3aAccounts(); renderOutputs(); return; }
+  const a=e.target.closest("[data-act]"); if(!a) return;
+  const act=a.dataset.act;
+  if(act==="export") exportJSON();
+  else if(act==="import"){ importMode="mp"; $("fileIn").click(); }
+  else if(act==="importMW"){ importMode="mw"; $("fileIn").click(); }
+  else if(act==="reset"){ if(confirm(t("confirmReset"))){ const keepTheme=S.theme; S=defaultState(); S.theme=keepTheme; S.meta.disclaimerOk=true; S.meta.touched=true; save(); renderAll(true); toast(t("resetDone")); } }
+  else if(act==="exact") exactTaxes();
+});
+$("langSeg").onclick=e=>{ const b=e.target.closest("button"); if(b) setLang(b.dataset.lang); };
+function applyTheme(){ document.documentElement.dataset.theme=S.theme; if(fireChart){ fireChart.destroy(); fireChart=null; } }
+$("themeBtn").onclick=()=>{ S.theme=S.theme==="dark"?"light":"dark"; applyTheme(); save(); if(curTab()==="retraite") renderFireOut(); };
+
+/* ================= Export / import ================= */
+let importMode="mp";
+function fileText(){ return JSON.stringify(Object.assign({_info:"MyPension — données personnelles / personal data. https://github.com/"}, S), null, 1); }
+function exportJSON(){
+  S.meta.lastExport=new Date().toISOString(); writeLocal();
+  const blob=new Blob([fileText()],{type:"application/json"}), a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download="mypension-"+today()+".json"; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href), 2000); renderAll(false); toast(t("exported"));
+}
+$("fileIn").onchange=e=>{
+  const file=e.target.files[0]; e.target.value=""; if(!file) return;
+  const fr=new FileReader();
+  fr.onload=()=>{
+    let j=null; try{ j=JSON.parse(fr.result); }catch(err){ alert(t("invalidFile")); return; }
+    if(importMode==="mw" || isMyWealth(j)) return previewMyWealth(j);
+    if(!isMPData(j)){ alert(t("invalidFile")); return; }
+    if(+j.schemaVersion>SCHEMA_VERSION){ alert(t("futureFile")); return; }
+    if(!confirm(t("confirmImport"))) return;
+    S=migrate(j); S.meta.touched=true; save(); applyTheme(); renderAll(true); toast(t("imported"));
+  };
+  fr.readAsText(file);
+};
+/* --- import MyWealth (schéma v2 : accounts / positions) --- */
+const MW_FX_FALLBACK={CHF:1, EUR:0.927, USD:0.824, GBP:1.099};
+function isMyWealth(j){ return !!j && typeof j==="object" && Array.isArray(j.accounts) && Array.isArray(j.positions); }
+function myWealthTotals(j){
+  const rates=Object.assign({CHF:1}, (j.fx && j.fx.rates)||{});
+  const rate=c=>{ const r=+rates[c]; return r>0? r : (MW_FX_FALLBACK[c]||NaN); }; // CHF par unité de devise
+  let pv=0, other=0, nA=0, nP=0, unknown=new Set();
+  j.accounts.forEach(a=>{ nA++; (a.balances||[]).forEach(b=>{ const r=rate(b.cur); if(!isFinite(r)){ unknown.add(b.cur); return; } const v=(+b.amount||0)*r; if(a.category==="prevoyance") pv+=v; else other+=v; }); });
+  j.positions.forEach(p=>{ nP++; const px=(+p.price>0? +p.price : +p.avg||0), r=rate(p.currency||"CHF"); if(!isFinite(r)){ unknown.add(p.currency); return; } other+=(+p.qty||0)*px*r; });
+  return {pv, other, nA, nP, unknown:[...unknown]};
+}
+let mwPending=null;
+function previewMyWealth(j){
+  if(!isMyWealth(j)){ alert(t("notMyWealth")); return; }
+  const m=myWealthTotals(j); mwPending=m;
+  $("mwDlgBody").innerHTML=`<p class="small">${t("mwFound",{a:m.nA, p:m.nP})}</p>
+   <div class="kpis">${kpi(t("mwOther"), chf(r100(m.other)))}${kpi(t("mwPv"), chf(r100(m.pv)))}</div>
+   ${m.unknown.length? `<div class="alert warn">${t("mwUnknown",{c:esc(m.unknown.join(", "))})}</div>` : ""}
+   <div class="fld chk" style="margin-top:8px"><input type="checkbox" id="mwOtherChk" checked><label for="mwOtherChk">${t("mwApplyOther")}</label></div>
+   <div class="fld chk"><input type="checkbox" id="mwPvChk" ${m.pv>0?"":"disabled"}><label for="mwPvChk">${t("mwApplyPv")}</label></div>
+   <p class="small muted">${t("mwNote")}</p>`;
+  $("mwDlg").showModal();
+}
+$("mwCancel").onclick=()=>$("mwDlg").close();
+$("mwApply").onclick=()=>{
+  const m=mwPending; if(!m) return;
+  if($("mwOtherChk").checked) S.fire.otherAssets=Math.round(m.other);
+  if($("mwPvChk").checked && m.pv>0){ S.p3a.accounts=[{name:"MyWealth – prévoyance", balance:Math.round(m.pv)}]; S.wd.ages=[]; }
+  S.meta.touched=true; save(); $("mwDlg").close(); renderAll(true); toast(t("mwDone"));
+  $("mwOut").innerHTML=`<div class="alert ok small">${t("mwDone")} ${chf(r100(m.other))} / ${chf(r100(m.pv))}</div>`;
+};
+
+/* ================= Calcul exact via relais ESTV (facultatif) ================= */
+async function relay(op, body){
+  const base=String(cfg().TAX_RELAY_URL||"").replace(/\/+$/,"");
+  const r=await fetch(base+"/"+op,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body)});
+  if(!r.ok) throw new Error("HTTP "+r.status);
+  return (await r.json()).response;
+}
+async function exactTaxes(){
+  const msg=$("exactMsg"); msg.textContent=t("exactWorking");
+  try{
+    let id=cantonData().estvId;
+    if(S.profile.commune && S.profile.commune.trim()){
+      const res=await relay("API_searchLocation",{Language:LANG==="fr"?2:4, Search:S.profile.commune.trim(), TaxYear:TX.taxYear});
+      const m=(res||[]).filter(x=>x.Canton===S.profile.canton);
+      if(m.length) id=m[0].TaxLocationID; else msg.textContent=t("communeNotFound");
+    }
+    const groups=groupByAge(withdrawalPlan(retireAge()).ev), rel=married()?2:1;
+    for(let i=0;i<groups.length;i++){
+      const g=groups[i];
+      const r=(await relay("API_calculateManyCapitalTaxes",{TaxYear:TX.taxYear, TaxGroupID:id, Relationship:rel, Confession1:5, Confession2:rel===2?5:0, NumberOfChildren:S.profile.children||0, Gender:S.profile.gender==="f"?2:1, AgeAtPayment:g.age, Capital:Math.round(g.amount)}))[0];
+      const tot=(r.TaxFed||0)+(r.TaxCanton||0)+(r.TaxCity||0)+(r.TaxChurch||0);
+      const cell=$("exact_"+i); if(cell) cell.innerHTML="<b>"+fmtNum(tot)+"</b>";
+    }
+    msg.textContent=t("exactDone",{y:TX.taxYear});
+  }catch(e){ console.warn(e); msg.textContent=t("exactFail",{e:e.message}); }
+}
+/* ================= Synchronisation Dropbox (facultative, OAuth PKCE, dossier « Applications/<app> ») =================
+   Repris de MyWealth (même logique PKCE / jetons / lecture / écriture conditionnelle). */
+const REMOTE_NAME="mypension-data.json", CLOUD_KEY="mypension.cloud", DBX_KEY="mypension.dropbox", DBX_PKCE="mypension.dropbox.pkce";
+const APP_BASE=new URL("./", location.href).href;
+function loadCloud(){ try{ return Object.assign({on:false, etag:null, dirty:false, lastSync:null, lastBackupMonth:null}, JSON.parse(localStorage.getItem(CLOUD_KEY)||"{}")); }catch(e){ return {on:false}; } }
+let C=loadCloud();
+function saveCloud(){ try{ localStorage.setItem(CLOUD_KEY, JSON.stringify(C)); }catch(e){} }
+const SYNC={state:"off", err:null, timer:null, busy:false, again:false};
+function httpErr(r,extra){ const e=new Error("HTTP "+r.status+(extra?" – "+extra:"")); e.status=r.status; return e; }
+function reauthErr(key){ const x=new Error(t(key)); x.reauth=true; return x; }
+function b64url(bytes){ return btoa(String.fromCharCode(...new Uint8Array(bytes))).replace(/\+/g,"-").replace(/\//g,"_").replace(/=+$/,""); }
+function randStr(n){ const a=new Uint8Array(n); crypto.getRandomValues(a); return b64url(a); }
+const DropboxP={
+  label:"Dropbox", tok:null, ready:false,
+  configured(){ return !!cfg().DROPBOX_APP_KEY; },
+  load(){ try{ this.tok=JSON.parse(localStorage.getItem(DBX_KEY)||"null"); }catch(e){ this.tok=null; } },
+  store(){ try{ this.tok? localStorage.setItem(DBX_KEY,JSON.stringify(this.tok)) : localStorage.removeItem(DBX_KEY); }catch(e){} },
+  async init(){
+    if(!this.configured() || this.ready) return;
+    this.load();
+    const q=new URLSearchParams(location.search);
+    if(q.get("code") && q.get("state")){
+      let p=null; try{ p=JSON.parse(localStorage.getItem(DBX_PKCE)||"null"); }catch(e){}
+      history.replaceState(null,"",APP_BASE+location.hash);
+      if(p && p.state===q.get("state")){
+        localStorage.removeItem(DBX_PKCE);
+        const r=await fetch("https://api.dropboxapi.com/oauth2/token",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},
+          body:new URLSearchParams({code:q.get("code"),grant_type:"authorization_code",client_id:cfg().DROPBOX_APP_KEY,redirect_uri:APP_BASE,code_verifier:p.verifier})});
+        if(!r.ok) throw httpErr(r,t("errDbxRefused"));
+        const j=await r.json();
+        this.tok={refresh:j.refresh_token, access:j.access_token, exp:Date.now()+(j.expires_in||14400)*1000, account:null};
+        this.store(); C.on=true; C.etag=null; C.dirty=S.meta.touched; saveCloud();
+        try{ const a=await this.api("users/get_current_account"); this.tok.account=a.email||(a.name&&a.name.display_name)||""; this.store(); }catch(e){}
+      }
+    } else if(q.get("error") && localStorage.getItem(DBX_PKCE)){
+      localStorage.removeItem(DBX_PKCE); history.replaceState(null,"",APP_BASE); toast(t("dbxCancelled"));
+    }
+    this.ready=true;
+  },
+  signedIn(){ return !!(this.tok && this.tok.refresh); },
+  accountName(){ return (this.tok && this.tok.account) || ""; },
+  async login(){
+    const verifier=randStr(48), state=randStr(16);
+    const challenge=b64url(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(verifier)));
+    localStorage.setItem(DBX_PKCE, JSON.stringify({verifier,state}));
+    location.href="https://www.dropbox.com/oauth2/authorize?"+new URLSearchParams({client_id:cfg().DROPBOX_APP_KEY,response_type:"code",
+      code_challenge:challenge,code_challenge_method:"S256",token_access_type:"offline",redirect_uri:APP_BASE,state});
+  },
+  async logout(){
+    try{ if(this.tok) await fetch("https://api.dropboxapi.com/2/auth/token/revoke",{method:"POST",headers:{Authorization:"Bearer "+(await this.token())}}); }catch(e){}
+    this.tok=null; this.store();
+  },
+  async token(){
+    if(!this.signedIn()) throw reauthErr("errNotConnected");
+    if(this.tok.access && Date.now() < this.tok.exp-60000) return this.tok.access;
+    const r=await fetch("https://api.dropboxapi.com/oauth2/token",{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},
+      body:new URLSearchParams({grant_type:"refresh_token",refresh_token:this.tok.refresh,client_id:cfg().DROPBOX_APP_KEY})});
+    if(r.status===400||r.status===401) throw reauthErr("errDbxRevoked");
+    if(!r.ok) throw httpErr(r);
+    const j=await r.json(); this.tok.access=j.access_token; this.tok.exp=Date.now()+(j.expires_in||14400)*1000; this.store();
+    return this.tok.access;
+  },
+  async api(path){ const r=await fetch("https://api.dropboxapi.com/2/"+path,{method:"POST",headers:{Authorization:"Bearer "+await this.token()}}); if(!r.ok) throw httpErr(r); return r.json(); },
+  async read(name){
+    const r=await fetch("https://content.dropboxapi.com/2/files/download",{method:"POST",headers:{Authorization:"Bearer "+await this.token(),"Dropbox-API-Arg":JSON.stringify({path:"/"+name})}});
+    if(r.status===409){ const tx=await r.text(); if(/not_found/.test(tx)) return null; throw httpErr(r,tx.slice(0,120)); }
+    if(r.status===401) throw reauthErr("errSession");
+    if(!r.ok) throw httpErr(r);
+    let meta={}; try{ meta=JSON.parse(r.headers.get("Dropbox-API-Result")||"{}"); }catch(e){}
+    return {text:await r.text(), etag:meta.rev||null};
+  },
+  async write(name,text,etag){ // etag : rev = n'écrit que si inchangé ; null = création ; "*" = écrase
+    const mode = etag===null? "add" : etag==="*"? "overwrite" : {".tag":"update", update:etag};
+    const r=await fetch("https://content.dropboxapi.com/2/files/upload",{method:"POST",headers:{Authorization:"Bearer "+await this.token(),
+      "Content-Type":"application/octet-stream","Dropbox-API-Arg":JSON.stringify({path:"/"+name,mode,autorename:false,mute:true})},body:new Blob([text])});
+    if(r.status===409){ const tx=await r.text(); if(/conflict/.test(tx)) return {conflict:true}; throw httpErr(r,tx.slice(0,120)); }
+    if(r.status===401) throw reauthErr("errSession");
+    if(!r.ok) throw httpErr(r);
+    const j=await r.json(); return {etag:j.rev};
+  }
+};
+function cloudOn(){ return DropboxP.configured() && DropboxP.ready && DropboxP.signedIn(); }
+function setSync(st,err){ SYNC.state=st; if(err!==undefined) SYNC.err=err; renderSyncUI(); }
+function askConflict(){
+  return new Promise(res=>{ const dlg=$("conflictDlg"); const done=v=>{ dlg.close(); res(v); };
+    $("cfKeepRemote").onclick=()=>done("remote"); $("cfKeepLocal").onclick=()=>done("local"); dlg.oncancel=e=>e.preventDefault(); dlg.showModal(); });
+}
+function adopt(j){ S=migrate(j); lastKey=dataKey(S); writeLocal(); applyTheme(); renderAll(true); showTab(); }
+async function pushNow(etag){
+  const txt=fileText(), r=await DropboxP.write(REMOTE_NAME, txt, etag);
+  if(r.conflict) return false;
+  C.etag=r.etag; C.dirty=false; C.lastSync=new Date().toISOString(); saveCloud();
+  const m=today().slice(0,7);
+  if(C.lastBackupMonth!==m){ try{ await DropboxP.write("mypension-data-"+m+".json", txt, "*"); C.lastBackupMonth=m; saveCloud(); }catch(e){ console.warn(e); } }
+  return true;
+}
+async function syncNow(){
+  if(!cloudOn()){ setSync("off"); return; }
+  if(!navigator.onLine){ setSync("offline"); return; }
+  if(SYNC.busy){ SYNC.again=true; return; }
+  SYNC.busy=true; clearTimeout(SYNC.timer); SYNC.timer=null; setSync("syncing");
+  try{
+    const remote=await DropboxP.read(REMOTE_NAME);
+    if(!remote){ if(!(await pushNow(C.etag? "*" : null))) SYNC.again=true; }
+    else{
+      let j=null; try{ j=JSON.parse(remote.text); }catch(e){}
+      if(!isMPData(j)) throw new Error(t("errUnreadable",{name:REMOTE_NAME}));
+      const same = dataKey(migrate(j))===dataKey(S);
+      if(same){ C.etag=remote.etag; C.dirty=false; C.lastSync=new Date().toISOString(); saveCloud(); }
+      else if(remote.etag===C.etag){ if(C.dirty){ if(!(await pushNow(remote.etag))) SYNC.again=true; } }
+      else if(!C.dirty || !S.meta.touched){ adopt(j); C.etag=remote.etag; C.dirty=false; C.lastSync=new Date().toISOString(); saveCloud(); toast(t("loadedFrom")); }
+      else{ const k=await askConflict(); if(k==="remote"){ adopt(j); C.etag=remote.etag; C.dirty=false; C.lastSync=new Date().toISOString(); saveCloud(); } else if(!(await pushNow(remote.etag))) SYNC.again=true; }
+    }
+    setSync("ok", null);
+  }catch(e){
+    console.warn("sync failed", e);
+    if(e.reauth) setSync("reauth", e); else if(!navigator.onLine || e instanceof TypeError) setSync("offline", e); else setSync("error", e);
+  }finally{ SYNC.busy=false; if(SYNC.again){ SYNC.again=false; setTimeout(syncNow, 400); } }
+}
+function Cloud_schedule(){ C.dirty=true; saveCloud(); if(!cloudOn()) return; clearTimeout(SYNC.timer); SYNC.timer=setTimeout(syncNow, 2000); if(!SYNC.busy) setSync("pending"); }
+async function Cloud_init(){
+  if(!DropboxP.configured()){ setSync("off"); return; }
+  try{ await DropboxP.init(); }catch(e){ console.warn(e); setSync(navigator.onLine? "error" : "offline", e); return; }
+  if(DropboxP.signedIn()) await syncNow(); else setSync("off");
+}
+async function Cloud_logout(){
+  if(!confirm(t("confirmLogout"))) return;
+  await DropboxP.logout(); C=Object.assign(loadCloud(),{on:false, etag:null}); saveCloud(); setSync("off");
+}
+window.addEventListener("online", ()=>{ if(cloudOn()) syncNow(); });
+window.addEventListener("offline", ()=>{ if(cloudOn()) setSync("offline"); });
+document.addEventListener("visibilitychange", ()=>{ if(document.visibilityState==="hidden" && SYNC.timer){ clearTimeout(SYNC.timer); syncNow(); } });
+function renderSyncUI(){
+  if(!$("fsStatus")) return;
+  const st=SYNC.state, on=cloudOn(); let cls="", tx="";
+  if(on && st==="ok"){ cls="ok"; tx=t("stSynced")+(C.lastSync? " "+hm(C.lastSync) : ""); }
+  else if(on && (st==="pending"||st==="syncing")){ cls="pending"; tx=t("stSyncing"); }
+  else if(st==="offline"){ cls="warn"; tx=t("stOffline"); }
+  else if(st==="reauth"){ cls="warn"; tx=t("stReauth"); }
+  else if(st==="error"){ cls="err"; tx=t("stError"); }
+  else { cls=""; tx=t("stLocal"); }
+  if(!saveOk){ cls="err"; tx+=" · "+t("stStorageBlocked"); }
+  $("fsStatus").className="fspill "+cls; $("fsStatusTxt").textContent=tx;
+  let body;
+  if(!DropboxP.configured()) body=`<p class="small muted" style="margin:0">${t("cloudNotConfigured")}</p>`;
+  else if(on) body=`<p class="small muted" style="margin:0 0 8px">${t("connectedTo",{a:esc(DropboxP.accountName())})} <code>Apps › … › ${REMOTE_NAME}</code><br>${t("lastSync")} ${C.lastSync? fmtDT(C.lastSync) : "—"}${SYNC.err&&st==="error"? "<br>⚠ "+esc(SYNC.err.message) : ""}</p>
+     <div class="row"><button class="btn" data-cl="sync">⟳ ${t("syncNow")}</button><button class="btn sm danger" data-cl="logout">${t("logout")}</button></div>`;
+  else body=`<p class="small muted" style="margin:0 0 8px">${t("cloudPitch")}</p><button class="btn primary" data-cl="login">${t("loginDropbox")}</button>`;
+  $("fsPanel").innerHTML=`<div class="alert info" style="margin-top:14px"><b>☁️ ${t("cloudSync")}</b><br>${body}</div>`;
+}
+document.addEventListener("click", e=>{
+  const b=e.target.closest("[data-cl]"); if(!b) return;
+  const a=b.dataset.cl;
+  if(a==="login") DropboxP.login().catch(err=>alert(err.message));
+  else if(a==="sync") syncNow(); else if(a==="logout") Cloud_logout();
+});
+$("fsStatus").onclick=()=>{ if(SYNC.state==="reauth") DropboxP.login(); else location.hash="#donnees"; };
+
+/* ================= Démarrage ================= */
+applyTheme(); applyI18n(); lastKey=dataKey(S);
+renderAll(true); showTab();
+if(!S.meta.disclaimerOk){ $("firstDlg").showModal(); }
+$("firstOk").onclick=()=>{ S.meta.disclaimerOk=true; writeLocal(); lastKey=null; $("firstDlg").close(); };
+Cloud_init();
+if("serviceWorker" in navigator && location.protocol!=="file:") navigator.serviceWorker.register("sw.js").catch(e=>console.warn("SW", e));
+</script>
+</body>
+</html>
