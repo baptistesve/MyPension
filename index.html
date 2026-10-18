@@ -627,6 +627,20 @@ cfTitle:["Deux versions différentes","Two different versions"], cfText:["Les do
 cfKeepLocal:["Garder cet appareil","Keep this device"], cfKeepRemote:["Garder Dropbox","Keep Dropbox"],
 });
 
+/* ================= Textes v3 : MyWealth chiffré → total partagé ================= */
+Object.assign(TXT, {
+mwSrcShare:["total partagé par MyWealth (cet appareil)","total shared by MyWealth (this device)"],
+mwSrcShareDbx:["total partagé par MyWealth (Dropbox)","total shared by MyWealth (Dropbox)"],
+mwEncTitle:["MyWealth est verrouillé (données chiffrées)","MyWealth is locked (encrypted data)"],
+mwEncNoShare:["MyPension ne peut pas lire des données chiffrées. Dans MyWealth › Réglages › Sécurité, activez « Partager l'épargne libre avec MyPension » : seul le total (montant, devise, date) sera partagé. Sinon, saisissez le montant à la main.","MyPension can't read encrypted data. In MyWealth › Settings › Security, turn on “Share free savings with MyPension”: only the total (amount, currency, date) is shared. Otherwise, enter the amount manually."],
+mwShareOk:["MyWealth est verrouillé : MyPension lit uniquement le total partagé ({d}). Le détail (comptes, titres, crypto) reste chiffré.","MyWealth is locked: MyPension reads only the shared total ({d}). Details (accounts, securities, crypto) stay encrypted."],
+mwShareLocalOk:["Total partagé par MyWealth trouvé sur cet appareil (MyWealth est verrouillé : le détail reste chiffré).","Total shared by MyWealth found on this device (MyWealth is locked: details stay encrypted)."],
+mwShareOnly:["Seul le total est partagé : pas de détail.","Only the total is shared: no breakdown."],
+mwEncFile:["Ce fichier MyWealth est chiffré : MyPension ne peut pas le lire. Importez plutôt le fichier « mywealth-partage.json » (total seul) ou une exportation non chiffrée.","This MyWealth file is encrypted: MyPension can't read it. Import “mywealth-partage.json” (total only) or an unencrypted export instead."],
+mwShareFound:["Total de l'épargne libre partagé par MyWealth (données du {d}).","Free-savings total shared by MyWealth (data of {d})."],
+mwShareCur:["Devise du total non prise en charge : {c}.","Unsupported total currency: {c}."],
+});
+
 /* =====================================================================
    MyPension v2 — simulateur de prévoyance suisse (FR / EN) · identité Cairn
    Données : appareil (localStorage) + fichier privé dans la Dropbox de l'utilisateur (facultatif).
@@ -636,7 +650,7 @@ const $ = id => document.getElementById(id);
 const PRM = window.MP_PARAMS, TX = window.MP_TAX;
 const cfg = () => window.MYPENSION_CONFIG || {};
 const YEAR = new Date().getFullYear();
-const APP_VERSION = "2.0";
+const APP_VERSION = "3.0";
 const I18N = {fr:{}, en:{}};
 for(const k in TXT){ I18N.fr[k]=TXT[k][0]; I18N.en[k]=TXT[k][1]; }
 
@@ -1524,6 +1538,14 @@ const DropboxP = makeDropbox({ tokKey:"mypension.dropbox", pkceKey:"mypension.dr
    Facultatif : lecture du fichier Dropbox de MyWealth (autorisation séparée, lecture seule). */
 const MW_KEYS = ["mywealth.data.v3", "patrimoine.v1"];
 const MW_REMOTE = "mywealth-donnees.json";
+// v3 : MyWealth v5 peut chiffrer ses données. Il peut alors partager UNIQUEMENT le total de l'épargne libre (fichier non chiffré).
+const MW_ENC_KEY = "mywealth.enc.v1", MW_SHARE_KEY = "mywealth.share.v1", MW_SHARE_REMOTE = "mywealth-partage.json";
+function isMWEnvelope(j){ return !!j && typeof j==="object" && j.app==="mywealth-chiffre"; }
+function isMWShare(j){ return !!j && typeof j==="object" && j.app==="mywealth-partage" && isFinite(+j.total) && j.total!==null; }
+function shareTotals(j){ const r=MW_FX_FALLBACK[j.currency||"CHF"]; const v=(+j.total)*(j.currency==="CHF"||!j.currency? 1 : r);
+  return {other:v, liq:null, sec:null, cry:null, pv:0, nA:0, nP:0, nC:0, unknown: isFinite(v)? [] : [j.currency], savedAt:j.date||null, share:true}; }
+function mwLocalShare(){ try{ const j=JSON.parse(localStorage.getItem(MW_SHARE_KEY)||"null"); return isMWShare(j)? j : null; }catch(e){ return null; } }
+function mwLocalEncrypted(){ try{ return !!localStorage.getItem(MW_ENC_KEY); }catch(e){ return false; } }
 const MW_FX_FALLBACK = {CHF:1, EUR:0.94, USD:0.80, GBP:1.07};
 function isMyWealth(j){ return !!j && typeof j==="object" && Array.isArray(j.accounts) && Array.isArray(j.positions); }
 // épargne libre = comptes (hors prévoyance) + titres + crypto ; immobilier, « autres » et dettes non comptés
@@ -1557,11 +1579,11 @@ async function mwDiscoverKey(){
   try{ const r=await fetch("../MyWealth/config.js",{cache:"no-store"}); if(r.ok){ const m=(await r.text()).match(/DROPBOX_APP_KEY\s*:\s*["']([a-z0-9]{6,})["']/i); MW_APPKEY=m? m[1] : ""; try{ MW_APPKEY? localStorage.setItem("mypension.mwappkey", MW_APPKEY) : localStorage.removeItem("mypension.mwappkey"); }catch(e){} } }catch(e){}
   return MW_APPKEY;
 }
-const MWS = { busy:false, err:null, last:0 };
+const MWS = { busy:false, err:null, last:0, remoteEnc:false };
 function mwApply(tot, source, key, silent){
   const v=Math.round(tot.other), old=S.mw.value, changed=old!==v;
   S.mw.value=v; S.mw.date=tot.savedAt||S.mw.date||new Date().toISOString(); S.mw.readAt=new Date().toISOString(); S.mw.source=source; S.mw.key=key;
-  S.mw.parts={liq:Math.round(tot.liq), sec:Math.round(tot.sec), cry:Math.round(tot.cry), pv:Math.round(tot.pv)};
+  S.mw.parts= tot.share? null : {liq:Math.round(tot.liq), sec:Math.round(tot.sec), cry:Math.round(tot.cry), pv:Math.round(tot.pv)};
   if(S.mw.auto && S.fire.otherAssets!==v){ S.fire.otherAssets=v; save(true); if(!silent && old!=null) toast(t("mwUpdated",{v:chf(v)})); return true; }
   if(changed) save(true); else writeLocal();
   return false;
@@ -1572,22 +1594,34 @@ async function mwRefresh(o){
   MWS.busy=true; MWS.last=Date.now(); let best=null;
   try{
     const loc=mwLocalRead(); if(loc){ const tt=myWealthTotals(loc.j); best={tot:tt, source:"local", key:loc.key, at:loc.j.savedAt||""}; }
+    const sh=mwLocalShare(); if(sh){ const tt=shareTotals(sh); const at=sh.date||"";
+      if(isFinite(tt.other) && (!best || String(at)>String(best.at))) best={tot:tt, source:"share", key:MW_SHARE_KEY, at}; }
     if(DropboxMW.ready && DropboxMW.signedIn() && navigator.onLine && (o.force || o.remote)){
-      try{ const r=await DropboxMW.read(MW_REMOTE); if(r){ const j=JSON.parse(r.text); if(isMyWealth(j)){ const tt=myWealthTotals(j); const at=j.savedAt||r.modified||"";
-        if(!best || String(at)>String(best.at)) best={tot:tt, source:"dropbox", key:MW_REMOTE, at}; } } MWS.err=null; }
+      try{ const r=await DropboxMW.read(MW_REMOTE); MWS.remoteEnc=false;
+        if(r){ const j=JSON.parse(r.text);
+          if(isMyWealth(j)){ const tt=myWealthTotals(j); const at=j.savedAt||r.modified||"";
+            if(!best || String(at)>String(best.at)) best={tot:tt, source:"dropbox", key:MW_REMOTE, at}; }
+          else if(isMWEnvelope(j)){ MWS.remoteEnc=true;     // fichier chiffré : on lit le total partagé à côté
+            const rs=await DropboxMW.read(MW_SHARE_REMOTE); if(rs){ const js=JSON.parse(rs.text); if(isMWShare(js)){ const tt=shareTotals(js); const at=js.date||rs.modified||"";
+              if(isFinite(tt.other) && (!best || String(at)>String(best.at))) best={tot:tt, source:"dropboxShare", key:MW_SHARE_REMOTE, at}; } } } }
+        MWS.err=null; }
       catch(e){ console.warn("MyWealth Dropbox", e); MWS.err=e; }
     }
     if(best){ const ch=mwApply(best.tot, best.source, best.key, o.silent); if(ch || o.force) render(); else if(UI.page==="projection") render(); }
     else if(o.force) render();
   }finally{ MWS.busy=false; }
 }
+function mwEncrypted(){ return mwLocalEncrypted() || MWS.remoteEnc; }
+function mwSrcLabel(s){ return s==="dropbox"? t("mwSrcDropbox") : s==="file"? t("mwSrcFile") : s==="share"? t("mwSrcShare") : s==="dropboxShare"? t("mwSrcShareDbx") : t("mwSrcLocal"); }
 function mwCard(){
-  const m=S.mw, has=m.value!=null, loc=mwLocalRead(), auto=m.auto;
-  const src = m.source==="dropbox"? t("mwSrcDropbox") : m.source==="file"? t("mwSrcFile") : t("mwSrcLocal");
+  const m=S.mw, has=m.value!=null, loc=mwLocalRead(), auto=m.auto, sh=mwLocalShare(), enc=mwEncrypted();
+  const src = mwSrcLabel(m.source);
   let st="";
-  if(auto && !loc && !(DropboxMW.signedIn())) st = note("warn", esc(t("mwAbsentTitle")), esc(t("mwAbsent"))+(has? " "+esc(t("mwKept",{v:chf(m.value), d:fmtDate(m.date)})) : ""));
+  if(auto && enc && !loc && !sh && !(m.source==="dropboxShare" && !MWS.err)) st = note("warn", esc(t("mwEncTitle")), esc(t("mwEncNoShare"))+(has? " "+esc(t("mwKept",{v:chf(m.value), d:fmtDate(m.date)})) : ""));
+  else if(auto && enc && (m.source==="share"||m.source==="dropboxShare")) st = note("ok", "", esc(t("mwShareOk",{d:fmtDT(m.date)})));
+  else if(auto && !loc && !sh && !(DropboxMW.signedIn())) st = note("warn", esc(t("mwAbsentTitle")), esc(t("mwAbsent"))+(has? " "+esc(t("mwKept",{v:chf(m.value), d:fmtDate(m.date)})) : ""));
   else if(MWS.err) st = note("warn","",esc(t("mwDbxErr",{e:MWS.err.message})));
-  const parts = has && m.parts? `<div class="mwp">${[["liq","mwLiq"],["sec","mwSec"],["cry","mwCry"]].map(([k,l])=>`<span>${esc(t(l))} <b class="n">${fmtNum(m.parts[k]||0)}</b></span>`).join("")}</div>` : "";
+  const parts = has && !m.parts && (m.source==="share"||m.source==="dropboxShare")? `<p class="tiny" style="margin-top:4px">${esc(t("mwShareOnly"))}</p>` : has && m.parts? `<div class="mwp">${[["liq","mwLiq"],["sec","mwSec"],["cry","mwCry"]].map(([k,l])=>`<span>${esc(t(l))} <b class="n">${fmtNum(m.parts[k]||0)}</b></span>`).join("")}</div>` : "";
   return `<div class="card" id="mwCard"><div class="ch"><h3>${esc(t("mwTitle"))}</h3><label class="sw inl"><span>${esc(t("mwAutoLbl"))}</span><input type="checkbox" data-a="mwAuto" ${auto?"checked":""}><span class="tg"></span></label></div>
     <div class="mwv"><div><div class="sub" style="margin:0">${esc(t(auto?"freeSavingsAuto":"freeSavingsManual"))}</div><b class="n" style="font-size:22px;color:var(--forest);font-weight:500">${fmtNum(S.fire.otherAssets)}</b></div>
       ${auto? `<button class="btn sm" data-a="mwRead">${ico("refresh",15)}${esc(t("mwReadNow"))}</button>` : `<button class="btn sm" data-a="editFree">${ico("edit",15)}${esc(t("edit"))}</button>`}</div>
@@ -1597,9 +1631,11 @@ function mwCard(){
 }
 let mwPending=null;
 function mwPreviewFile(j){
-  if(!isMyWealth(j)){ alert(t("notMyWealth")); return; }
-  const m=myWealthTotals(j); mwPending=m;
-  openSheet("mwfile", t("mwImport"), `<p class="sub">${esc(t("mwFound",{a:m.nA, p:m.nP+m.nC}))}</p>
+  if(isMWEnvelope(j)){ alert(t("mwEncFile")); return; }
+  if(!isMyWealth(j) && !isMWShare(j)){ alert(t("notMyWealth")); return; }
+  const m=isMWShare(j)? shareTotals(j) : myWealthTotals(j); mwPending=m;
+  if(!isFinite(m.other)){ alert(t("mwShareCur",{c:j.currency})); return; }
+  openSheet("mwfile", t("mwImport"), `<p class="sub">${esc(m.share? t("mwShareFound",{d:m.savedAt? fmtDT(m.savedAt) : "?"}) : t("mwFound",{a:m.nA, p:m.nP+m.nC}))}</p>
     <div class="kpis">${kpi(t("mwOther"), N(Math.round(m.other)))}${kpi(t("mwPv"), N(Math.round(m.pv)))}</div>
     ${m.unknown.length? note("warn","",esc(t("mwUnknown",{c:m.unknown.join(", ")}))) : ""}
     <label class="ck2"><input type="checkbox" id="mwOtherChk" checked> ${esc(t("mwApplyOther"))}</label>
@@ -1609,11 +1645,11 @@ function mwPreviewFile(j){
 }
 function mwApplyFile(){
   const m=mwPending; if(!m) return;
-  if($("mwOtherChk").checked){ S.mw.auto=false; S.fire.otherAssets=Math.round(m.other); S.mw.value=Math.round(m.other); S.mw.date=m.savedAt||new Date().toISOString(); S.mw.source="file"; S.mw.parts={liq:Math.round(m.liq),sec:Math.round(m.sec),cry:Math.round(m.cry),pv:Math.round(m.pv)}; }
+  if($("mwOtherChk").checked){ S.mw.auto=false; S.fire.otherAssets=Math.round(m.other); S.mw.value=Math.round(m.other); S.mw.date=m.savedAt||new Date().toISOString(); S.mw.source="file"; S.mw.parts= m.share? null : {liq:Math.round(m.liq),sec:Math.round(m.sec),cry:Math.round(m.cry),pv:Math.round(m.pv)}; }
   if($("mwPvChk").checked && m.pv>0){ P(UI.who).p3a.accounts=[{id:uid(), name:"MyWealth – prévoyance", balance:Math.round(m.pv), age:null}]; }
   touch(); save(); closeSheet(); render(); toast(t("mwDone"));
 }
-window.addEventListener("storage", e=>{ if(e.key && MW_KEYS.includes(e.key)) mwRefresh({force:true}); });
+window.addEventListener("storage", e=>{ if(e.key && (MW_KEYS.includes(e.key) || e.key===MW_SHARE_KEY || e.key===MW_ENC_KEY)) mwRefresh({force:true}); });
 window.addEventListener("focus", ()=>mwRefresh());
 window.addEventListener("pageshow", ()=>mwRefresh());
 document.addEventListener("visibilitychange", ()=>{ if(document.visibilityState==="visible") mwRefresh({remote:true}); });
@@ -1923,7 +1959,8 @@ function paramsTable(){
 }
 function openSettings(sec){
   const m=S.mw, loc=mwLocalRead(), mwKey=cfg().MYWEALTH_DROPBOX_APP_KEY||MW_APPKEY;
-  const mwSt = loc? note("ok","",esc(t("mwLocalOk",{k:loc.key}))) : note("warn",esc(t("mwAbsentTitle")),esc(t("mwAbsent")));
+  const sh=mwLocalShare(), enc=mwEncrypted();
+  const mwSt = loc? note("ok","",esc(t("mwLocalOk",{k:loc.key}))) : sh? note("ok","",esc(t("mwShareLocalOk"))) : enc? (m.source==="dropboxShare"? note("ok","",esc(t("mwShareOk",{d:fmtDT(m.date)}))) : note("warn",esc(t("mwEncTitle")),esc(t("mwEncNoShare")))) : note("warn",esc(t("mwAbsentTitle")),esc(t("mwAbsent")));
   const mwDbx = DropboxMW.signedIn()? `<p class="sub">${esc(t("mwDbxOn"))}</p><div class="addrow"><button type="button" class="btn sm" data-a="mwRead">${ico("refresh",15)}${esc(t("mwReadNow"))}</button><button type="button" class="btn sm dng" data-a="mwDbxLogout">${esc(t("logout"))}</button></div>`
     : `<p class="sub">${esc(t("mwDbxPitch"))}</p><div class="addrow"><button type="button" class="btn sm" data-a="mwDbxLogin" ${mwKey?"":"disabled"}>${ico("cloud",15)}${esc(t("mwDbxLogin"))}</button></div>${mwKey?"":`<p class="tiny">${esc(t("mwDbxNoKey"))}</p>`}`;
   const body=`<div class="set">
@@ -1931,7 +1968,7 @@ function openSettings(sec){
     <div class="sec">${esc(t("cloudSync"))}</div><div class="card soft" id="fsPanel"></div>
     <div class="sec">${esc(t("mwTitle"))}</div><div class="card soft">
       <label class="sw"><span class="t"><b>${esc(t("mwAutoLbl"))}</b><small>${esc(t("mwAutoSub"))}</small></span><input type="checkbox" data-a="mwAuto" ${m.auto?"checked":""}><span class="tg"></span></label>
-      ${mwSt}${m.value!=null?`<p class="tiny" style="margin-top:6px">${esc(t("mwLast",{v:chf(m.value), s:m.source==="dropbox"?t("mwSrcDropbox"):m.source==="file"?t("mwSrcFile"):t("mwSrcLocal"), d:fmtDT(m.date)}))}</p>`:""}
+      ${mwSt}${m.value!=null?`<p class="tiny" style="margin-top:6px">${esc(t("mwLast",{v:chf(m.value), s:mwSrcLabel(m.source), d:fmtDT(m.date)}))}</p>`:""}
       <div class="sec" style="margin-top:12px">${esc(t("mwDbxTitle"))}</div>${mwDbx}</div>
     <div class="sec">${esc(t("dataTitle"))}</div><div class="card soft">
       <p class="sub">${esc(t("dataLocal"))}</p><p class="tiny">${esc(t("lastExport",{d:S.meta.lastExport? fmtDT(S.meta.lastExport) : t("never")}))}</p>
@@ -1959,7 +1996,7 @@ function download(name, text){
 function exportJSON(){ S.meta.lastExport=new Date().toISOString(); writeLocal(); download("mypension-"+today()+".json", fileText()); toast(t("exported")); if(SHEET.kind==="settings") openSettings(); render(); }
 function importFile(text){
   let j=null; try{ j=JSON.parse(text); }catch(err){ alert(t("invalidFile")); return; }
-  if(importMode==="mw" || (isMyWealth(j) && !isMPData(j))) return mwPreviewFile(j);
+  if(importMode==="mw" || ((isMyWealth(j) || isMWShare(j) || isMWEnvelope(j)) && !isMPData(j))) return mwPreviewFile(j);
   if(!isMPData(j)){ alert(t("invalidFile")); return; }
   if(schemaOf(j)>SCHEMA_VERSION){ alert(t("futureFile")); return; }
   if(!confirm(t("confirmImport"))) return;
@@ -1992,7 +2029,7 @@ document.addEventListener("click", e=>{
     case "bbYears": P(UI.who).lpp.buybackYears=+b.dataset.n; touch(); save(); render(); break;
     case "allCantons": UI.allCantons=!UI.allCantons; render(); break;
     case "exact": exactTaxes(); break;
-    case "mwRead": mwRefresh({force:true, remote:true}).then(()=>{ if(SHEET.kind==="settings") openSettings(); toast(t(mwLocalRead()||DropboxMW.signedIn()? "mwReadDone" : "mwAbsentTitle")); }); break;
+    case "mwRead": mwRefresh({force:true, remote:true}).then(()=>{ if(SHEET.kind==="settings") openSettings(); toast(t(mwLocalRead()||mwLocalShare()||DropboxMW.signedIn()? "mwReadDone" : mwEncrypted()? "mwEncTitle" : "mwAbsentTitle")); }); break;
     case "mwApplyFile": mwApplyFile(); break;
     case "mwDbxLogin": DropboxMW.login().catch(err=>alert(err.message)); break;
     case "mwDbxLogout": if(confirm(t("confirmLogout"))) DropboxMW.logout().then(()=>{ MWS.err=null; openSettings(); render(); }); break;
