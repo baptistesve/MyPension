@@ -4,6 +4,6 @@
                      Vide = estimation intégrée (tableaux précalculés, approximatifs).
    Ces valeurs ne sont pas secrètes (application publique, PKCE). */
 window.MYPENSION_CONFIG = {
-  DROPBOX_APP_KEY: "",
+  DROPBOX_APP_KEY: "dytps81slrom5fc",
   TAX_RELAY_URL: ""
 };
