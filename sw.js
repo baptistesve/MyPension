@@ -1,16 +1,18 @@
-/* MyPension — service worker : application disponible hors ligne.
+/* MyPension v2 — service worker : application disponible hors ligne.
    Seuls les fichiers de l'application sont mis en cache ; vos données restent dans le stockage local
    de l'appareil (et dans votre Dropbox si vous l'activez), jamais ici.
    Only app files are cached here — never your data. */
-const VERSION = "mypension-v1";
+const VERSION = "mypension-v2";
 const ASSETS = [
   "./", "./index.html", "./manifest.webmanifest", "./privacy.html",
-  "params-2026.js", "tax-tables-2026.js", "chart.umd.min.js",
+  "params-2026.js", "tax-tables-2026.js",
+  "Fraunces.woff2", "HankenGrotesk.woff2",
   "icon-192.png", "icon-512.png", "maskable-512.png",
-  "apple-touch-icon.png", "favicon-32.png"
+  "apple-touch-icon.png", "favicon-32.png", "favicon.svg"
 ];
+// v2 : chart.umd.min.js n'est plus utilisé (graphiques SVG intégrés).
 // Pages et configuration : réseau d'abord (sans cache HTTP), copie locale si hors ligne
-const NETWORK_FIRST = /\/(index\.html|config\.js|manifest\.webmanifest|privacy\.html|params-\d{4}\.js|tax-tables-\d{4}\.js)?$/;
+const NETWORK_FIRST = /\/(index\.html|config\.js|manifest\.webmanifest|privacy\.html|sw\.js|params-\d{4}\.js|tax-tables-\d{4}\.js)?$/;
 
 self.addEventListener("install", e => {
   e.waitUntil((async () => {
@@ -22,7 +24,7 @@ self.addEventListener("install", e => {
 });
 self.addEventListener("activate", e => {
   e.waitUntil(caches.keys()
-    .then(keys => Promise.all(keys.filter(k => k !== VERSION).map(k => caches.delete(k))))
+    .then(keys => Promise.all(keys.filter(k => k.startsWith("mypension") && k !== VERSION).map(k => caches.delete(k))))
     .then(() => self.clients.claim()));
 });
 function timeout(ms){ return new Promise((_, rej) => setTimeout(() => rej(new Error("timeout")), ms)); }
@@ -54,6 +56,7 @@ self.addEventListener("fetch", e => {
   if(req.method !== "GET") return;
   const url = new URL(req.url);
   if(url.origin !== self.location.origin) return;      // Dropbox, relais fiscal : jamais interceptés
+  if(!url.href.startsWith(self.registration.scope)) return;   // autres apps du même site (ex. MyWealth) : jamais interceptées
   if(req.mode === "navigate" || NETWORK_FIRST.test(url.pathname)) e.respondWith(networkFirst(req));
   else e.respondWith(cacheFirst(req));
 });

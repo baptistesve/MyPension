@@ -5,29 +5,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>MyPension — Confidentialité / Privacy</title>
 <meta name="referrer" content="no-referrer">
-<meta name="color-scheme" content="dark light">
+<meta name="color-scheme" content="light"><meta name="theme-color" content="#F6F2EA">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <style>
-  :root{--bg:#0b1020;--card:#151d38;--line:#26315a;--txt:#e8ecf8;--mut:#8e9ac0;--acc:#9bb0ff}
-  @media (prefers-color-scheme:light){:root{--bg:#f3f5fb;--card:#fff;--line:#dfe4f2;--txt:#141a33;--mut:#5b6690;--acc:#3f5fe0}}
-  body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  @font-face{font-family:"Fraunces";src:url("Fraunces.woff2") format("woff2");font-weight:300 700;font-display:swap}
+  @font-face{font-family:"Hanken Grotesk";src:url("HankenGrotesk.woff2") format("woff2");font-weight:100 900;font-display:swap}
+  :root{--bg:#F6F2EA;--card:#FFFDF8;--line:#E8E0D0;--txt:#17211C;--mut:#5E6B64;--acc:#2E6B55}
+  body{margin:0;background:var(--bg);color:var(--txt);font:16px/1.55 "Hanken Grotesk",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+  h1,h2{font-family:"Fraunces",Georgia,serif;font-weight:450;letter-spacing:-.01em}
   .wrap{max-width:760px;margin:0 auto;padding:20px 16px 60px}
   header{display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap}
-  header .b{display:flex;align-items:center;gap:10px} header img{width:40px;height:40px;border-radius:10px}
+  header .b{display:flex;align-items:center;gap:10px} header img{width:40px;height:40px;border-radius:10px} .card{border-radius:20px!important}
   h1{font-size:1.4rem;margin:0} h2{font-size:1.05rem;margin:1.6em 0 .4em}
   .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:4px 18px 14px;margin-top:16px}
   a{color:var(--acc)} .mut{color:var(--mut);font-size:.9rem} code{font-size:.88em}
   table{border-collapse:collapse;width:100%;font-size:.92rem} td,th{border-bottom:1px solid var(--line);padding:6px 4px;text-align:left;vertical-align:top}
   .seg button{background:transparent;color:var(--txt);border:1px solid var(--line);padding:6px 12px;cursor:pointer;font:inherit}
   .seg button:first-child{border-radius:8px 0 0 8px} .seg button:last-child{border-radius:0 8px 8px 0;border-left:0}
-  .seg button.on{background:var(--acc);color:#fff;border-color:var(--acc)}
+  .seg button.on{background:#0F3D2E;color:#F6F2EA;border-color:#0F3D2E}
   [data-l]{display:none} html[lang=fr] [data-l=fr], html[lang=en] [data-l=en]{display:block}
-</style>
-</head>
+</style></head>
 <body>
 <div class="wrap">
 <header>
-  <div class="b"><img src="icon-192.png" alt="MP"><h1>MyPension</h1></div>
+  <div class="b"><img src="icon-192.png" alt=""><h1>MyPension</h1></div>
   <div class="seg"><button data-set="fr">Français</button><button data-set="en">English</button></div>
 </header>
 
@@ -39,8 +40,10 @@
 
 <h2>Où sont mes données ?</h2>
 <ul>
-  <li><b>Sur votre appareil</b> : profil, soldes 3a/LPP, hypothèses et résultats sont enregistrés dans le stockage local du navigateur (<code>localStorage</code>).</li>
+  <li><b>Sur votre appareil</b> : profil (et celui de votre conjoint·e en mode couple), soldes 3a/LPP, hypothèses et résultats sont enregistrés dans le stockage local du navigateur (<code>localStorage</code>).</li>
   <li><b>Dans votre propre Dropbox, si vous la connectez</b> : un fichier <code>mypension-data.json</code> (et une copie par mois) est écrit dans le dossier réservé à l'application de <b>votre</b> Dropbox (<i>Applications › …</i>). L'application n'a accès qu'à ce dossier. Les jetons de connexion restent sur votre appareil.</li>
+  <li><b>Lien MyWealth (lecture seule)</b> : si MyWealth est utilisé dans le même navigateur sur cet appareil, MyPension lit son stockage local (même site <code>github.io</code>) pour reprendre votre épargne libre. Rien n'est envoyé ailleurs et les données de MyWealth ne sont jamais modifiées. Désactivable dans Réglages › Lien MyWealth.</li>
+  <li><b>Fichier Dropbox de MyWealth, si vous l'autorisez</b> : accès <b>en lecture seule</b> au fichier <code>mywealth-donnees.json</code> du dossier de MyWealth dans votre Dropbox, pour suivre l'épargne libre depuis un autre appareil. Autorisation séparée, révocable à tout moment.</li>
   <li>Personne d'autre — ni l'auteur de l'application, ni la personne qui vous l'a partagée — ne peut voir vos données.</li>
 </ul>
 
@@ -48,8 +51,8 @@
 <table>
 <tr><th>Service</th><th>Pourquoi</th><th>Ce qui est envoyé</th></tr>
 <tr><td>GitHub Pages (<code>github.io</code>)</td><td>Hébergement des fichiers de l'application</td><td>Requêtes de chargement de la page (journaux techniques de GitHub)</td></tr>
-<tr><td>Dropbox (<code>dropbox.com</code>, <code>dropboxapi.com</code>)</td><td>Synchronisation, seulement si vous la choisissez</td><td>Votre fichier de données, vers votre propre compte</td></tr>
-<tr><td>Relais fiscal (Cloudflare Workers) puis calculateur de l'AFC/ESTV (<code>swisstaxcalculator.estv.admin.ch</code>)</td><td>Calcul exact de l'impôt sur un retrait en capital, seulement si le relais est configuré <b>et</b> que vous cliquez sur « Calcul exact »</td><td>Canton/commune, état civil, nombre d'enfants, sexe, âge au versement et montant du capital — sans nom ni identifiant. Le relais ne stocke rien.</td></tr>
+<tr><td>Dropbox (<code>dropbox.com</code>, <code>dropboxapi.com</code>)</td><td>Synchronisation, et lecture du fichier MyWealth, seulement si vous les choisissez</td><td>Votre fichier de données, vers votre propre compte ; lecture seule du fichier MyWealth</td></tr>
+<tr><td>Relais fiscal (Cloudflare Workers) puis calculateur de l'AFC/ESTV (<code>swisstaxcalculator.estv.admin.ch</code>)</td><td>Calcul exact de l'impôt sur un retrait en capital, seulement si le relais est configuré <b>et</b> que vous cliquez sur « Calcul exact »</td><td>Canton/commune, en couple ou non, nombre d'enfants, sexe, âge au versement et montant du capital — sans nom ni identifiant. Le relais ne stocke rien.</td></tr>
 </table>
 <p class="mut">Sans relais configuré, aucun calcul ne quitte votre appareil : l'estimation fiscale utilise des tableaux intégrés à l'application. Ces services ont leurs propres politiques de confidentialité.</p>
 
@@ -58,7 +61,7 @@
 
 <h2>Supprimer vos données / révoquer l'accès</h2>
 <ul>
-  <li>Sur l'appareil : onglet Données › <i>Réinitialiser</i>, ou effacez les données du site dans votre navigateur.</li>
+  <li>Sur l'appareil : Réglages › Données › <i>Réinitialiser</i>, ou effacez les données du site dans votre navigateur.</li>
   <li>Dropbox : supprimez le dossier <i>Applications › …</i> et retirez l'accès dans <a href="https://www.dropbox.com/account/connected_apps" rel="noopener">Paramètres › Applications connectées</a>.</li>
 </ul>
 <p class="mut">Dernière mise à jour : octobre 2026.</p>
@@ -73,8 +76,10 @@
 
 <h2>Where is my data?</h2>
 <ul>
-  <li><b>On your device</b>: profile, 3a/pension-fund balances, assumptions and results are stored in the browser's local storage (<code>localStorage</code>).</li>
+  <li><b>On your device</b>: profile (and your spouse's in couple mode), 3a/pension-fund balances, assumptions and results are stored in the browser's local storage (<code>localStorage</code>).</li>
   <li><b>In your own Dropbox, if you connect it</b>: a file <code>mypension-data.json</code> (plus one copy per month) is written to the app's dedicated folder in <b>your</b> Dropbox (<i>Apps › …</i>). The app can only access that folder. Sign-in tokens stay on your device.</li>
+  <li><b>MyWealth link (read-only)</b>: if MyWealth is used in the same browser on this device, MyPension reads its local storage (same <code>github.io</code> site) to pick up your free savings. Nothing is sent anywhere and MyWealth's data is never changed. Can be turned off in Settings › MyWealth link.</li>
+  <li><b>MyWealth's Dropbox file, if you allow it</b>: <b>read-only</b> access to the <code>mywealth-donnees.json</code> file in MyWealth's folder of your Dropbox, to follow free savings from another device. Separate authorisation, revocable at any time.</li>
   <li>Nobody else — neither the app's author nor the person who shared it with you — can see your data.</li>
 </ul>
 
@@ -82,7 +87,7 @@
 <table>
 <tr><th>Service</th><th>Why</th><th>What is sent</th></tr>
 <tr><td>GitHub Pages (<code>github.io</code>)</td><td>Hosting the app files</td><td>Page-load requests (GitHub's technical logs)</td></tr>
-<tr><td>Dropbox (<code>dropbox.com</code>, <code>dropboxapi.com</code>)</td><td>Sync, only if you choose it</td><td>Your data file, to your own account</td></tr>
+<tr><td>Dropbox (<code>dropbox.com</code>, <code>dropboxapi.com</code>)</td><td>Sync, and reading the MyWealth file, only if you choose them</td><td>Your data file, to your own account; read-only access to the MyWealth file</td></tr>
 <tr><td>Tax relay (Cloudflare Workers), then the ESTV tax calculator (<code>swisstaxcalculator.estv.admin.ch</code>)</td><td>Exact tax on a lump-sum withdrawal, only if the relay is configured <b>and</b> you click "Exact calculation"</td><td>Canton/municipality, civil status, number of children, sex, age at payment and capital amount — no name or identifier. The relay stores nothing.</td></tr>
 </table>
 <p class="mut">Without a relay, no calculation leaves your device: tax estimates use tables built into the app. These services have their own privacy policies.</p>
@@ -92,7 +97,7 @@
 
 <h2>Deleting your data / revoking access</h2>
 <ul>
-  <li>On the device: Data tab › <i>Reset</i>, or clear this site's data in your browser.</li>
+  <li>On the device: Settings › Data › <i>Reset</i>, or clear this site's data in your browser.</li>
   <li>Dropbox: delete the <i>Apps › …</i> folder and remove access under <a href="https://www.dropbox.com/account/connected_apps" rel="noopener">Settings › Connected apps</a>.</li>
 </ul>
 <p class="mut">Last updated: October 2026.</p>
