@@ -61,7 +61,7 @@ Pourquoi : l'API du calculateur de l'AFC/ESTV ne renvoie pas d'en-têtes CORS ; 
 4. Dans `ALLOWED_ORIGINS`, remplacez `https://VOTRE-UTILISATEUR.github.io` par votre origine GitHub Pages (sans `/MyPension`) › **Deploy**.
 5. Copiez l'URL du worker, p. ex. `https://mypension-tax.votre-sous-domaine.workers.dev`.
 6. Dans `config.js` sur GitHub : `TAX_RELAY_URL: "https://mypension-tax.votre-sous-domaine.workers.dev"` › **Commit** — ou, sans toucher au dépôt, dans l'app : **⚙ Réglages › Calcul exact ESTV (relais)** (réglage enregistré avec vos données).
-7. Onglet **Retraits** : bouton **Calcul exact ESTV (via relais)**. Le relais ne transmet que 3 opérations publiques (`API_searchLocation`, `API_calculateManyCapitalTaxes`, `API_calculateSimpleTaxes`), uniquement depuis votre origine, et ne stocke rien.
+7. Onglet **Détail**, carte « Retraits en capital » : bouton **Calcul exact ESTV (via relais)**. Le relais ne transmet que 3 opérations publiques (`API_searchLocation`, `API_calculateManyCapitalTaxes`, `API_calculateSimpleTaxes`), uniquement depuis votre origine, et ne stocke rien.
 
 > L'API ESTV n'est pas documentée officiellement et peut changer ; en cas d'échec, l'estimation intégrée reste affichée.
 
@@ -76,7 +76,7 @@ Tous les chiffres légaux sont dans `params-2026.js` (date de vérification + UR
 1. vérifier les montants sur les sources officielles (OFAS/BSV, AFC/ESTV) ;
 2. ajouter l'année dans `byYear` (3a, AVS, LPP) et modifier `verifiedOn` ;
 3. recalculer `tax-tables-AAAA.js` avec le calculateur ESTV (même méthode : chefs-lieux, célibataire/marié, sans Église) ;
-4. changer `VERSION` dans `sw.js` (p. ex. `mypension-v3`) pour forcer la mise à jour des appareils.
+4. changer `VERSION` dans `sw.js` (p. ex. `mypension-v5`) pour forcer la mise à jour des appareils.
 
 ## Dépannage
 
@@ -94,7 +94,7 @@ Create a public GitHub repo **MyPension**, upload all files flat to the root, en
 
 ## 8. Lien MyWealth (automatique, lecture seule)
 
-MyPension et MyWealth sont servis par le même site (`https://VOTRE-NOM.github.io`) : sur un **même appareil et un même navigateur**, MyPension lit les données locales de MyWealth (`mywealth.data.v3`, à défaut `patrimoine.v1`) à chaque ouverture et retour dans l'app, et met à jour l'**épargne libre** (comptes hors prévoyance + titres + crypto). Il n'écrit **jamais** dans les données de MyWealth. Réglable dans **⚙ Réglages › Lien MyWealth** ou dans la carte « Lien MyWealth » de l'onglet Projection.
+MyPension et MyWealth sont servis par le même site (`https://VOTRE-NOM.github.io`) : sur un **même appareil et un même navigateur**, MyPension lit les données locales de MyWealth (`mywealth.data.v3`, à défaut `patrimoine.v1`) à chaque ouverture et retour dans l'app, et met à jour l'**épargne libre** (comptes hors prévoyance + titres + crypto). Il n'écrit **jamais** dans les données de MyWealth. Réglable dans **⚙ Réglages › Lien MyWealth** ou dans la carte « Lien MyWealth » de l’onglet Données.
 
 Si MyWealth n'a jamais été ouvert sur l'appareil, un message l'indique et la dernière valeur connue est conservée avec sa date.
 
