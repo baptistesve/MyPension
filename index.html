@@ -176,7 +176,7 @@ code{font-size:11.5px;background:var(--chip2);padding:1px 5px;border-radius:5px;
 .gauge{position:relative;text-align:center;flex:none}
 .gauge .gv{position:absolute;left:0;right:0;top:42px}
 .foot{font-size:11px;color:var(--mut3);text-align:center;margin-top:22px;line-height:1.5}
-@media (min-width:960px){
+@media (min-width:720px){
   body{font-size:14.5px}
   .tabbar{top:0;bottom:0;right:auto;width:216px;height:auto;flex-direction:column;justify-content:flex-start;gap:4px;padding:calc(var(--safe-t) + 86px) 14px 20px;border-top:0;border-right:1px solid #E6DECF;background:#F1ECE1}
   .tabbar a{flex:none;max-width:none;flex-direction:row;gap:12px;font-size:14px;padding:11px 14px;border-radius:12px;text-align:left}
@@ -281,7 +281,7 @@ details.more ul{margin:4px 0 0 18px;display:grid;gap:4px}
 .chartwrap{position:relative}
 .chartwrap .lab{position:absolute;font-size:10.5px;font-weight:650;white-space:nowrap}
 #gearBtn{position:relative}
-@media (min-width:960px){ .cols>.card.hero:first-child{margin-top:10px} .tl{margin:4px 50px 0} }
+@media (min-width:720px){ .cols>.card.hero:first-child{margin-top:10px} .tl{margin:4px 50px 0} }
 @media (max-width:370px){ .prof{max-width:130px} .hb{grid-template-columns:78px 1fr 62px} }
 
 /* v2 — compléments */
@@ -374,8 +374,220 @@ body.setup .tabbar{display:none}
 .setf{max-width:560px} .setf .seg{margin-top:2px}
 .acts.stick{position:sticky;bottom:calc(var(--safe-b) + 12px);max-width:560px;z-index:5}
 .ro{background:var(--chip2);border-radius:12px;padding:11px 12px;font-size:16px;text-align:right}
-@media (min-width:960px){ body.setup main{padding-left:32px} body.setup .top{padding-left:32px} .setf,.acts.stick{max-width:640px} }
+@media (min-width:720px){ body.setup main{padding-left:32px} body.setup .top{padding-left:32px} .setf,.acts.stick{max-width:640px} }
 @media (max-width:370px){ .scc .sa{font-size:18px} .scc .sv{font-size:16px} .trw{grid-template-columns:48px 1fr} }
+
+/* ===== v5 — web d'abord : barre latérale ≥ 1200 px, rail d'icônes 720–1199 px, PWA mobile < 720 px ===== */
+.tabbar .sbsub,.tabbar .sbfoot{display:none}
+.tabbar a .cnt,.dsub .cnt{display:inline-flex;align-items:center;justify-content:center;min-width:17px;height:17px;border-radius:9px;background:var(--chip);color:var(--mut);font-size:10px;font-weight:750;padding:0 4px;margin-left:4px}
+.dsub{display:flex;margin:12px 0 4px}
+.dsub a{flex:1;text-align:center;font-size:12.5px;font-weight:600;padding:7px 4px;border-radius:9px;color:var(--mut)}
+.dsub a.on{background:var(--card);color:var(--ink);box-shadow:0 1px 3px rgba(23,33,28,.12)}
+/* en-tête de page */
+.dh{display:flex;align-items:flex-end;justify-content:space-between;gap:12px 20px;margin:4px 0 6px;flex-wrap:wrap}
+.dh .dht{min-width:0;flex:1 1 320px}
+.dh .acts{margin:0;display:flex;gap:8px;flex:none;align-items:center;flex-wrap:wrap}
+.dh .acts .btn{flex:none}
+.dh .acts .seg{margin:0;min-width:240px}
+/* grilles */
+.dg{display:grid;gap:0;align-items:start}
+.dg>.card,.dg>.stk>.card{margin-top:10px}
+.stk{min-width:0}
+.dg>*{min-width:0}
+/* cartes chiffres-clés */
+.kpi{display:block;text-align:left;width:100%;color:inherit}
+.kpi .eb{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.kpi .kv2{font:500 30px/1.05 var(--ui);color:var(--forest);font-variant-numeric:tabular-nums;margin:8px 0 2px;letter-spacing:-.01em;white-space:nowrap}
+.kpi .kv2 small{font-size:12.5px;color:var(--mut2);font-weight:600;margin-left:4px;letter-spacing:0}
+.kpi .kv2.s{font-size:22px}
+.kpi .ks{font-size:12px;color:var(--mut);line-height:1.4}
+.kpi.sel{background:var(--forest);color:#F6F2EA;border-color:var(--forest)}
+.kpi.sel .eb,.kpi.sel .ks{color:#BFD0C5}.kpi.sel .kv2{color:#FFFDF8}.kpi.sel .kv2 small{color:#BFD0C5}
+.kpi .sv2{display:inline-block;margin-top:8px;font-size:11.5px;font-weight:650;color:#8A6430;background:#F3E7CF;border-radius:99px;padding:3px 9px}
+.kpi.sel .sv2{background:rgba(226,197,143,.18);color:#E2C58F}
+.kpi .sv2.r{background:#F6E3DC;color:#7A2E1C}
+.kpi .bdg{width:10px;height:10px;border-radius:50%;background:var(--c);flex:none}
+.lgd{display:flex;flex-wrap:wrap;gap:6px 16px;font-size:11.5px;color:var(--mut)}
+.lgd i{display:inline-block;width:12px;height:12px;border-radius:4px;vertical-align:-2px;margin-right:6px}
+.ch3{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px;flex-wrap:wrap}
+.ch3 h3{margin:0;font-family:var(--disp);font-variation-settings:"opsz" 30;font-weight:450;font-size:19px;letter-spacing:-.01em}
+.ch3 .r{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.ch3 .seg{margin:0}
+.mini{font-size:11px;color:var(--mut2)}
+.okc{color:var(--sapin);font-weight:700}
+.dn{color:var(--terra)!important}.up{color:var(--sapin)!important}
+/* lignes */
+.x-row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding:7px 0;border-top:1px solid var(--line2);font-size:13px;width:100%;text-align:left;color:inherit}
+.x-row:first-child,.ch3+.x-row{border-top:0}
+.x-row>span{color:var(--mut);min-width:0}
+.x-row>b{font-variant-numeric:tabular-nums;font-weight:650;white-space:nowrap;text-align:right}
+.x-row small{display:block;font-size:10.5px;color:var(--mut2);margin-top:1px;font-weight:500}
+button.x-row:hover>span{color:var(--ink)}
+.x-res{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--chip2);border-radius:14px;padding:10px 12px;margin-top:10px}
+.x-res .l{font-size:11.5px;color:var(--mut);line-height:1.35}
+.x-res .v{font:500 22px/1 var(--ui);color:var(--forest);font-variant-numeric:tabular-nums;white-space:nowrap}
+.x-res .v small{font-size:12px;font-weight:650;margin-left:6px}
+.x-res .v s{font-size:13px;color:var(--mut2);margin-right:6px;text-decoration-thickness:1px}
+.x-res .l{min-width:0;flex:1 1 auto}.x-res .v{flex:0 0 auto;text-align:right}
+@media (max-width:519px){.x-res .v{font-size:19px}.x-res .v small{display:block;margin:4px 0 0}.x-res .v s{font-size:12px}}
+/* tableaux */
+.x-tbl{width:100%;border-collapse:collapse;font-size:12.5px;font-variant-numeric:tabular-nums}
+.x-tbl th{font-size:9.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--mut2);font-weight:650;text-align:right;padding:4px 6px 7px;line-height:1.2;vertical-align:bottom}
+.x-tbl td{text-align:right;padding:8px 6px;border-top:1px solid var(--line2);white-space:nowrap}
+.x-tbl td:first-child,.x-tbl th:first-child{text-align:left}
+.x-tbl td.l{color:var(--ink);white-space:normal}
+.x-tbl tr.best td{background:#F3E7CF;font-weight:700;color:var(--forest)}
+.x-tbl tr.best td:first-child{border-radius:9px 0 0 9px}.x-tbl tr.best td:last-child{border-radius:0 9px 9px 0}
+.x-tbl tr.cur td{box-shadow:inset 0 1.5px 0 #C9A15B,inset 0 -1.5px 0 #C9A15B}
+.x-tbl tr.grp td{background:#F4EFE4;font-weight:700;color:var(--forest);border-top:0}
+.x-tbl tr.grp td:first-child{border-radius:8px 0 0 8px}.x-tbl tr.grp td:last-child{border-radius:0 8px 8px 0}
+.x-tbl tfoot td{border-top:1.5px solid var(--ink);font-weight:750;color:var(--forest)}
+.x-tbl tr.ck{cursor:pointer} .x-tbl tr.ck:hover td{background:#FBF7EE}
+.x-tbl tr.best.ck:hover td{background:#EEDDBC}
+.x-tbl .ed{color:var(--mut3);margin-left:4px;vertical-align:-2px}
+/* frise des périodes */
+.pp{display:grid;grid-template-columns:110px 1fr;gap:10px;align-items:center;margin:8px 0}
+.pp .who{display:flex;gap:8px;align-items:center;font-weight:650;font-size:13px;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+.x-tl{position:relative;height:26px;border-radius:9px;overflow:hidden;display:flex;background:#DCE7DF}
+.x-tl>i{display:block;height:100%;flex:1;border-right:1px solid #FFFDF8}
+.x-tl>i:last-child{border-right:0}
+.x-tl>i.full{background:#7FA893}.x-tl>i.part{background:#E3C99A}.x-tl>i.ret{background:#EEE7DA}
+.x-tick2{position:relative;height:16px;font:600 10.5px var(--ui);color:var(--mut2)}
+.x-tick2 span{position:absolute;transform:translateX(-50%)} .x-tick2 span:first-child{transform:none} .x-tick2 span:last-child{transform:translateX(-100%)}
+.x-leg{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:11px;color:var(--mut);margin-top:8px}
+.x-leg i{display:inline-block;width:12px;height:12px;border-radius:4px;vertical-align:-2px;margin-right:5px}
+.pcards{display:grid;grid-template-columns:1fr;gap:8px;margin-top:10px}
+.pcard{display:flex;gap:10px;align-items:center;background:var(--chip2);border-radius:14px;padding:10px 12px;text-align:left;width:100%;color:inherit}
+.pcard .av{background:var(--card)} .pcard .t{flex:1;min-width:0} .pcard .t b{display:block;font-size:13px;font-weight:650} .pcard .t small{display:block;font-size:11px;color:var(--mut2)}
+.x-in{display:flex;align-items:center;gap:8px;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:0 12px;min-height:46px}
+.x-in input{border:0;outline:0;background:transparent;font:600 17px var(--ui);width:100%;min-width:0;text-align:right;font-variant-numeric:tabular-nums}
+.x-in small{font:600 12px var(--ui);color:var(--mut2);white-space:nowrap}
+.x-in:focus-within{border-color:var(--sapin);box-shadow:0 0 0 3px rgba(46,107,85,.12)}
+.x-in.dng:focus-within{border-color:var(--terra);box-shadow:0 0 0 3px rgba(180,84,58,.14)}
+.x-lbl{font-size:11px;font-weight:650;color:var(--mut);margin:12px 0 6px;letter-spacing:.02em}
+.x-bar{height:6px;border-radius:3px;background:var(--line2);overflow:hidden;margin-top:5px}.x-bar i{display:block;height:100%;background:var(--sage2);border-radius:3px}
+.cov{margin:9px 0} .cov .row{font-size:12.5px} .cov .bw{position:relative} .cov .x-bar{height:9px} .cov .gl2{position:absolute;top:-3px;width:2px;height:15px;background:var(--ink);border-radius:1px}
+/* comparaison */
+.x-cmp{display:grid;grid-template-columns:minmax(96px,1.1fr) repeat(var(--n,3),minmax(0,1fr));font-size:12.5px;font-variant-numeric:tabular-nums}
+.x-cmp>div{padding:8px 4px;border-top:1px solid var(--line2);text-align:right;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.x-cmp>div.k{text-align:left;font-weight:500;color:var(--mut);white-space:normal;line-height:1.25}
+.x-cmp>div.hd{border-top:0;text-align:center;padding:0 3px 8px;white-space:normal}
+.x-cmp .hd b{display:block;font-size:12.5px;line-height:1.2;color:var(--ink)}
+.x-cmp .hd small{display:block;font-size:10.5px;color:var(--mut2);font-weight:500}
+.x-cmp .hd i{display:block;width:22px;height:4px;border-radius:2px;margin:0 auto 6px}
+.x-cmp .best{color:var(--forest);font-weight:750}
+.x-sc{display:flex;gap:12px;align-items:center;padding:11px 0;border-top:1px solid var(--line2)}
+.x-sc:first-of-type{border-top:0}
+.x-sc .ck{width:24px;height:24px;border-radius:7px;border:1.5px solid #CFC5B1;flex:none;display:flex;align-items:center;justify-content:center;color:#FFFDF8;background:var(--card)}
+.x-sc .ck.on{background:var(--forest);border-color:var(--forest)}
+.x-sc .t{flex:1;min-width:0}.x-sc .t b{display:flex;align-items:center;gap:7px;font-size:13.5px;font-weight:650}.x-sc .t small{display:block;font-size:11px;color:var(--mut2);margin-top:2px;line-height:1.35}
+.x-sc .v{text-align:right;font:600 15px var(--ui);white-space:nowrap;font-variant-numeric:tabular-nums}.x-sc .v small{display:block;font:500 10.5px var(--ui);color:var(--mut2)}
+.x-sc .x{width:30px;height:30px}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;flex:none}
+/* alertes */
+.x-warn{display:flex;gap:12px;align-items:flex-start;background:#F6E3DC;border-radius:14px;padding:12px;color:#7A2E1C;font-size:12.5px;line-height:1.45;margin-top:10px}
+.x-warn svg{flex:none;color:var(--terra)} .x-warn b{color:#5C1F10}
+.co{display:flex;gap:8px;align-items:flex-start;background:#F7EEDC;border-radius:12px;padding:9px 11px;font-size:12px;line-height:1.45;margin:10px 0 0;color:#5E461F}
+.co svg{flex:none;color:#B8894A;margin-top:1px} .co b{color:#3E2E12}
+.btn.dng2{background:var(--terra);border-color:var(--terra);color:#FFF8F2}
+.x-chk{display:flex;gap:8px;align-items:flex-start;font-size:12.5px;color:var(--ink);padding:5px 0;line-height:1.35}
+.x-chk svg{flex:none;margin-top:1px}
+.x-pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:650;padding:4px 9px;border-radius:99px;background:var(--chip2);color:var(--sapin);white-space:nowrap}
+.x-pill.b{background:#F3E7CF;color:#8A6430}
+.x-flow{display:flex;align-items:center;gap:10px;background:var(--forest);color:#F6F2EA;border-radius:18px;padding:13px 14px;margin-top:10px;text-align:left;width:100%}
+.x-flow .t{flex:1;font-size:12px;line-height:1.4;color:#D9E4DC}.x-flow .t b{display:block;color:#FFFDF8;font-size:13.5px;font-weight:650;margin-bottom:1px}
+.x-flow .i{width:34px;height:34px;border-radius:11px;background:rgba(255,253,248,.12);display:flex;align-items:center;justify-content:center;flex:none;color:#E2C58F}
+.x-flow .go{flex:none;color:#E2C58F}
+/* état vide */
+.empty5{display:flex;flex-direction:column;align-items:center;text-align:center;padding:34px 18px 28px}
+.empty5 h2{font-family:var(--disp);font-variation-settings:"opsz" 48;font-weight:450;font-size:26px;color:var(--forest);margin:16px 0 8px;letter-spacing:-.015em}
+.empty5 p{max-width:560px;color:var(--mut);font-size:14px;line-height:1.55}
+.empty5 .steps{display:grid;grid-template-columns:1fr;gap:10px;width:100%;max-width:980px;margin:22px 0 20px}
+.step{display:flex;gap:14px;align-items:flex-start;text-align:left;padding:14px;border-radius:16px;background:#F7F2E8}
+.step .sn{width:30px;height:30px;border-radius:10px;background:var(--forest);color:#FFFDF8;display:flex;align-items:center;justify-content:center;font:700 14px var(--ui);flex:none}
+.step b{display:block;font-size:14px;margin-bottom:3px}.step small{font-size:12px;color:var(--mut);line-height:1.45;display:block}
+.tpl{display:grid;grid-template-columns:1fr;gap:8px;width:100%;max-width:980px;margin-top:6px}
+.tpl button{display:flex;gap:12px;align-items:center;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:12px 14px}
+.tpl button:hover{border-color:var(--sapin)}
+.tpl .t{flex:1} .tpl b{display:block;font-size:13.5px} .tpl small{display:block;font-size:11.5px;color:var(--mut2)}
+/* dialogue centré (réinitialisation, bonifications) */
+.sheet.wide{max-width:820px}
+.edu td.on{background:#EEF3EF;color:var(--forest);font-weight:750}
+.edu tr.off td{opacity:.42}
+.don{display:flex;justify-content:center;margin:4px 0 12px}
+.sel2{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.chartbox{position:relative}
+.chartbox svg{display:block;width:100%;height:auto}
+.mixsl{display:grid;grid-template-columns:1fr;gap:10px;margin-bottom:8px}
+.mixsl .n2{font-size:17px;font-weight:600;color:var(--forest);white-space:nowrap}
+.tw2{overflow-x:auto;margin:0 -4px;padding:0 4px}
+.kgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px}
+.lockb{display:inline-flex;align-items:center;gap:4px}
+@media (min-width:720px){
+  .tabbar{width:84px;padding:calc(var(--safe-t) + 78px) 12px 16px;align-items:stretch}
+  .tabbar a{justify-content:center;padding:12px 0;gap:0;position:relative}
+  .tabbar>a>span{display:none}
+  .top{padding-left:112px;padding-right:28px}
+  main{padding:0 28px 40px 112px;max-width:none}
+  body.setup main{padding-left:32px} body.setup .top{padding-left:32px}
+  .dg{gap:16px;margin-bottom:16px}
+  .dg>.card,.dg>.stk>.card{margin-top:0}
+  .stk>.card+.card{margin-top:16px!important}
+  .g4{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .dg.g2{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .g21,.g12,.g31,.g13,.g38{grid-template-columns:minmax(0,1fr)}
+  .dg.st{align-items:stretch}
+  .dh{margin:8px 0 16px}
+  .dsub{max-width:520px}
+  .empty5 .steps{grid-template-columns:repeat(3,1fr)}
+  .tpl{grid-template-columns:repeat(3,1fr)}
+  .pcards{grid-template-columns:1fr 1fr}
+  .mixsl{grid-template-columns:1.2fr 1fr 1fr}
+  .kgrid{grid-template-columns:repeat(4,minmax(0,1fr))}
+  .cols{column-count:2;column-gap:16px}
+}
+@media (min-width:1200px){
+  .tabbar{width:224px;padding:calc(var(--safe-t) + 86px) 14px 16px}
+  .tabbar a{justify-content:flex-start;padding:11px 14px;gap:12px}
+  .tabbar>a>span{display:inline}
+  .tabbar .sbsub{display:none;flex-direction:column;gap:2px;margin:0 0 6px 30px;padding-left:12px;border-left:1.5px solid #DCD3C2}
+  body.insub .tabbar .sbsub{display:flex}
+  .tabbar .sbsub a{padding:7px 12px;font-size:13px;border-radius:10px;color:var(--mut);display:flex;justify-content:space-between;align-items:center}
+  .tabbar .sbsub a.on{background:transparent;box-shadow:none;color:var(--forest);font-weight:700}
+  .tabbar .sbfoot{display:block;margin-top:auto;font-size:11px;color:var(--mut2);line-height:1.45;padding:12px 14px;border-top:1px solid #E2D9C8}
+  .tabbar .sbfoot b{display:flex;gap:6px;align-items:center;color:var(--sapin);font-size:11.5px;margin-bottom:2px}
+  .top{padding-left:260px;padding-right:44px}
+  main{padding:0 44px 44px 260px;max-width:1720px}
+  .dsub{display:none}
+  .dg{gap:18px;margin-bottom:18px}
+  .stk>.card+.card{margin-top:18px!important}
+  .g4{grid-template-columns:repeat(4,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}
+  .g21{grid-template-columns:minmax(0,1.75fr) minmax(0,1fr)}.g12{grid-template-columns:minmax(0,1fr) minmax(0,1.75fr)}
+  .g31{grid-template-columns:minmax(0,2.4fr) minmax(0,1fr)}.g13{grid-template-columns:380px minmax(0,1fr)}
+  .g38{grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1fr)}
+  .kpi .kv2{font-size:34px}
+  .cols{column-count:3}
+  .sheet.wide{max-width:860px}
+}
+@media (min-width:720px) and (max-width:1199px){ .tabbar .sbsub,.tabbar .sbfoot{display:none!important} }
+@media (max-width:719px){
+  .dh .acts{width:100%}
+  .dh .acts .btn span{display:none}
+  .dh .acts .btn{padding:0 12px;height:38px}
+  .dh .acts .btn.pri span,.dh .acts .btn.keep span{display:inline}
+  .dh .acts .seg{flex:1;min-width:0}
+  .kpi .kv2{font-size:26px}
+  .pp{grid-template-columns:72px 1fr}
+  .x-cmp{font-size:11.5px}
+  .hide-m{display:none!important}
+}
+@media print{
+  .tabbar,.top,#banners,.dh .acts,.foot,#toast,.dsub{display:none!important}
+  main{padding:0!important;max-width:none!important}
+  body{background:#fff}
+  .card{box-shadow:none;break-inside:avoid}
+  .dg{gap:10px!important}
+}
 
 </style>
 </head>
@@ -393,7 +605,9 @@ body.setup .tabbar{display:none}
   <section class="page" id="p-sim"></section>
   <section class="page" id="p-detail"></section>
   <section class="page" id="p-goal"></section>
+  <section class="page" id="p-budget"></section>
   <section class="page" id="p-data"></section>
+  <section class="page" id="p-scen"></section>
   <section class="page" id="p-hyp"></section>
   <section class="page" id="p-setup"></section>
   <p class="foot" id="foot"></p>
@@ -901,16 +1115,178 @@ Object.assign(TXT, {
   checkInputs:["Vérifiez vos données reprises en quelques étapes.","Check your carried-over data in a few steps."], checkBtn:["Vérifier","Check"]
 });
 
+/* ================= v5 : textes (FR, EN) ================= */
+Object.assign(TXT,{
+  // navigation, barre latérale, migration
+  navBudget:["Budget","Budget"], subMenage:["Ménage","Household"], subScen:["Scénarios","Scenarios"], subHyp:["Hypothèses","Assumptions"],
+  sbLocal:["Données locales","Local data"], sbLocalSub:["Sur cet appareil uniquement · dernier export : {d}","On this device only · last export: {d}"],
+  migTitle5:["Bienvenue dans la v5. ","Welcome to v5. "],
+  migText5:["Vos données v4 ont été reprises sans perte (copie de sauvegarde conservée). Nouveau : budget, périodes, concubinage, scénarios enregistrés.","Your v4 data was carried over losslessly (backup copy kept). New: budget, periods, cohabitation, saved scenarios."],
+  civilHint:["Marié·es : AVS en couple (splitting, plafond 150 %) et impôt commun. Concubinage : deux rentes AVS non plafonnées, impôts séparés, pas de rente de survivant.","Married: couple AHV (splitting, 150% cap) and joint tax. Cohabiting: two uncapped AHV pensions, separate taxes, no survivor pension."],
+  stepSpouse:["Conjoint·e / partenaire","Spouse / partner"],
+  // statut
+  stMarried:["Marié·es","Married"], stConc:["Concubinage","Cohabiting"], stSingle:["Seul·e","Single"],
+  edu100:["100 % {n}","100% {n}"], capShareAll:["100 % capital","100% capital"], capShareNone:["100 % rente","100% annuity"],
+  concWarnT:["Plus élevé, mais moins protégé.","Higher, but less protected."],
+  concWarn:["En concubinage : pas de rente de survivant AVS, impôts séparés ; la rente LPP de partenaire dépend du règlement de la caisse.","Cohabiting: no AHV survivor pension, separate taxes; a partner's LPP pension depends on the fund's rules."],
+  concWarnLong:["Pas de rente de veuve/veuf AVS ni de partage LPP en cas de séparation ; rente LPP de partenaire seulement si la caisse le prévoit et que vous l'annoncez.","No AHV widow(er)'s pension and no LPP split on separation; a partner's LPP pension only if the fund provides it and you register it."],
+  avsConcTxt:["Concubinage : chaque rente AVS est calculée seule, sans plafond de couple ni splitting.","Cohabiting: each AHV pension is computed alone, without couple cap or splitting."],
+  rcA1k:["Deux rentes AVS individuelles (non plafonnées)","Two individual AHV pensions (uncapped)"],
+  eduApplied:["Bonifications pour tâches éducatives incluses ({s}).","Child-raising credits included ({s})."],
+  // Simulation
+  printPdf:["Imprimer / PDF","Print / PDF"], compareBtn:["Comparer","Compare"], saveScen:["Enregistrer le scénario","Save scenario"], saveCurrent:["Enregistrer l'actuel","Save current"],
+  scenShort0:["Tôt","Early"], scenShort1:["Central","Central"], scenShort2:["Tard","Late"],
+  kpiDep:["Départ {a}","Leaving at {a}"], ofSav:["dont épargne {m}","incl. savings {m}"],
+  goalKpiB:["Objectif · budget","Goal · budget"], goalKpiM:["Objectif","Goal"], reachedFrom:["atteint dès","reached from"], fromBudget:["depuis le budget retraite","from the retirement budget"], goalManual:["objectif saisi","entered goal"],
+  takenTitle:["Pris en compte","Included"], savTitle:["Épargne personnelle","Personal savings"],
+  savSub:["{m}/mois · retenu à 66 % : {e}","{m}/mo · counted at 66%: {e}"], savNone:["Aucune épargne saisie","No savings entered"],
+  perTitle:["Périodes","Periods"], perSub:["{n} période(s) sans activité ou à temps partiel","{n} period(s) without work or part-time"], perNone:["Aucune période","No periods"],
+  goalBudgetSw:["Objectif = budget retraite","Goal = retirement budget"], goalBudgetSub:["{m}/mois après impôts","{m}/mo after tax"], goalBudgetNone:["Pas encore de budget retraite","No retirement budget yet"],
+  capShareK:["Part en capital (LPP)","Capital share (LPP)"], civilK:["État civil","Civil status"], eduK:["Bonifications éducatives","Child-raising credits"],
+  whereFrom:["D'où vient le revenu · scénario {s}","Where income comes from · scenario {s}"], stopK:["Arrêt","Stop"], avsMonthK:["AVS / mois","AHV / mo"],
+  mkAvs:["AVS {n} · {a}","AHV {n} · {a}"], chartIncome:["Revenu mensuel du ménage par année, CHF d'aujourd'hui","Monthly household income by year, today's CHF"],
+  stackNote:["CHF d'aujourd'hui, avant impôts","Today's CHF, before tax"], lgLppR:["Rentes LPP","LPP pensions"], lgDraw:["Retraits sur le capital","Capital drawdown"], lgConst:["Revenu lissé","Smoothed income"],
+  kLppStart:["LPP au départ","LPP at departure"], kLppRentes:["Rentes LPP","LPP pensions"], kRentesSub:["par mois, dès {y}","per month, from {y}"],
+  kAvsHH:["AVS du ménage","Household AHV"], kAvs:["AVS","AHV"], kAvsCap:["plafonnée à 150 % (couple marié)","capped at 150% (married couple)"], kAvsConc:["deux rentes non plafonnées","two uncapped pensions"], kAvsFrom:["par mois, complète dès {y}","per month, full from {y}"],
+  kCapTax:["Impôt sur le capital","Capital withdrawal tax"], kCapTaxSub:["une fois, échelonné si possible","one-off, staggered where possible"],
+  phEnd:["horizon {h} ans","horizon age {h}"],
+  // Détail
+  capShareTitle:["Part du LPP en capital","Share of LPP taken as capital"], lppRentesLeft:["Rentes LPP restantes","Remaining LPP pensions"], incTaxK:["Impôt sur le revenu","Income tax"],
+  netMonth:["Net / mois","Net / month"], netYear:["Net / an","Net / year"], capRecv:["Capital reçu","Capital received"], capTaxK5:["Impôt capital","Capital tax"], lppRentesM:["Rentes LPP / mois","LPP pensions / mo"],
+  bestLbl:["meilleur","best"], bestMix:["Meilleur résultat : {q} % en capital.","Best result: {q}% as capital."],
+  bestMixTxt:["{m} net par mois ; l'écart entre les options est de {d} par mois.","{m} net per month; the options differ by {d} per month."],
+  capShareNote:["Net après impôts, CHF d'aujourd'hui, même scénario. Le capital est consommé jusqu'à l'horizon ; une rente dure à vie.","Net after tax, today's CHF, same scenario. Capital is spent down to the horizon; an annuity lasts for life."],
+  mixChartT:["Revenu net selon la part en capital","Net income by capital share"], axisTight:["axe resserré","tight axis"],
+  capChangeT:["Ce que le capital change","What capital changes"], capAvail:["Capital disponible à {a}","Capital available at {a}"], capAvailSub:["LPP + 3a, après impôt","LPP + 3a, after tax"],
+  capTaxMore:["Impôt capital en plus","Extra capital tax"], vsAnnuity:["par rapport à 100 % rente","compared with 100% annuity"], vsAnnuityY:["{m} de rente en moins par an","{m} less annuity per year"], minPool:["Réserve minimale","Minimum reserve"],
+  yearK:["Année","Year"], agesK:["Âges","Ages"], whatChanges:["Ce qui change","What changes"], drawK:["Retraits","Drawdown"], totalGross:["Total brut","Gross total"],
+  phasesSub:["par mois · CHF d'aujourd'hui","per month · today's CHF"], phNeTxt:["Dont {m}/mois de revenu sans emploi déclaré (AVS des non-actifs incluse) ; total brut {y}.","Incl. {m}/mo non-employment income (AHV for non-earners included); gross total {y}."],
+  // Objectif
+  editBudget:["Modifier le budget","Edit budget"], saveAt:["Enregistrer « {a} »","Save “{a}”"], goalK:["Objectif","Goal"],
+  goalFromBudgetTxt:["Budget retraite, {n} lignes · net après impôts","Retirement budget, {n} lines · net after tax"], goalManualTxt:["Saisi à la main · brut, comme en v4","Entered by hand · gross, as in v4"],
+  reachedFromK:["Atteint dès","Reached from"], withSavTxt:["avec épargne : {m} · {d}","with savings: {m} · {d}"], incomeTxt:["revenu {m} · {d}","income {m} · {d}"],
+  noSavK:["Sans épargne","Without savings"], yearsLater:["{n} an(s) plus tard","{n} year(s) later"], selNowK:["Scénario {s} aujourd'hui","Scenario {s} today"], gapTxt:["écart {d}","gap {d}"],
+  savK:["Épargne","Savings"], savFromBudget:["du budget · retenu {e}/mois","from budget · counted {e}/mo"], savManual:["saisie · retenue {e}/mois","entered · counted {e}/mo"], savNoneGoal:["aucune · ajoutez-la dans Données","none · add it in Data"],
+  goalChartNet:["Revenu net par année de départ","Net income by departure year"], goalChartGross:["Revenu brut par année de départ","Gross income by departure year"],
+  withSav66:["Avec épargne (66 %)","With savings (66%)"], reachedLbl:["Objectif atteint","Goal reached"], notReachedLbl:["Pas encore","Not yet"],
+  goalChartAria:["Revenu par année de départ comparé à l'objectif","Income by departure year compared with the goal"],
+  tableK:["Tableau","Table"], gapTo:["Écart à {m}","Gap to {m}"], departK:["Départ","Departure"], withoutK:["Sans épargne","Without savings"], withSavK:["Avec épargne","With savings"], gapK5:["Écart","Gap"],
+  goalSubNet:["Net après impôts · CHF d'aujourd'hui · objectif tiré du budget retraite","Net after tax · today's CHF · goal from the retirement budget"],
+  goalCoSav:["L'épargne n'est comptée qu'à 66 % : prudent, car les imprévus la grignotent souvent.","Savings count at 66% only: prudent, since the unexpected often eats into them."],
+  goalCo:["Ajouter une épargne régulière (Données · Ménage) avance souvent l'année où l'objectif est atteint.","Adding regular savings (Data · Household) often brings the goal year forward."],
+  // Hypothèses
+  hypTitle5:["Données · Hypothèses","Data · Assumptions"], hypMoved:["déplacé depuis Simulation","moved from Simulation"],
+  savRateK:["Épargne retenue","Savings counted"], savRateSub:["part de l'épargne prévue réellement comptée","share of planned savings actually counted"],
+  m8:["Périodes : pas de LPP sans activité ; à temps partiel, la déduction de coordination est réduite au prorata ; l'AVS tient compte des revenus réduits et des lacunes.","Periods: no LPP without work; part-time, the coordination deduction is reduced pro rata; AHV reflects reduced income and gaps."],
+  m9:["Concubinage : deux rentes AVS non plafonnées, impôts séparés, pas de rente de survivant. Bonifications éducatives 50/50 sauf choix contraire.","Cohabiting: two uncapped AHV pensions, separate taxes, no survivor pension. Child-raising credits 50/50 unless chosen otherwise."],
+  // Données · Ménage
+  dataMenage:["Données · Ménage","Data · Household"], exportBtn:["Exporter","Export"], resetBtn:["Réinitialiser…","Reset…"],
+  ageYearPill:["{a} ans · {y}","{a} y · {y}"], avsYearsK:["Années AVS","AHV years"], avsComplete:["complètes","complete"], perCount:["{n}","{n}"],
+  situationT:["Situation","Situation"], cantonCommune:["Canton · commune","Canton · municipality"],
+  partnerOnT:["Concubinage simulé seul","Cohabitation simulated alone"], partnerOnSub:["Repris de la v4 : la v5 peut simuler les deux personnes.","Carried over from v4: v5 can simulate both people."], partnerOnBtn:["Simuler à deux","Simulate both"],
+  kidsK:["Enfants","Children"], kidsBornTxt:["nés en {y}","born in {y}"], kidsNone:["aucun saisi","none entered"], kidsBornLbl:["Années de naissance","Birth years"],
+  kidsHint:["Séparées par des virgules, p. ex. 2019, 2022. Sert aux bonifications éducatives AVS.","Comma-separated, e.g. 2019, 2022. Used for AHV child-raising credits."],
+  kidsBad:["Année de naissance invalide.","Invalid birth year."], kidsSingle:["Seul·e : les bonifications vous reviennent entièrement.","Single: the credits are entirely yours."],
+  eduLegal:["partage légal (marié·es)","legal split (married)"], eduChoice:["à choisir (concubinage)","your choice (cohabiting)"],
+  avsMinT:["AVS minimale payée pendant les pauses","Minimum AHV paid during breaks"], avsMinSub:["Sans activité, payer la cotisation minimale évite une lacune AVS.","When not working, paying the minimum contribution avoids an AHV gap."],
+  perCardT:["Périodes sans activité ou à temps partiel · {a} → {b}","Periods without work or part-time · {a} → {b}"], perAdd:["Ajouter une période","Add a period"],
+  perEmpty:["Aucune période : chacun·e travaille au taux actuel jusqu'au départ.","No periods: everyone works at the current rate until departure."],
+  perPart:["Temps partiel","Part-time"], perPause:["Pause","Break"], perRetired:["Retraite","Retired"],
+  perOff:["Les périodes sont désactivées dans Simulation (« Pris en compte »).","Periods are switched off in Simulation (“Included”)."],
+  perNoLpp:["ni LPP ni 3a","no LPP or 3a"], perAvsMarried:["AVS couverte (marié·es)","AHV covered (married)"], perAvsMin:["AVS minimale payée","minimum AHV paid"], perAvsGap:["lacune AVS","AHV gap"],
+  perLppPro:["LPP au prorata","LPP pro rata"], perNo3a:["sans 3a","no 3a"], per3aKept:["3a maintenu","3a kept"],
+  perEffT:["Effet des périodes","Effect of the periods"], avsGapsK:["AVS · lacunes","AHV · gaps"], none:["aucune","none"], seeBelow:["oui","yes"],
+  gapsMarried:["cotisations du conjoint ≥ 2× minimum","spouse's contributions ≥ 2× minimum"], gapsMinPaid:["cotisation minimale payée","minimum contribution paid"], gapsOpen:["années sans cotisation : rente réduite","years without contributions: reduced pension"],
+  lppAtStop5:["LPP de {n} à {a} ans","{n}'s LPP at {a}"], avsFullOf:["AVS {n}","AHV {n}"], netHHFrom:["Revenu net du ménage dès {y}","Household net income from {y}"],
+  perEffNote:["Comparé au même scénario sans les périodes. CHF d'aujourd'hui.","Compared with the same scenario without the periods. Today's CHF."],
+  perEffNone:["Ajoutez une pause ou un temps partiel pour voir son effet sur la LPP, l'AVS et le revenu.","Add a break or part-time period to see its effect on LPP, AHV and income."],
+  perEffHint:["Exemples : congé parental, formation, année sabbatique, 60 % pendant que les enfants sont petits.","Examples: parental leave, training, sabbatical, 60% while children are small."],
+  perWho:["Personne","Person"], perFrom:["De (année)","From (year)"], perTo:["À (année)","To (year)"], perToHint:["Incluse. Vide = une seule année.","Inclusive. Empty = a single year."],
+  perRate:["Taux d'activité (%)","Activity rate (%)"], perRateHint:["0 = pause sans activité","0 = break without work"], perNo3aLbl:["Pas de 3a pendant la période","No 3a during the period"], perNo3aHint:["Le 3a reste possible à temps partiel.","3a is still possible part-time."],
+  perRules:["Sans activité : pas de LPP ni de 3a. À temps partiel : salaire et déduction de coordination au prorata.","No work: no LPP or 3a. Part-time: salary and coordination deduction pro rata."],
+  perRange:["La période doit se situer entre {a} et {b}.","The period must fall between {a} and {b}."], perOverlap:["Cette période chevauche une autre.","This period overlaps another one."],
+  fromBudgetPill:["depuis Budget","from Budget"], savManualBtn:["Montant saisi","Entered amount"], savBudgetBtn:["Capacité du budget","Budget capacity"],
+  chfMonth:["CHF / mois","CHF / month"], savNoBudget:["Pas encore de budget : en créer un","No budget yet: create one"],
+  savOnLbl:["Prendre en compte","Include"], savOnSub:["dans Simulation, Détail et Objectif","in Simulation, Detail and Goal"],
+  savPaidTo:["Versé d'ici {y}","Paid in by {y}"], savKept:["Retenu (66 %)","Counted (66%)"], savKeptSub:["prudence : imprévus, achats","prudence: the unexpected, purchases"],
+  savEffect:["Scénario {s}, dès {y}","Scenario {s}, from {y}"], savNotOn:["Pas encore pris en compte : activez l'interrupteur.","Not yet included: switch it on."],
+  cmpConcT:["Et en concubinage ?","And if cohabiting?"], cmpMarT:["Et si vous étiez marié·es ?","And if you were married?"],
+  netNow:["Revenu net · {s}","Net income · {s}"], netIfConc:["En concubinage","Cohabiting"], netIfMar:["Marié·es","Married"], netIfNoPer:["… sans les périodes","… without the periods"], avsHHk:["AVS du ménage / mois","Household AHV / mo"],
+  eduTitle:["Bonifications pour tâches éducatives","Child-raising credits"], eduAttr:["Attribution","Allocation"], impossible:["impossible","not possible"],
+  eduIntro:["Enfants nés en {k} : bonifications AVS de {a} à {b}.","Children born in {k}: AHV credits from {a} to {b}."], eduDefault:["Répartition","Split"],
+  eduMarT:["Marié·es","Married"], eduConcT:["Concubinage","Cohabiting"], yourCase:["votre cas","your case"], eduLocked:["50 / 50 imposé","50 / 50 fixed"], eduFree:["au choix","your choice"],
+  eduMarTxt:["Partage légal par moitié pendant le mariage.","Legal half split during marriage."], eduConcTxt:["Avec autorité parentale conjointe : 50/50 par défaut, ou 100 % à l'un·e par convention.","With joint parental authority: 50/50 by default, or 100% to one by agreement."],
+  eduNoEffect:["Ici, la répartition ne change presque rien : les revenus moyens sont déjà proches du maximum AVS.","Here the split barely matters: average incomes are already close to the AHV maximum."],
+  // Scénarios
+  dataScen:["Données · Scénarios","Data · Scenarios"], scenSub:["Enregistrez, cochez, comparez · net après impôts · CHF d'aujourd'hui","Save, tick, compare · net after tax · today's CHF"],
+  scenEmptyT:["Aucun scénario enregistré","No saved scenarios"], scenEmpty:["Enregistrez la simulation actuelle pour la comparer plus tard avec d'autres choix (âges, capital, périodes, épargne).","Save the current simulation to compare it later with other choices (ages, capital, periods, savings)."],
+  scenSaved:["Scénarios enregistrés","Saved scenarios"], scenCount:["{n} · {k} cochés","{n} · {k} ticked"], depShort:["départ","leaving"], netPerMonth:["net / mois","net / month"],
+  scenHint:["Cochez 2 ou 3 scénarios : la comparaison se met à jour à droite.","Tick 2 or 3 scenarios: the comparison updates on the right."],
+  sideBySide5:["Comparaison côte à côte","Side-by-side comparison"], scenPick:["Cochez au moins un scénario à gauche.","Tick at least one scenario on the left."],
+  grossMonth:["Brut / mois","Gross / month"], avsFull:["AVS complète / mois","Full AHV / mo"], gapGoal:["Écart à l'objectif {m}","Gap to goal {m}"],
+  keyGap:["Écart clé :","Key gap:"], keyGapTxt:["« {a} » rapporte {d} de plus par mois que « {b} ».","“{a}” gives {d} more per month than “{b}”."],
+  chfTodayNet:["net · CHF d'aujourd'hui","net · today's CHF"], dashGoal:["Trait pointillé : objectif {m}","Dotted line: goal {m}"],
+  scenSnapNote:["Chaque scénario est figé au moment de l'enregistrement (données, hypothèses, choix).","Each scenario is frozen when saved (data, assumptions, choices)."],
+  scenName:["Nom","Name"], scenDefName:["Scénario {s} · {a}","Scenario {s} · {a}"], scenSaveNote:["Les données et hypothèses actuelles sont copiées ; les modifier ensuite ne change pas ce scénario.","Current data and assumptions are copied; later changes don't affect this scenario."],
+  scenMax3:["Au plus 3 scénarios comparés à la fois.","At most 3 scenarios compared at once."], scenMeta:["Enregistré le {d} · âges {a} · {c}","Saved {d} · ages {a} · {c}"],
+  scenLoad:["Reprendre âges et part en capital","Reuse ages and capital share"], scenLoaded:["Repris dans le scénario {s}.","Loaded into scenario {s}."],
+  // Réinitialisation
+  rsTitle:["Tout effacer ?","Erase everything?"], rsFinal:["Action définitive.","This cannot be undone."], rsFinalTxt:["Les données ne sont que sur cet appareil : sans export, elles sont perdues.","Data lives only on this device: without an export, it is lost."],
+  rsWill:["Sera effacé","Will be erased"], rsProfiles:["Profils : {n}","Profiles: {n}"], rsScen:["Scénarios enregistrés : {n}","Saved scenarios: {n}"], rsBudget:["Budget et épargne","Budget and savings"], rsHyp:["Hypothèses et réglages","Assumptions and settings"],
+  rsKept:["Conservé : la lecture automatique MyWealth","Kept: automatic MyWealth reading"], rsExportFirst:["Exporter d'abord","Export first"],
+  rsLast:["Dernier export : {d} (il y a {n} j)","Last export: {d} ({n} days ago)"], rsNever:["Aucun export pour l'instant.","No export yet."],
+  rsType:["Tapez <b>EFFACER</b> pour confirmer","Type <b>DELETE</b> to confirm"], rsTypeAria:["Mot de confirmation","Confirmation word"], rsWord:["EFFACER","DELETE"], rsGo:["Tout effacer","Erase all"],
+  resetDone5:["Données effacées.","Data erased."],
+  // Budget
+  bToday:["Aujourd'hui","Today"], bAtRet:["À la retraite","At retirement"], bRet:["Retraite","Retirement"],
+  bSubNow:["Ménage · par mois · CHF","Household · per month · CHF"], bSubRet:["À la retraite · par mois · CHF d'aujourd'hui","At retirement · per month · today's CHF"],
+  bEmptyT:["Posons votre budget, en 5 minutes","Let's set up your budget in 5 minutes"],
+  bEmptyP:["Vos revenus et dépenses d'aujourd'hui donnent votre <b>capacité d'épargne</b> ; votre budget à la retraite peut devenir l'<b>objectif</b> de la simulation. Tout reste sur cet appareil.","Today's income and spending give your <b>savings capacity</b>; your retirement budget can become the simulation's <b>goal</b>. Everything stays on this device."],
+  bStep1:["Revenus du ménage","Household income"], bStep1s:["Salaires nets, allocations. Estimés depuis vos données.","Net salaries, allowances. Estimated from your data."],
+  bStep2:["Dépenses","Spending"], bStep2s:["Partez d'un modèle et ajustez ligne par ligne.","Start from a template and adjust line by line."],
+  bStep3:["À la retraite","At retirement"], bStep3s:["Ce qui change : enfants, LAMal, mobilité. Le total peut devenir l'objectif.","What changes: children, health insurance, transport. The total can become the goal."],
+  bTplPick:["Partir d'un modèle (montants fictifs, à ajuster)","Start from a template (fictional amounts, to adjust)"],
+  bTpl_family:["Couple avec enfants","Couple with children"], bTpl_familys:["11 lignes · {m}/mois","11 lines · {m}/mo"],
+  bTpl_couple:["Couple sans enfant","Couple without children"], bTpl_couples:["10 lignes · {m}/mois","10 lines · {m}/mo"],
+  bTpl_single:["Personne seule","Single person"], bTpl_singles:["10 lignes · {m}/mois","10 lines · {m}/mo"],
+  bStartInc:["Saisir mes revenus","Enter my income"], bEmptyNote:["Sans budget, la simulation fonctionne normalement : pas d'épargne ni d'objectif pris en compte.","Without a budget the simulation works as usual: no savings or goal included."],
+  bTplDone:["Modèle ajouté : ajustez les montants.","Template added: adjust the amounts."],
+  bCsv:["Exporter CSV","Export CSV"], bInc:["Revenus","Income"], bCost:["Dépenses","Spending"], bCap:["Capacité d'épargne","Savings capacity"],
+  bLines:["{n} ligne(s)","{n} line(s)"], bLinesCat:["{n} lignes · {g} catégories","{n} lines · {g} categories"], bCapPct:["{p} % des revenus","{p}% of income"],
+  bFeeds:["Alimente la simulation","Feeds the simulation"], bFeedsTxt:["Épargne retenue à 66 % : {m}/mois","Savings counted at 66%: {m}/mo"],
+  bNotFeeds:["Pas encore dans la simulation","Not yet in the simulation"], bNotFeedsTxt:["Utiliser la capacité d'épargne comme épargne personnelle ?","Use the savings capacity as personal savings?"], bNoCap:["Pas de capacité d'épargne positive.","No positive savings capacity."],
+  bUse:["Utiliser","Use"], bUsed:["Capacité d'épargne utilisée dans la simulation.","Savings capacity used in the simulation."], bNeedData:["Complétez d'abord vos données.","Complete your data first."],
+  bSplit:["Répartition des dépenses","Spending breakdown"], bNoCost:["Aucune dépense saisie.","No spending entered."], bAddInc:["Ajouter un revenu","Add income"],
+  bByCat:["Dépenses par catégorie","Spending by category"], bAddLine:["Ajouter une ligne","Add a line"], bItem:["Poste","Item"], perYear5:["Par an","Per year"], bShare:["Part","Share"],
+  bTotalCost:["Total dépenses","Total spending"], bOnlyRet:["seulement à la retraite","retirement only"],
+  bNowToRet:["Aujourd'hui → à la retraite","Today → at retirement"], bDiff:["Écart","Difference"],
+  bRetNote:["Impôts : laissez 0 à la retraite, l'objectif est comparé au revenu après impôts. 3a : plus de versements.","Taxes: leave 0 at retirement, the goal is compared with income after tax. 3a: no more payments."],
+  bGoalNet:["Objectif de revenu net","Net income goal"], perMonthU:["/ mois","/ month"], bGoalPct:["{p} % des dépenses d'aujourd'hui","{p}% of today's spending"],
+  bGoalOnSub:["utilisé par Simulation et Objectif","used by Simulation and Goal"], bGoalOffSub:["désactivé · objectif actuel : {m} brut","off · current goal: {m} gross"],
+  bCover:["Couverture par scénario","Coverage by scenario"], bWithSav:["avec épargne","with savings"], bNoSav:["sans épargne","without savings"], bCoverNote:["Trait noir : objectif {m}. Net après impôts.","Black line: goal {m}. Net after tax."],
+  bSeeGoal:["Voir dans Objectif","See in Goal"], bSeeGoalOn:["Quand l'objectif est-il atteint, avec et sans épargne ?","When is the goal reached, with and without savings?"], bSeeGoalOff:["Activez l'objectif budget pour l'utiliser partout.","Switch on the budget goal to use it everywhere."],
+  bName:["Libellé","Label"], bAmtMonth:["Montant (CHF / mois)","Amount (CHF / month)"], bNote:["Note","Note"], bGroup:["Catégorie","Category"],
+  bAmtToday:["Aujourd'hui (CHF / mois)","Today (CHF / month)"], bAmtRet:["À la retraite (CHF / mois)","At retirement (CHF / month)"], bAmtRetHint:["Vide = même montant ; 0 = disparaît.","Empty = same amount; 0 = goes away."],
+  bSalNet:["Salaire net {n}","Net salary {n}"], bSalNote:["estimé : brut − AVS/AC − LPP, ×12","estimated: gross − AHV/UI − LPP, ×12"], bSalOne:["Salaire net","Net salary"],
+  bAlloc:["Allocations familiales","Family allowances"], bAllocNote:["{n} enfant(s), montant indicatif","{n} child(ren), indicative amount"],
+  grp_home:["Logement","Housing"], grp_health:["Santé","Health"], grp_mob:["Mobilité","Transport"], grp_life:["Vie courante","Daily life"], grp_leisure:["Loisirs","Leisure"], grp_ins:["Assurances, télécom","Insurance, telecom"],
+  grp_kids:["Enfants","Children"], grp_tax:["Impôts","Taxes"], grp_save:["Épargne, 3a","Savings, 3a"], grp_other:["Autres","Other"],
+  bRent:["Loyer + charges","Rent + charges"], bLamal:["LAMal","Health insurance"], bLamalN:["moins d'assuré·es à la retraite","fewer insured at retirement"], bPower:["Électricité","Electricity"],
+  bMob:["Mobilité","Transport"], bMobN:["voiture + TP → voiture","car + public transport → car"], bFood:["Alimentation, ménage, habits","Food, household, clothes"], bLeisure:["Loisirs & voyages","Leisure & travel"],
+  bIns:["Assurances, télécom","Insurance, telecom"], bHealth:["Santé, imprévus","Health, unexpected"], bKids:["Enfants","Children"], bKidsN:["autonomes","independent"],
+  bTax:["Impôts","Taxes"], bTaxN:["déjà déduits du revenu net","already deducted from net income"], b3a:["3e pilier 3a","Pillar 3a"], b3aN:["plus de versements","no more payments"]
+});
+
 /* =====================================================================
-   MyPension v4 — simulateur de retraite suisse (FR / EN) · identité Cairn
+   MyPension v5 — simulateur de retraite suisse (FR / EN) · identité Cairn
    Données : appareil (localStorage) + fichier privé dans la Dropbox de l'utilisateur (facultatif).
-   Format de données v4 (schemaVersion 3). Migration automatique depuis v1, v2 et v3 (copies conservées).
+   Format de données v5 (schemaVersion 4). Migration automatique depuis v1, v2, v3 et v4 (copies conservées).
    ===================================================================== */
 const $ = id => document.getElementById(id);
 const PRM = window.MP_PARAMS, TX = window.MP_TAX;
 const cfg = () => window.MYPENSION_CONFIG || {};
 const YEAR = new Date().getFullYear();
-const APP_VERSION = "4.0";
+const APP_VERSION = "5.0";
 const I18N = {fr:{}, en:{}};
 for(const k in TXT){ I18N.fr[k]=TXT[k][0]; I18N.en[k]=TXT[k][1]; }
 
@@ -986,26 +1362,29 @@ function setLang(l){
 }
 
 /* ================= Format des données ================= */
-const STORE_KEY = "mypension.data.v2";      // clé partagée v2/v3/v4 (la v4 écrit schemaVersion 3 : les anciennes versions se bloquent en lecture seule)
+const STORE_KEY = "mypension.data.v2";      // clé partagée v2/v3/v4/v5 (la v5 écrit schemaVersion 4 : les anciennes versions se bloquent en lecture seule)
 const OLD_STORE_KEY = "mypension.v1";       // clé de la v1 — jamais modifiée
 const BACKUP_V1_KEY = "mypension.backup.v1";// copie brute des données v1 avant migration
 const BACKUP_V3_KEY = "mypension.backup.v3";// copie brute des données v2/v3 (schéma 2) avant migration vers la v4
-const SCHEMA_VERSION = 3;
+const BACKUP_V4_KEY = "mypension.backup.v4";// copie brute des données v4 (schéma 3) avant migration vers la v5
+const SCHEMA_VERSION = 4;
 const ASSUME_DEFAULTS = { infl:1.0, realw:0.5, career:0, lppI:2.0, r3a:2.5, rfree:2.5, rdraw:2.0, horizon:90, conv65:5.2, convRed:0.13, avsIdx:null };
 function defaultPerson(i){
   return {
     id: i? "p2" : "p1", name:"", birthYear:null, birthDate:"", gender: i? "f" : "m", status:"employee", income:0, bonus:0, bonusInsured:false, retireAge:65,
     p3a:{ accounts:[], contrib:0, max:false, paid:{}, retro:0 },
     lpp:{ balance:0, contribMode:"month", emp:0, er:0, conv65:null, maxBuyback:0, buyback:0, buybackYears:1, wef:false, certDate:"" },
-    avs:{ missing:0, override:0 }
+    avs:{ missing:0, override:0 },
+    periods:[]
   };
 }
-function defaultSim(){ return { ages0:[58,60,65], ages1:[58,60,65], link:true, mode:"capital", mixShare:50, real:true, net:false, avsWait65:false, stagger:true, target:0, revMode:"sameYear", sel:1 }; }
+function defaultSim(){ return { ages0:[58,60,65], ages1:[58,60,65], link:true, mode:"capital", mixShare:50, real:true, net:true, avsWait65:false, stagger:true, target:0, revMode:"sameYear", sel:1, periodsOn:true }; }
+function defaultBudget(){ return { inc:[], cost:[], goalOn:false, view:"now" }; }
 function defaultState(){
   return {
     app:"mypension", schemaVersion:SCHEMA_VERSION, savedAt:null,
     meta:{ lastExport:null, created:new Date().toISOString(), touched:false, disclaimerOk:false, onboarded:false },
-    household:{ canton:"ZH", commune:"", civil:"single", couple:false, marriedSince:null, children:0, taxableOverride:0 },
+    household:{ canton:"ZH", commune:"", civil:"single", couple:false, partner:false, marriedSince:null, children:0, taxableOverride:0, kidsBorn:[], eduShare:"50", avsMinPaid:true },
     people:[ defaultPerson(0) ],
     wd:{ other:0, otherAge:65 },
     fire:{ otherAssets:0 },
@@ -1013,7 +1392,10 @@ function defaultState(){
     assume: Object.assign({}, ASSUME_DEFAULTS),
     mw:{ auto:true, value:null, date:null, readAt:null, source:null, key:null, parts:null },
     rem:{ done:{} },
-    settings:{ relayUrl:"" }
+    settings:{ relayUrl:"" },
+    savings:{ monthly:0, on:false, src:"manual" },
+    scen:[],
+    budget: defaultBudget()
   };
 }
 function schemaOf(s){ return +(s && s.schemaVersion) || 1; }
@@ -1055,7 +1437,7 @@ const MIGRATIONS = {
       p.p3a=p.p3a||{}; if(p.p3a.max==null) p.p3a.max=false;
     });
     const p0=ps[0]||{}, p1=ps[1], cap=(p0.lpp||{}).capitalShare;
-    const sim=defaultSim();
+    const sim=defaultSim(); sim.net=false;
     const place=(r,by,cur)=>{ const lo=Math.max(58, cur||0); r=clamp(Math.round(+r||65), lo, Math.max(70,lo)); let a=[58,60,65].map(x=>clamp(x,lo,Math.max(70,lo)));
       let i=a.indexOf(r); if(i<0){ let bi=0; a.forEach((x,k)=>{ if(Math.abs(x-r)<Math.abs(a[bi]-r)) bi=k; }); a[bi]=r; a.sort((x,y)=>x-y); i=a.indexOf(r); } return {a,i}; };
     const cur0= p0.birthYear? YEAR-p0.birthYear : 0, pl=place(p0.retireAge, p0.birthYear, cur0);
@@ -1083,8 +1465,28 @@ const MIGRATIONS = {
     o.meta=Object.assign({}, o.meta||{}); o.meta.migratedFromV3=o.meta.migratedFromV3||today(); o.meta.v3savedAt=s.savedAt||null;
     o.meta.onboarded = o.meta.onboarded!=null? o.meta.onboarded : !!o.meta.touched;
     return o;
+  },
+  /* v4 (schéma 3) → v5 (schéma 4) : clés ajoutées seulement. Un ménage « concubinage » v4 reste simulé comme avant
+     (une personne) tant que le partenaire n'est pas activé (household.partner). */
+  3: s => {
+    const o=deep(s), h=o.household=o.household||{};
+    if(h.partner==null) h.partner = h.civil==="married";
+    if(!Array.isArray(h.kidsBorn)) h.kidsBorn=[];
+    if(h.eduShare==null) h.eduShare="50"; if(h.avsMinPaid==null) h.avsMinPaid=true;
+    (Array.isArray(o.people)? o.people : []).forEach(p=>{ if(!Array.isArray(p.periods)) p.periods=[]; });
+    o.sim=Object.assign({ periodsOn:true }, o.sim||{});
+    if(!o.savings) o.savings={ monthly:0, on:false, src:"manual" };
+    if(!Array.isArray(o.scen)) o.scen=[];
+    if(!o.budget) o.budget=defaultBudget();
+    o.meta=Object.assign({}, o.meta||{}); o.meta.migratedFromV4=o.meta.migratedFromV4||today(); o.meta.v4savedAt=s.savedAt||null;
+    return o;
   }
 };
+function fillPeriod(q){
+  q=Object.assign({}, q||{}); q.id=q.id||uid();
+  q.from=Math.round(num(q.from, YEAR)); q.to=Math.round(num(q.to, q.from)); if(q.to<q.from){ const x=q.to; q.to=q.from; q.from=x; }
+  q.rate=clamp(Math.round(num(q.rate,0)),0,100); q.no3a=!!q.no3a; return q;
+}
 function fillPerson(p, i){
   const d=defaultPerson(i);
   const o=Object.assign({}, d, p||{});
@@ -1099,6 +1501,7 @@ function fillPerson(p, i){
   o.lpp.conv65 = o.lpp.conv65>0? +o.lpp.conv65 : null; o.bonusInsured=!!o.bonusInsured; o.p3a.max=!!o.p3a.max;
   if(!["m","f"].includes(o.gender)) o.gender=d.gender; if(!["employee","self"].includes(o.status)) o.status="employee";
   o.id=o.id||d.id;
+  o.periods=(Array.isArray(o.periods)? o.periods : []).map(fillPeriod);
   return o;
 }
 function migrate(s){
@@ -1108,7 +1511,7 @@ function migrate(s){
   while(v<SCHEMA_VERSION){ s=(MIGRATIONS[v]||(x=>x))(s); v++; }
   const d=defaultState();
   const o=Object.assign({}, d, s);
-  for(const k of ["meta","household","wd","fire","mw","rem","settings","sim","assume"]) o[k]=Object.assign({}, d[k], s[k]||{});
+  for(const k of ["meta","household","wd","fire","mw","rem","settings","sim","assume","savings","budget"]) o[k]=Object.assign({}, d[k], s[k]||{});
   ["ages0","ages1"].forEach(k=>{ if(!Array.isArray(o.sim[k]) || o.sim[k].length!==3) o.sim[k]=d.sim[k].slice(); o.sim[k]=o.sim[k].map(x=>num(x,65)); });
   if(!["capital","annuity","mixed"].includes(o.sim.mode)) o.sim.mode="capital";
   if(!["sameYear","sameAge","fixed"].includes(o.sim.revMode)) o.sim.revMode="sameYear";
@@ -1119,6 +1522,15 @@ function migrate(s){
   o.people=(Array.isArray(s.people) && s.people.length? s.people : d.people).slice(0,2).map(fillPerson);
   if(!TX.cantons[o.household.canton]) o.household.canton="ZH";
   o.household.couple = o.household.civil==="married";
+  const h=o.household;
+  h.kidsBorn=(Array.isArray(h.kidsBorn)? h.kidsBorn : []).map(x=>Math.round(num(x,0))).filter(x=>x>1900 && x<2100);
+  if(!["50","p0","p1"].includes(h.eduShare)) h.eduShare="50"; h.avsMinPaid=h.avsMinPaid!==false; h.partner=!!h.partner;
+  o.savings.monthly=Math.max(0, num(o.savings.monthly,0)); o.savings.on=!!o.savings.on; if(!["budget","manual"].includes(o.savings.src)) o.savings.src="manual";
+  o.sim.periodsOn=o.sim.periodsOn!==false;
+  o.scen=(Array.isArray(s.scen)? s.scen : []).filter(x=>x && x.snap);
+  const B=o.budget; ["inc","cost"].forEach(k=>{ B[k]=(Array.isArray(B[k])? B[k] : []).map(x=>Object.assign({}, x, {id:x.id||uid(), amt:num(x.amt,0)})); });
+  B.cost.forEach(c=>{ c.ret= c.ret==null || c.ret===""? c.amt : num(c.ret, c.amt); });
+  B.goalOn=!!B.goalOn; if(!["now","ret"].includes(B.view)) B.view="now";
   o.app="mypension"; o.schemaVersion=SCHEMA_VERSION;
   return o;
 }
@@ -1134,7 +1546,8 @@ function load(){
     try{
       const j=JSON.parse(raw), v=schemaOf(j), m=migrate(j);
       if(v<SCHEMA_VERSION){
-        try{ if(!localStorage.getItem(BACKUP_V3_KEY)) localStorage.setItem(BACKUP_V3_KEY, raw); }catch(e){ console.warn("v3 backup failed", e); }
+        const bk= v>=3? BACKUP_V4_KEY : BACKUP_V3_KEY;
+        try{ if(!localStorage.getItem(bk)) localStorage.setItem(bk, raw); }catch(e){ console.warn("backup failed", e); }
         BOOT.migrated=true; BOOT.migratedFrom=v;
         try{ localStorage.setItem(STORE_KEY, JSON.stringify(m)); }catch(e){}
       }
@@ -1171,7 +1584,9 @@ function save(auto){
 function touch(){ S.meta.touched=true; }
 function hasContent(s){ return !!(s && s.meta && s.meta.touched); }
 
-/* ================= Moteur de simulation v4 (port fidèle de model/engine.py) =================
+/* ================= Moteur de simulation v5 (port fidèle de model/engine.py) =================
+   v5 : état civil (seul·e / marié·es / concubinage), périodes sans activité ou à temps partiel, bonifications éducatives,
+   épargne personnelle (sc.savMonthly). Sans ces nouveautés, résultats identiques à la v4.
    Fonctions pures : aucune lecture de S ni du DOM. Entrées H (ménage), A (hypothèses, en fractions), sc (scénario).
    Valeurs annuelles en CHF nominaux sauf mention ; Y = revenu annuel constant en CHF d'aujourd'hui. */
 const ENG = (function(){
@@ -1203,6 +1618,10 @@ const ENG = (function(){
     return Math.min(P.avsMax, Math.max(m, v));
   }
   function coord(P, x){ if(!(x>=P.entry)) return 0; return Math.min(P.maxC, Math.max(P.minC, Math.min(x, P.upper)-P.coord)); }
+  // temps partiel : seuil d'entrée sur le salaire effectif, déduction de coordination et limites au prorata du taux
+  function coordPR(P, x, r){ if(!(x*r>=P.entry)) return 0; return r*coord(P, x); }
+  function statusOf(H){ return H.status || (H.couple? "married" : "single"); }
+  function rateOf(p, y){ const L=p.periods; if(L) for(const q of L){ if(q[0]<=y && y<=q[1]) return [q[2], !!q[3]]; } return [1, false]; }
   function creditRate(P, a){ for(const [lo,hi,r] of P.credits) if(a>=lo && a<=hi) return r; return 0; }
   function marriedShare(P, p, H){
     if(!H.couple) return 0; const ms=H.marriedSince; if(!ms) return 1;
@@ -1216,8 +1635,8 @@ const ENG = (function(){
   }
   function simulate(ctx, H, A, sc, Yfix){
     const {PRM, TX, Y0} = ctx, P=prm(PRM, Y0);
-    let ps=H.people.slice(); const couple=!!H.couple && ps.length>1; if(!couple) ps=ps.slice(0,1);
-    const n=ps.length, rel=couple? "married" : "single", ct=H.canton;
+    let ps=H.people.slice(); const status=statusOf(H); if(status==="single") ps=ps.slice(0,1);
+    const n=ps.length, couple= status==="married" && n>1, two=n>1, rel=couple? "married" : "single", ct=H.canton;
     const {g, mix}=derived(A), defl=y=>Math.pow(1+A.infl, y-Y0);
     const stops=sc.stops.slice(0,n), q=sc.share==null? 1 : sc.share;
     const age0=ps.map(p=>Y0-p.born);
@@ -1236,8 +1655,14 @@ const ENG = (function(){
       for(let k=0, a=a0; a<s; k++, a++){
         const y=Y0+k, f=Math.pow(1+g,k); let c, e;
         if(c0==null){ c=creditRate(P,a)*coord(P,ins0)*f; e=c/2; } else { c=c0*f; e=e0*f; }
-        const c3=p.c3a*Math.pow(1+mix,k);
-        rows[y]={sal:sal0*f, emp:e, c3a:c3};
+        let c3=p.c3a*Math.pow(1+mix,k);
+        const [r, no3a]=rateOf(p, y);
+        if(r<1){
+          const cf=coord(P, ins0*f), kc= cf>0? coordPR(P, ins0*f, r)/cf : 0;
+          c*=kc; e*=kc;
+          if(r===0 || no3a) c3=0;
+        }
+        rows[y]={sal: r<1? sal0*f*r : sal0*f, emp:e, c3a:c3};
         const buy=(k<kbb? bb/kbb : 0)+((pi===0 && k===0)? (sc.extraBuyback||0) : 0);
         lpp=lpp*(1+A.lppI)+c+buy;
       }
@@ -1250,7 +1675,7 @@ const ENG = (function(){
       const p=ps[pi], s=stops[pi], a0=age0[pi], accs=st[pi].accs, nacc=accs.length; let v=accs[j];
       for(let k=0, a=a0; a<w; k++, a++){
         v*=1+A.r3a;
-        if(a<s) v+=p.c3a*Math.pow(1+mix,k)/nacc;
+        if(a<s) v+=st[pi].rows[Y0+k].c3a/nacc;
         if(k===0 && j===0) v+=(p.retro||0);
       }
       return v;
@@ -1268,15 +1693,27 @@ const ENG = (function(){
       items.forEach(it=>{ const v=accValue(it.pi, it.j, it.y-ps[it.pi].born); if(v>0) ev.push({kind:"3a", pi:it.pi, j:it.j, y:it.y, v}); });
       for(let i=0;i<n;i++) if(q>0 && st[i].lpp>0) ev.push({kind:"lpp", pi:i, j:-1, y:ystop[i], v:q*st[i].lpp});
       if((oth.v||0)>0) ev.push({kind:"other", pi:oth.pi||0, j:-2, y:oth.y, v:oth.v});
-      const by={}; ev.forEach(e=>{ by[e.y]=(by[e.y]||0)+e.v; });
-      const taxes={}; Object.keys(by).forEach(y=>{ taxes[y]=tcap(TX, by[y], ct, rel); });
+      // impôt sur le capital : par année ; en concubinage, chaque personne est taxée séparément
+      const by={}, gk={}; ev.forEach(e=>{ const k=e.y+"|"+(couple? 0 : e.pi); if(!(k in by)){ by[k]=0; gk[k]=e.y; } by[k]+=e.v; });
+      const taxes={}; Object.keys(by).forEach(k=>{ const y=gk[k]; taxes[y]=(taxes[y]||0)+tcap(TX, by[k], ct, rel); });
       return {ev, by, taxes};
     }
     const pl=plan(sc.stagger!==false), ev=pl.ev, taxes=pl.taxes, taxesNS=plan(false).taxes;
     const rente=st.map(x=>x.lpp*(1-q)*x.conv);
-    const ms=ps.map(p=>marriedShare(P,p,H)), own=ps.map(p=>p.salary+p.bonus), avg=own.reduce((a,b)=>a+b,0)/n;
-    const ram= couple? own.map((o,i)=>(1-ms[i])*o+ms[i]*avg) : own;
-    const full=ps.map((p,i)=> p.avsOverride? p.avsOverride : avsFull(P, ram[i])*(P.full-(p.avsMissing||0))/P.full);
+    const ms=ps.map(p=>marriedShare(P,p,Object.assign({}, H, {couple}))), own=ps.map(p=>p.salary+p.bonus);
+    // AVS v5 : années à temps partiel / sans activité (revenu moyen réduit), lacunes, bonifications éducatives
+    const pyears=(i,a,b)=>Math.max(0, Math.min(b, ystop[i]-1)-Math.max(a, ps[i].born+21)+1);
+    const lost=i=>(ps[i].periods||[]).reduce((s,q)=>s+(1-q[2])*pyears(i,q[0],q[1]), 0);
+    const gaps=i=>(H.avsMinPaid!==false || couple)? 0 : (ps[i].periods||[]).reduce((s,q)=>s+(q[2]===0? pyears(i,q[0],q[1]) : 0), 0);
+    let inc=own.map((o,i)=>{ const l=lost(i); return l>0? o*(P.full-l)/P.full : o; });
+    const kids=H.kids||[]; let cy=0; for(let y=1960; y<2100; y++) if(kids.some(b=>b<y && y<=b+16)) cy++;
+    const edu=3*12*P.avsMin*cy/P.full;
+    let esh= two? ps.map(()=>0.5) : [1];
+    if(two && !couple && H.eduShare) esh=H.eduShare;
+    if(edu>0 && H.eduCredits!==false) inc=inc.map((x,i)=>x+edu*esh[i]);
+    const avg=inc.reduce((a,b)=>a+b,0)/n;
+    const ram= couple? inc.map((o,i)=>(1-ms[i])*o+ms[i]*avg) : inc;
+    const full=ps.map((p,i)=> Math.max(0, p.avsOverride? p.avsOverride : avsFull(P, ram[i])*(P.full-(p.avsMissing||0)-gaps(i))/P.full));
     function avsYear(y){
       const on=ps.map((p,i)=>y>=p.born+avsa[i]); let f=full.slice();
       const sum=f.reduce((a,b)=>a+b,0);
@@ -1289,12 +1726,14 @@ const ENG = (function(){
       for(let y=Y0; y<yend; y++){
         (evBy[y]||[]).forEach(e=>{ pool+=e.v; });
         pool-=(taxes[y]||0);
-        if(y<yFirst){ pool=pool*(1+A.rfree)+12*(sc.extraMonthly||0)*defl(y); continue; }
+        if(y<yFirst){
+          if(!couple && H.avsMinPaid!==false) for(let i=0;i<n;i++) if(rateOf(ps[i], y)[0]===0) pool-=nonemp(pool/(two?2:1));
+          pool=pool*(1+A.rfree)+12*((sc.extraMonthly||0)+(sc.savMonthly||0))*defl(y); continue; }
         const work=stops.map((s,i)=>y<ystop[i]);
         let netSal=0; for(let i=0;i<n;i++) if(work[i]){ const r=st[i].rows[y]; netSal+=r.sal-r.emp-r.c3a; }
         const avs=avsYear(y), lpp=rente.map((r,i)=> y>=ystop[i]? r : 0), lppSum=lpp.reduce((a,b)=>a+b,0), avsSum=avs.reduce((a,b)=>a+b,0);
         let ne=0;
-        for(let i=0;i<n;i++) if(!work[i] && y-ps[i].born<65 && !(couple && work[1-i])) ne+=nonemp((pool+20*lppSum)/(couple?2:1));
+        for(let i=0;i<n;i++) if(!work[i] && y-ps[i].born<65 && !(couple && work[1-i])) ne+=nonemp((pool+20*lppSum)/(two?2:1));
         const need=Yreal*defl(y)-netSal-avsSum-lppSum+ne;
         if(trace) tr.push({y, sal:netSal, avs, lpp, ne, draw:need, pool, d:defl(y)});
         pool=(pool-need)*(1+A.rdraw);
@@ -1309,7 +1748,7 @@ const ENG = (function(){
     const yref=Math.min(yend-1, Math.max(...ps.map((p,i)=>p.born+avsa[i])));
     const trr=tr.find(t=>t.y===yref) || tr[tr.length-1];
     let taxi=0;
-    if(trr){ const taxable=trr.avs.reduce((a,b)=>a+b,0)+trr.lpp.reduce((a,b)=>a+b,0)+trr.sal+A.rdraw*Math.max(0,trr.pool); taxi=tinc(TX, taxable/trr.d, ct, rel); }
+    if(trr){ const taxable=trr.avs.reduce((a,b)=>a+b,0)+trr.lpp.reduce((a,b)=>a+b,0)+trr.sal+A.rdraw*Math.max(0,trr.pool); taxi= (couple || !two)? tinc(TX, taxable/trr.d, ct, rel) : 2*tinc(TX, taxable/trr.d/2, ct, rel); }
     const per=ps.map((p,i)=>{
       const L=st[i].lpp, tx=tcap(TX,L,ct,rel), net=L-tx, N=Math.max(1, A.horizon-stops[i]), gq=(1+A.infl)/(1+A.rdraw);
       let fac=0; for(let k=0;k<N;k++) fac+=Math.pow(gq,k);
@@ -1321,39 +1760,46 @@ const ENG = (function(){
     const sumV=o=>Object.keys(o).reduce((s,k)=>s+o[k],0);
     return {Y:Yr, Ym:Yr/12, end:R.end, repl_real: salNow>0? Yr/salNow : 0, repl_nom: last>0? Yr*defl(yFirst)/last : 0,
       taxCap:sumV(taxes), taxCapNS:sumV(taxesNS), taxInc:taxi, YnetM:(Yr-taxi)/12, minpool: tr.length? Math.min(...tr.map(t=>t.pool)) : 0,
-      first:yFirst, yend, rente, stops, couple, n,
+      first:yFirst, yend, rente, stops, couple, two, status, n, edu, cy,
       ev: ev.map(e=>[e.kind,e.pi,e.j,e.y,e.v]).sort((a,b)=>a[3]-b[3]||a[1]-b[1]||a[2]-b[2]),
       taxes: Object.keys(taxes).map(Number).sort((a,b)=>a-b).map(y=>[y, taxes[y]]), per, trace:tr, defl, mix, g, avsYear};
   }
-  function reverse(ctx, H, A, sc, targetM, mode){
-    const Y0=ctx.Y0, ps=H.people, couple=!!H.couple && ps.length>1;
+  // net=true (v5, objectif issu du budget) : comparaison au revenu après impôt sur le revenu (YnetM)
+  function reverse(ctx, H, A, sc, targetM, mode, net){
+    const Y0=ctx.Y0, ps=H.people, couple=statusOf(H)!=="single" && ps.length>1;
     const age0=ps.map(p=>Y0-p.born), mins=age0.map(a=>Math.max(58,a)), rows=[];
     for(let s0=mins[0]; s0<=70; s0++){
       const stops=[s0];
       if(couple){ let s1 = mode==="sameAge"? s0 : mode==="fixed"? sc.stops[1] : s0+ps[0].born-ps[1].born; stops.push(Math.min(70, Math.max(mins[1], s1))); }
       const r=simulate(ctx, H, A, Object.assign({}, sc, {stops}));
-      rows.push([stops, r.Ym]);
+      rows.push([stops, net? r.YnetM : r.Ym]);
     }
     return {rows, first: rows.find(x=>x[1]>=targetM)||null};
   }
-  function solve(ctx, H, A, sc, targetM, key, hi0){
-    if(simulate(ctx,H,A,sc).Ym>=targetM) return 0;
+  function solve(ctx, H, A, sc, targetM, key, hi0, net){
+    const val=r=> net? r.YnetM : r.Ym;
+    if(val(simulate(ctx,H,A,sc))>=targetM) return 0;
     let lo=0, hi=hi0; const w=v=>Object.assign({}, sc, {[key]:v});
-    if(simulate(ctx,H,A,w(hi)).Ym<targetM) return null;
-    for(let i=0;i<40;i++){ const m=(lo+hi)/2; if(simulate(ctx,H,A,w(m)).Ym>=targetM) hi=m; else lo=m; }
+    if(val(simulate(ctx,H,A,w(hi)))<targetM) return null;
+    for(let i=0;i<40;i++){ const m=(lo+hi)/2; if(val(simulate(ctx,H,A,w(m)))>=targetM) hi=m; else lo=m; }
     return hi;
   }
-  const leverMonthly=(ctx,H,A,sc,t)=>solve(ctx,H,A,sc,t,"extraMonthly",50000);
-  const leverBuyback=(ctx,H,A,sc,t)=>solve(ctx,H,A,sc,t,"extraBuyback",3e6);
-  return {simulate, reverse, leverMonthly, leverBuyback, tcap, tinc, avsFull, coord, creditRate, nonemp, prm, derived};
+  const leverMonthly=(ctx,H,A,sc,t,net)=>solve(ctx,H,A,sc,t,"extraMonthly",50000,net);
+  const leverBuyback=(ctx,H,A,sc,t,net)=>solve(ctx,H,A,sc,t,"extraBuyback",3e6,net);
+  return {simulate, reverse, leverMonthly, leverBuyback, tcap, tinc, avsFull, coord, coordPR, creditRate, nonemp, prm, derived, statusOf};
 })();
 
 
 /* ================= Calculs : ménage & personnes ================= */
-function couple(){ return !!S.household.couple && S.people.length>1; }
+/* v5 : état civil simulé — « married » (mariage / partenariat enregistré : barème commun, splitting et plafond AVS 150 %),
+   « concubinage » (deux personnes simulées, rentes AVS non plafonnées, impôts séparés, pas de rente de survivant), « single ».
+   Un concubinage v4 reste simulé seul tant que household.partner n'est pas activé. */
+function status(){ const h=S.household, two=S.people.length>1; if(two && h.civil==="married") return "married"; if(two && h.civil==="cohab" && h.partner) return "concubinage"; return "single"; }
+function couple(){ return status()!=="single"; }       // deux personnes simulées
 function persons(){ return couple()? S.people.slice(0,2) : [S.people[0]]; }
 function P(i){ return S.people[i||0]; }
-function married(){ return couple(); }                 // « En couple » = marié·e / partenariat enregistré (barème et plafond AVS)
+function married(){ return status()==="married"; }     // marié·es / partenariat enregistré (barème et plafond AVS)
+function concub(){ return status()==="concubinage"; }
 function relKey(){ return married()? "married" : "single"; }
 function ageOf(p){ return p && p.birthYear? YEAR - p.birthYear : NaN; }
 function refAge(p){
@@ -1387,12 +1833,13 @@ function contrib3a(p){ return p.p3a.max? max3a(p) : Math.min(p.p3a.contrib||0, m
 function contribAll(){ return persons().reduce((s,p)=>s+contrib3a(p),0); }
 // revenu imposable du ménage : valeur de la taxation si fournie, sinon heuristique (étiquetée comme telle)
 function taxableIsHeuristic(){ return !(S.household.taxableOverride>0); }
-function taxableBase(){ // avant déduction 3a de l'année
-  if(S.household.taxableOverride>0) return S.household.taxableOverride + contribAll();
+function taxableBase(pi){ // avant déduction 3a de l'année ; en concubinage, pi = personne taxée séparément
+  const ps= pi!=null && concub()? [P(pi)] : persons();
+  if(S.household.taxableOverride>0 && !(pi!=null && concub())) return S.household.taxableOverride + contribAll();
   const one = p => { const g=(+p.income||0)+(+p.bonus||0); if(!(g>0)) return 0; const soc = p.status==="self"? 0.10*g : 0.064*g; return g - soc - lppEmployeeEstimate(p); };
-  return Math.max(0, persons().reduce((s,p)=>s+one(p),0)*0.88);
+  return Math.max(0, ps.reduce((s,p)=>s+one(p),0)*0.88);
 }
-function taxable(){ return Math.max(0, taxableBase() - contribAll()); }
+function taxable(pi){ const ps= pi!=null && concub()? [P(pi)] : persons(); return Math.max(0, taxableBase(pi) - ps.reduce((s,p)=>s+contrib3a(p),0)); }
 
 /* ================= Impôts (tableaux ESTV précalculés) ================= */
 function interp(xs, rows, x){
@@ -1415,7 +1862,7 @@ function band(r){
 }
 function rangeTxt(r){ const b=band(r); return fmtNum(Math.round(b.lo))+" – "+fmtNum(Math.round(b.hi)); }
 // économie d'impôt du 3a d'une personne (l'autre conjoint ayant déjà déduit le sien)
-function saving3a(p){ const others=contribAll()-contrib3a(p); return deductionSaving(contrib3a(p), taxableBase()-others); }
+function saving3a(p){ if(concub()){ const i=S.people.indexOf(p); return deductionSaving(contrib3a(p), taxableBase(i)); } const others=contribAll()-contrib3a(p); return deductionSaving(contrib3a(p), taxableBase()-others); }
 
 /* ================= 3a ================= */
 function sum3a(p){ return p.p3a.accounts.reduce((s,a)=>s+(+a.balance||0),0); }
@@ -1444,7 +1891,7 @@ function avsScale(p){ return clamp((PRM.ahv.fullYears-(p.avs.missing||0))/PRM.ah
 // rente individuelle mensuelle (splitting simplifié pour un couple : moyenne des deux revenus)
 function avsIndiv(p){
   if(p.avs.override>0) return p.avs.override;
-  const ram = couple()? householdIncome()/2 : (+p.income||0);
+  const ram = married()? householdIncome()/2 : (+p.income||0);
   return avsMonthlyFull(ram)*avsScale(p);
 }
 function coupleCap(){ return PRM.ahv.coupleCapPct*yp(PRM.ahv.byYear, YEAR).maxMonthly; }
@@ -1452,8 +1899,8 @@ function avsHousehold(){ // les deux rentes versées : mensuel, plafonné à 150
   const months=avsMonths();
   if(S.fire.avsOverride>0) return {monthly:S.fire.avsOverride, annual:S.fire.avsOverride*months, override:true, months, capped:false, indiv:persons().map(avsIndiv)};
   const ind=persons().map(avsIndiv), sum=ind.reduce((a,b)=>a+b,0);
-  const cap = couple()? coupleCap() : Infinity, monthly=Math.min(sum, cap);
-  return {monthly, annual:monthly*months, override:false, months, capped: couple() && sum>cap, indiv:ind, sum};
+  const cap = married()? coupleCap() : Infinity, monthly=Math.min(sum, cap);
+  return {monthly, annual:monthly*months, override:false, months, capped: married() && sum>cap, indiv:ind, sum};
 }
 function contribYears(p){ return clamp(ageOf(p)-20, 0, PRM.ahv.fullYears); }
 
@@ -1469,11 +1916,17 @@ function engPerson(p){
     contribMode:mode, emp: self && L.contribMode==="unknown"? 0 : (+L.emp||0), er: self && L.contribMode==="unknown"? 0 : (+L.er||0),
     conv65: L.conv65>0? L.conv65/100 : null, buyback:+L.buyback||0, buybackYears:Math.max(1,Math.round(L.buybackYears||1)),
     p3a:p.p3a.accounts.map(a=>+a.balance||0), c3a: earns? contrib3a(p) : 0, retro: earns? Math.min(+p.p3a.retro||0, retroMax(p)) : 0,
-    avsMissing:clamp(+p.avs.missing||0,0,44), avsOverride:+p.avs.override||0 };
+    avsMissing:clamp(+p.avs.missing||0,0,44), avsOverride:+p.avs.override||0,
+    ...(S.sim.periodsOn!==false && p.periods && p.periods.length? { periods: periodsEng(p) } : {}) };
 }
+function periodsEng(p){ return p.periods.slice().sort((a,b)=>a.from-b.from).map(q=>[q.from, q.to, clamp(q.rate,0,100)/100, !!q.no3a && q.rate>0]); }
 function engH(){
-  const h=S.household, H={ couple:couple(), canton: TX.cantons[h.canton]? h.canton : "ZH", marriedSince: couple() && h.marriedSince>1900? +h.marriedSince : null,
+  const h=S.household, st=status(), H={ couple:st==="married", status:st, canton: TX.cantons[h.canton]? h.canton : "ZH", marriedSince: st==="married" && h.marriedSince>1900? +h.marriedSince : null,
     free:+S.fire.otherAssets||0, people: persons().map(engPerson) };
+  if(h.kidsBorn && h.kidsBorn.length) H.kids=h.kidsBorn.slice();
+  if(st==="concubinage" && h.eduShare==="p0") H.eduShare=[1,0];
+  if(st==="concubinage" && h.eduShare==="p1") H.eduShare=[0,1];
+  if(h.avsMinPaid===false) H.avsMinPaid=false;
   if(S.wd.other>0 && P(0).birthYear){ const y=P(0).birthYear+clamp(+S.wd.otherAge||65,50,75); if(y>=YEAR) H.other={v:+S.wd.other, y, pi:0}; }
   return H;
 }
@@ -1488,10 +1941,10 @@ function stopsOf(k){
   return [a0, S.sim.link? linkedAge(a0) : clamp(S.sim.ages1[k], ageMin(1), ageMax(1))];
 }
 function overrides(){ const o={}; persons().forEach((p,pi)=>p.p3a.accounts.forEach((a,j)=>{ if(a.age>0) o[pi+":"+j]=clamp(Math.round(a.age),60,70); })); return o; }
-function scOf(k, extra){ return Object.assign({ stops:stopsOf(k), share:modeShare(), avsWait65:!!S.sim.avsWait65, stagger:S.sim.stagger!==false, overrides:overrides(), extraMonthly:0, extraBuyback:0 }, extra||{}); }
+function scOf(k, extra){ const sv=savEff(); return Object.assign({ stops:stopsOf(k), share:modeShare(), avsWait65:!!S.sim.avsWait65, stagger:S.sim.stagger!==false, overrides:overrides(), extraMonthly:0, extraBuyback:0 }, sv>0? {savMonthly:sv} : {}, extra||{}); }
 const MEMO={ key:null, v:{} };
 function memo(name, fn){
-  const k=JSON.stringify([engH(), engA(), S.sim, overrides(), YEAR]);
+  const k=JSON.stringify([engH(), engA(), S.sim, overrides(), YEAR, S.savings, S.budget, S.household]);
   if(k!==MEMO.key){ MEMO.key=k; MEMO.v={}; }
   if(!(name in MEMO.v)) MEMO.v[name]=fn();
   return MEMO.v[name];
@@ -1503,6 +1956,25 @@ function sims(){ return [0,1,2].map(simK); }
 function shownM(r){ const net=S.sim.net? r.YnetM : r.Ym; return S.sim.real? net : net*r.defl(r.first); }
 function salNow(){ return persons().reduce((s,p)=>s+(+p.income||0)+(+p.bonus||0),0); }
 function capTaxFor(amount, ct){ return capTax(amount, ct); }
+
+/* ================= v5 : épargne personnelle, budget, objectif ================= */
+const SAV_RATE = 0.66;                       // part de l'épargne prévue réellement comptée (prudence)
+function budgetIncT(){ return (S.budget.inc||[]).reduce((s,x)=>s+(+x.amt||0),0); }
+function budgetCostT(){ return (S.budget.cost||[]).reduce((s,x)=>s+(+x.amt||0),0); }
+function budgetRetT(){ return (S.budget.cost||[]).reduce((s,x)=>s+(+x.ret||0),0); }
+function budgetCap(){ return budgetIncT()-budgetCostT(); }
+function hasBudget(){ return (S.budget.inc||[]).length>0 || (S.budget.cost||[]).length>0; }
+function savMonthly(){ const v=S.savings; if(!v.on) return 0; return v.src==="budget" && hasBudget()? Math.max(0, budgetCap()) : Math.max(0, +v.monthly||0); }
+function savEff(){ return savMonthly()*SAV_RATE; }
+function goalFromBudget(){ return !!S.budget.goalOn && budgetRetT()>0; }
+// objectif : budget retraite (comparé au revenu après impôt) ou objectif saisi (comparé comme en v4)
+function goalInfo(){ if(goalFromBudget()) return {v:Math.round(budgetRetT()), net:true, src:"budget"}; return {v:goalTarget(), net:false, src:"manual"}; }
+function goalVal(r, net){ return net? r.YnetM : r.Ym; }           // CHF d'aujourd'hui
+// variante du ménage (même scénario) : modifications de H (fonction) et du scénario
+function simAlt(name, k, modH, extra){ return memo("alt:"+name+":"+k, ()=>{ const H=deep(engH()); if(modH) modH(H); return ENG.simulate(ECTX(), H, engA(), scOf(k, extra)); }); }
+function noPeriods(H){ H.people.forEach(p=>{ delete p.periods; }); }
+function hasPeriods(){ return persons().some(p=>p.periods && p.periods.length); }
+function estNetSalary(p){ const g=(+p.income||0)+(+p.bonus||0); if(!(g>0)) return 0; const soc=p.status==="self"? 0.10*g : 0.064*g; return Math.round((g-soc-lppEmployeeEstimate(p))/12); }
 
 /* ================= Icônes, marque, graphiques (SVG) ================= */
 const IC = {
@@ -1523,8 +1995,15 @@ const IC = {
  users:'<circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19.5c.6-3.2 2.8-5 5.5-5s4.9 1.8 5.5 5"/><circle cx="16.5" cy="9.5" r="2.6"/><path d="M15.5 14.6c2.3.1 4.2 1.7 4.9 4.9"/>',
  edit:'<path d="M4.5 19.5h4l10-10-4-4-10 10z"/><path d="m13 7 4 4"/>',
  trend:'<path d="M3.5 17.5 9 12l3.5 3.5 8-8"/><path d="M15 7.5h5.5V13"/>', target:'<circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor"/>',
- user:'<circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.9-4 3.8-6.2 7.5-6.2s6.6 2.2 7.5 6.2"/>', sliders:'<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>'
+ user:'<circle cx="12" cy="8.5" r="3.8"/><path d="M4.5 20c.9-4 3.8-6.2 7.5-6.2s6.6 2.2 7.5 6.2"/>', sliders:'<path d="M4 7h9M17 7h3M4 17h3M11 17h9"/><circle cx="15" cy="7" r="2"/><circle cx="9" cy="17" r="2"/>',
+ wallet:'<path d="M4 7.5h14.5a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2H5.5A1.5 1.5 0 0 1 4 18.5z"/><path d="M4 7.5 15.5 4v3.5"/><path d="M16 13.8h1.6"/>',
+ bookmark:'<path d="M7 3.5h10v17l-5-3.6-5 3.6z"/>', compare:'<path d="M5 20V10M10 20V4M15 20v-7M20 20V8"/>',
+ pause:'<path d="M9 6v12M15 6v12"/>', spark:'<path d="M12 3.5v4M12 16.5v4M3.5 12h4M16.5 12h4M6 6l2.5 2.5M15.5 15.5 18 18M6 18l2.5-2.5M15.5 8.5 18 6"/>',
+ flow:'<path d="M4 7h11l-3-3M20 17H9l3 3"/>', print:'<path d="M7 9V3.5h10V9"/><rect x="3.5" y="9" width="17" height="7.5" rx="2"/><path d="M7 14h10v6.5H7z"/>',
+ reset:'<path d="M4.5 12a7.5 7.5 0 1 0 2.2-5.3"/><path d="M4.5 4.5V9H9"/>', kids:'<circle cx="8" cy="7.5" r="2.8"/><circle cx="16.5" cy="9.5" r="2.2"/><path d="M3.5 19.5c.4-3.3 2.2-5.3 4.5-5.3s4.1 2 4.5 5.3M13 19.5c.3-2.6 1.6-4.2 3.5-4.2s3.2 1.6 3.5 4.2"/>',
+ star:'<path d="m12 4 2.4 5 5.4.6-4 3.7 1.1 5.4L12 16l-4.9 2.7 1.1-5.4-4-3.7 5.4-.6z"/>'
 };
+IC.download=IC.down;
 function ico(n, s=20, sw=1.7){ return `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IC[n]||""}</svg>`; }
 const CAIRN_E = [['50','69','31','11.5',''],['53.5','46.5','21.5','9.2','rotate(-7 53.5 46.5)'],['46.5','27.5','12.5','7.4','rotate(6 46.5 27.5)']];
 function cairnG(fills, stroke, sw){
@@ -1577,7 +2056,11 @@ function yearsTxt(n){ return t("ageN",{a:n}); }
 
 /* ================= Chrome ================= */
 const UI = { page:"sim", who:0, view:"hh", allCantons:false, step:1, draft:null, adv:{} };
-const PAGES = [["sim","sun","navSim"],["detail","trend","navDetail"],["goal","target","navGoal"],["data","user","navData"],["hyp","sliders","navHyp"]];
+/* v5 : cinq onglets ; Données regroupe Ménage (#data), Scénarios (#scen) et Hypothèses (#hyp) */
+const PAGES = [["sim","sun","navSim"],["detail","trend","navDetail"],["goal","target","navGoal"],["budget","wallet","navBudget"],["data","user","navData"]];
+const SUBPAGES = [["data","subMenage"],["scen","subScen"],["hyp","subHyp"]];
+function tabOf(p){ return SUBPAGES.some(x=>x[0]===p)? "data" : p; }
+function subNav(){ return `<div class="seg dsub" role="tablist">${SUBPAGES.map(([p,k])=>`<a href="#${p}" class="${UI.page===p?"on":""}" role="tab">${esc(t(k))}${p==="scen" && S.scen.length? ` <span class="cnt">${S.scen.length}</span>` : ""}</a>`).join("")}</div>`; }
 function renderChrome(){
   document.documentElement.lang = LANG==="fr"? "fr-CH" : "en";
   $("brand").innerHTML = markSVG(30)+"<b>MyPension</b>";
@@ -1587,7 +2070,9 @@ function renderChrome(){
     `<span class="tx">${esc((couple()? t("household")+" · " : "")+(couple()? canton : ages+" · "+canton))}</span>`;
   $("profBtn").title=t("profileTitle"); $("profBtn").setAttribute("aria-label", t("profileTitle"));
   $("gearIco").innerHTML = ico("gear",19); $("gearBtn").title=t("settings"); $("gearBtn").setAttribute("aria-label",t("settings"));
-  $("tabbar").innerHTML = PAGES.map(([p,ic,k])=>`<a href="#${p}" data-page="${p}" class="${UI.page===p?"on":""}">${ico(ic,23)}<span>${esc(t(k))}</span></a>`).join("");
+  $("tabbar").innerHTML = PAGES.map(([p,ic,k])=>`<a href="#${p}" data-page="${p}" class="${tabOf(UI.page)===p?"on":""}" title="${esc(t(k))}">${ico(ic,22)}<span>${esc(t(k))}</span></a>`+
+    (p==="data"? `<div class="sbsub">${SUBPAGES.map(([q,k2])=>`<a href="#${q}" data-sub="${q}" class="${UI.page===q?"on":""}"><span>${esc(t(k2))}</span>${q==="scen" && S.scen.length? `<span class="cnt">${S.scen.length}</span>` : ""}</a>`).join("")}</div>` : "")).join("")+
+    `<div class="sbfoot"><b>${ico("lock",13,2)}${esc(t("sbLocal"))}</b>${esc(t("sbLocalSub",{d:S.meta.lastExport? fmtDate(S.meta.lastExport.slice(0,10)) : t("never")}))}</div>`;
   $("foot").innerHTML = esc(t("discShort"))+"<br>"+esc(t("verTxt",{v:APP_VERSION, d:fmtDate(PRM.verifiedOn)}))+` · <a href="privacy.html?lang=${LANG}">${esc(t("privacy"))}</a>`;
 }
 function render(){
@@ -1595,20 +2080,26 @@ function render(){
   if(UI.view!=="hh" && UI.view>=persons().length) UI.view="hh";
   if(!couple()) UI.view="hh";
   document.querySelectorAll(".page").forEach(s=>s.classList.toggle("on", s.id==="p-"+UI.page));
-  document.querySelectorAll("#tabbar a").forEach(a=>a.classList.toggle("on", a.dataset.page===UI.page));
+  document.querySelectorAll("#tabbar a[data-page]").forEach(a=>a.classList.toggle("on", a.dataset.page===tabOf(UI.page)));
+  document.querySelectorAll("#tabbar a[data-sub]").forEach(a=>a.classList.toggle("on", a.dataset.sub===UI.page));
   document.body.classList.toggle("setup", UI.page==="setup");
-  const fn={sim:renderSim, detail:renderDetail, goal:renderGoal, data:renderData, hyp:renderHyp, setup:renderSetup}[UI.page];
+  document.body.classList.toggle("insub", tabOf(UI.page)==="data");
+  const fn={sim:renderSim, detail:renderDetail, goal:renderGoal, budget:renderBudget, data:renderData, scen:renderScen, hyp:renderHyp, setup:renderSetup}[UI.page];
   try{ fn(); }catch(e){ console.error(e); }
   renderBanners();
 }
 function route(){
   const h=(location.hash||"").replace("#","");
-  const ok = h==="setup" || PAGES.some(p=>p[0]===h);
+  const ok = h==="setup" || PAGES.some(p=>p[0]===h) || SUBPAGES.some(p=>p[0]===h);
+  if(UI.page!==h) UI.prev=UI.page;
   UI.page = ok? h : "sim";
   if(UI.page==="setup" && !UI.draft) startSetup(UI.step||1);
   render(); window.scrollTo(0,0);
 }
 function head(title, sub){ return `<h1 class="pt">${esc(title)}</h1>${sub?`<div class="sub">${esc(sub)}</div>`:""}`; }
+// v5 : en-tête de page « web » : titre + sous-titre à gauche, actions à droite (repliées sous le titre sur mobile)
+function dh(title, sub, acts){ return `<div class="dh"><div class="dht">${head(title, sub)}</div>${acts? `<div class="acts">${acts}</div>` : ""}</div>`; }
+function abtn(a, ic, lbl, cls, extra){ return `<button class="btn ${cls||""}" data-a="${a}" ${extra||""}>${ico(ic,15)}<span>${esc(lbl)}</span></button>`; }
 
 /* ================= v4 : Simulation · Détail · Objectif · Hypothèses ================= */
 const SCOL=["#B4543A","#B8894A","#0F3D2E"], SL=["A","B","C"];
@@ -1631,7 +2122,7 @@ function agesTxt(st){ return couple()? st[0]+" · "+st[1] : String(st[0]); }
 function agesWho(st){ return couple()? t("agesCouple",{a:st[0], b:st[1], n:pname(1)}) : t("agesSingle",{a:st[0]}); }
 function firstYear(st){ return Math.min(...st.map((a,i)=>P(i).birthYear+a)); }
 function unitTxt(){ return t(S.sim.real? "chfToday" : "chfNominal")+" · "+t(S.sim.net? "afterTax" : "beforeTax"); }
-function capped(r){ return couple() && r.per.reduce((s,p)=>s+p.full,0) > PRM.ahv.coupleCapPct*yp(PRM.ahv.byYear,YEAR).maxMonthly + 0.5; }
+function capped(r){ return married() && r.per.reduce((s,p)=>s+p.full,0) > PRM.ahv.coupleCapPct*yp(PRM.ahv.byYear,YEAR).maxMonthly + 0.5; }
 function yFull(r){ return Math.min(r.yend-1, Math.max(...r.per.map((p,i)=>P(i).birthYear+p.avsAge))); }
 // composition mensuelle (CHF d'aujourd'hui) d'une année de la phase de retraite
 function compAt(r, y){
@@ -1666,46 +2157,7 @@ function simControls(){
     ${S.sim.mode==="mixed"? `<div class="sl"><div class="row"><span>${esc(t("mixShareLbl"))}</span><b class="n">${S.sim.mixShare} %</b></div>${rangeInput("r_mix","sim.mixShare",0,100,5,S.sim.mixShare)}</div>` : ""}`;
 }
 /* ---------- page Simulation ---------- */
-function renderSim(){
-  if(!ready()){ $("p-sim").innerHTML=head(t("simTitle"), t("simSub"))+`<div class="cols">${welcomeCard()}</div>`; return; }
-  const R=sims(), st=[0,1,2].map(stopsOf), v=UI.view;
-  const linkSw = couple()? `<label class="sw inl"><span>${esc(t("linkLbl"))}</span><input type="checkbox" data-a="link" ${S.sim.link?"checked":""}><span class="tg"></span></label>` : "";
-  const hero=`<div class="card hero sim">${wm(260,-80,-30)}<div class="row"><div class="eb">${esc(t("scen3"))}</div>${linkSw}</div>
-    ${persons().map((_,i)=>ageTrack(i)).join("")}${simControls()}</div>`;
-  let cards;
-  if(v==="hh" || !couple()){
-    cards=R.map((r,k)=>{
-      const c=compAt(r, yFull(r)), tot=c? Math.max(1,c.avs+c.lpp.reduce((a,b)=>a+b,0)+Math.max(0,c.cap)+Math.max(0,c.sal)) : 1;
-      const seg=(val,col)=> val>0.5? `<i style="flex:${(val/tot*100).toFixed(1)};background:${col}"></i>` : "";
-      const bar=c? `<div class="vst">${seg(Math.max(0,c.cap),CCOL.cap)}${seg(c.sal,CCOL.sal)}${couple()? seg(c.lpp[1],CCOL.lpp1) : ""}${seg(c.lpp[0],CCOL.lpp0)}${seg(c.avs,CCOL.avs)}</div>` : "";
-      const tag= couple()? (capped(r)? t("tagCap") : t("tagAvs2")) : (r.per[0].avsAge<65? t("tagAvsEarly",{a:r.per[0].avsAge}) : t("tagAvs65"));
-      return `<button class="scc ${S.sim.sel===k?"on":""}" data-a="pick" data-k="${k}" style="--c:${SCOL[k]}"><div class="sh">${esc(t("scenario"))} ${SL[k]}</div>
-        <div class="sa n">${couple()? `${st[k][0]}<small>${esc(t("youShort"))}</small> • ${st[k][1]}<small>${esc(initials(pname(1)).slice(0,2))}.</small>` : `${st[k][0]}<small>${esc(t("yearsShort"))}</small>`}</div>
-        <div class="sy">${esc(t("fromYear",{y:firstYear(st[k])}))}</div>
-        <div class="sv n">${M(shownM(r))}<small>${esc(t("perMonthShort"))}</small></div><div class="sp">${esc(t(couple()?"pctSalaries":"pctSalary",{p:pct(r.repl_real,0)}))}</div>
-        ${bar}<span class="tg2">${esc(tag)}</span></button>`; }).join("");
-    cards=`<div class="sc3">${cards}</div><div class="lg">${[["avs",couple()?"lgAvs2":"lgAvs"],["lpp0",couple()?"lgLppYou":"lgLpp"],...(couple()?[["lpp1","lgLppSp"]]:[]),["sal","lgSal"],["cap","lgCap"]].map(([k,l])=>`<span><i style="background:${CCOL[k]}"></i>${esc(t(l,{n:pname(1)}))}</span>`).join("")}</div>`;
-  } else {
-    const i=v;
-    cards=`<div class="sc3">${R.map((r,k)=>{ const p=r.per[i], q=modeShare(), d=r.defl(p.ystop), capf=capped(r)? PRM.ahv.coupleCapPct*yp(PRM.ahv.byYear,YEAR).maxMonthly/r.per.reduce((s,x)=>s+x.full,0) : 1;
-      const avsM=p.full*(1-p.avsRed)*capf*13/12, rente=r.rente[i]/12/d, cap3=r.ev.filter(e=>e[1]===i && e[0]==="3a").reduce((s,e)=>s+e[4],0);
-      return `<button class="scc ${S.sim.sel===k?"on":""}" data-a="pick" data-k="${k}" style="--c:${SCOL[k]}"><div class="sh">${esc(t("scenario"))} ${SL[k]}</div>
-        <div class="sa n">${st[k][i]}<small>${esc(t("yearsShort"))}</small></div><div class="sy">${esc(t("fromYear",{y:p.ystop}))}</div>
-        <div class="kvs">${kv(esc(t("avsFromK",{a:p.avsAge})), M(avsM))}${kv(esc(t("lppRenteK")), q<1? M(rente*(1-0)) : "—")}${kv(esc(t("lppCapK")), q>0? kfmt(Math.round(p.lpp*q)) : "—")}${kv(esc(t("cap3aK")), cap3>0? kfmt(Math.round(cap3)) : "—")}</div></button>`; }).join("")}</div>
-      <p class="tiny" style="margin-top:6px">${esc(t("personViewNote"))}</p>`;
-  }
-  const row=(l,f)=>`<tr><td>${esc(l)}</td>${R.map((r,k)=>`<td class="n ${S.sim.sel===k?"me":""}">${f(r,k)}</td>`).join("")}</tr>`;
-  const tbl=`<div class="card"><div class="ch"><h3>${esc(t("sideBySide"))}</h3><button class="lk" data-a="goDetail">${esc(t("seeDetail"))} ›</button></div><div class="tw"><table class="tbl"><tr><th></th>${SL.map((l,k)=>`<th style="color:${SCOL[k]}">${l}</th>`).join("")}</tr>
-    ${row(t(couple()?"rowIncHH":"rowInc"), r=>M(shownM(r)*12))}
-    ${row(t("rowReplNom"), r=>pct(r.repl_nom,0))}
-    ${row(t("rowCapLpp"), r=>kfmt(Math.round(r.per.reduce((s,p)=>s+p.lpp,0))))}
-    ${row(t(S.sim.mode==="annuity"?"rowCapTax3a":"rowCapTax"), r=>M(r.taxCap))}
-    ${row(t("rowAvsFrom"), r=>r.per.map(p=>p.avsAge).join(" · "))}
-    ${S.sim.net? "" : row(t("rowIncTax"), r=>M(r.taxInc/12))}</table></div>
-    <p class="tiny" style="margin-top:8px">${esc(unitTxt())} · ${esc(t("salNowTxt",{s:fmtNum(salNow())}))}</p>
-    ${R.some(r=>r.minpool<-1)? note("warn","",esc(t("negPool"))) : ""}</div>`;
-  $("p-sim").innerHTML = head(t("simTitle"), t(couple()?"simSubHH":"simSub"))+viewSeg()+`<div class="cols one">${hero}${cards}${tbl}</div>`;
-}
+/* renderSim : voir ui_sim5.js (v5) */
 /* ---------- graphique empilé ---------- */
 function areaChart(rows, keys, line, h){
   const W=320, n=rows.length; if(n<2) return `<div class="nochart">—</div>`;
@@ -1721,48 +2173,7 @@ function areaChart(rows, keys, line, h){
   return `<svg class="chart" viewBox="0 0 ${W} ${h}" preserveAspectRatio="none" width="100%" height="${h}" aria-hidden="true">${out}</svg><div class="xls">${labs}</div>`;
 }
 /* ---------- page Détail ---------- */
-function renderDetail(){
-  if(!ready()){ $("p-detail").innerHTML=head(t("detailTitle"))+`<div class="cols">${welcomeCard()}</div>`; return; }
-  const k=S.sim.sel, r=simK(k), st=stopsOf(k), q=modeShare(), ps=persons();
-  const mtxt=t(S.sim.mode==="capital"?"modeCapital":S.sim.mode==="annuity"?"modeAnnuity":"modeMixed");
-  const youngest=ps.reduce((b,p,i)=> p.birthYear>P(b).birthYear? i : b, 0);
-  const capM=r.ev.reduce((s,e)=>s+e[4],0);
-  const hero=`<div class="card hero">${wm(240,-70,-40)}<div class="row"><div class="eb">${esc(t(couple()?"heroDetailHH":"heroDetail",{y:firstYear(st)}))}</div>${pill("iv",esc(t("scenario")+" "+SL[k]))}</div>
-    <div class="big n"><span class="c">CHF</span>${H(Math.round(shownM(r)))}<span class="u">${esc(t("perMonth"))}</span></div>
-    <div class="sub">${esc(t("heroDetailSub",{p:pct(r.repl_real,0), h:engA().horizon, n:couple()? pname(youngest) : t("you")}))}</div>
-    <p class="tiny" style="margin-top:8px">${esc(unitTxt())}${S.sim.net? "" : " · "+esc(t("taxIncLine",{m:M(r.taxInc/12)}))}</p></div>`;
-  // cartes par personne
-  const capf=capped(r)? PRM.ahv.coupleCapPct*yp(PRM.ahv.byYear,YEAR).maxMonthly/r.per.reduce((s,x)=>s+x.full,0) : 1;
-  const pc=ps.map((p,i)=>{ const x=r.per[i], d=r.defl(x.ystop), y3=r.ev.filter(e=>e[1]===i && e[0]==="3a").map(e=>e[3]);
-    return `<div class="card pcd"><div class="row" style="justify-content:flex-start;gap:8px"><span class="mi lg2">${esc(initials(p.name,t(i?"spouse":"you")[0]))}</span><b>${esc(pname(i))}</b></div>
-      <div class="sub">${esc(t("stopAt",{a:st[i], y:x.ystop}))}</div>
-      ${kv(esc(t("avsAtK",{a:x.avsAge, y:p.birthYear+x.avsAge})), M(x.full*(1-x.avsRed)*capf*13/12))}${kv(esc(t("lppRenteK")), q<1? M(r.rente[i]/12/d) : "—")}${kv(esc(t("lppCapK")), q>0? M(x.lpp*q) : "—")}${kv(esc(t("w3aK")), y3.length? [...new Set(y3)].join(", ") : "—")}</div>`; }).join("");
-  // graphique
-  const rows=r.trace.map(tr=>{ const c=compAt(r,tr.y); return {y:tr.y, avs:c.avs, lpp0:c.lpp[0]||0, lpp1:c.lpp[1]||0, sal:c.sal, cap:c.cap}; });
-  const keys=["avs","lpp0"].concat(couple()?["lpp1"]:[]).concat(["sal","cap"]);
-  const ch=`<div class="card"><div class="ch"><h3>${esc(t(couple()?"perMonthHH":"perMonthYou"))}</h3>${scenChips()}</div>
-    <div class="tiny" style="color:var(--terra);font-weight:650;margin-bottom:4px">${esc(t("constLine",{m:M(r.Ym)}))}</div>
-    ${areaChart(rows, keys, r.Ym, 150)}
-    <div class="lg">${keys.map(x=>`<span><i style="background:${CCOL[x]}"></i>${esc(t({avs:couple()?"lgAvs2":"lgAvs",lpp0:couple()?"lgLppYou":"lgLpp",lpp1:"lgLppSp",sal:"lgSal",cap:"lgCap"}[x],{n:pname(1)}))}</span>`).join("")}</div>
-    ${r.minpool<-1? note("warn","",esc(t("negPool"))) : ""}</div>`;
-  // phases
-  const ph=[], ys=new Set();
-  ps.forEach((p,i)=>{ ys.add(r.per[i].ystop); ys.add(p.birthYear+r.per[i].avsAge); });
-  [...ys].filter(y=>y>=r.first && y<r.yend).sort((a,b)=>a-b).forEach(y=>{
-    const c=compAt(r,y), who=[];
-    ps.forEach((p,i)=>{ if(r.per[i].ystop===y) who.push(i===0 && !(p.name||"").trim()? t("phStopYou") : t("phStop",{n:pname(i)})); if(p.birthYear+r.per[i].avsAge===y) who.push(i===0 && !(p.name||"").trim()? t("phAvsYou") : t("phAvs",{n:pname(i)})); });
-    const parts=[c.sal>0.5? t("lgSal")+" "+M(c.sal) : "", c.avs>0.5? "AVS "+M(c.avs) : "", c.lpp.reduce((a,b)=>a+b,0)>0.5? t("lgLpp")+" "+M(c.lpp.reduce((a,b)=>a+b,0)) : "", c.cap>0.5? t("lgCap")+" "+M(c.cap) : ""].filter(Boolean).join(" + ");
-    ph.push(`<div class="ph"><i style="background:${c.sal>0.5?CCOL.sal:c.avs>0.5?CCOL.avs:CCOL.cap}"></i><div class="t"><b>${y} · ${esc(who.join(" · "))}</b><small>${esc(parts)}</small></div><b class="n">${M(r.Ym)}</b></div>`); });
-  const neY=r.trace.filter(x=>x.ne>0), neM=neY.length? neY.reduce((s,x)=>s+x.ne/x.d,0)/neY.length/12 : 0;
-  if(neM>0.5) ph.push(`<div class="ph"><i style="background:var(--terra)"></i><div class="t"><b>${esc(t("phNe"))}</b><small>${esc(t("phNeSub"))}</small></div><b class="n neg">− ${M(neM)}</b></div>`);
-  const phc=`<div class="card"><div class="ch"><h3>${esc(t("phases"))}</h3><span class="lk" style="color:var(--sapin)">${esc(t(S.sim.real?"chfToday":"chfTodayChart"))}</span></div>${ph.join("")}</div>`;
-  // AVS
-  const avsC=`<div class="card"><div class="ch"><h3>${esc(t(couple()?"avsCouple":"avsTitle"))}</h3><button class="lk" data-a="editAvs">${esc(t("edit"))}</button></div>
-    ${ps.map((p,i)=>{ const x=r.per[i]; return kv(esc(pname(i)+" · "+t("avsFullK")), `${M(x.full)} <span class="cc0">${x.avsAge<65? esc(t("avsEarlyRed",{a:x.avsAge, p:pct(x.avsRed,1)})) : esc(t("avsAt65"))}</span>`); }).join("")}
-    ${couple()? `<p class="sub" style="margin-top:6px">${esc(t("splitTxt",{a:M(r.per[0].ownFull), b:M(r.per[1].ownFull), c:M(r.per[0].full), d:M(r.per[1].full)}))}${capped(r)? " "+esc(t("capTxt",{m:M(PRM.ahv.coupleCapPct*yp(PRM.ahv.byYear,YEAR).maxMonthly)})) : ""}</p>` : ""}
-    <p class="tiny" style="margin-top:6px">${esc(t("avsNote13"))} ${src("avs21")}</p></div>`;
-  $("p-detail").innerHTML = head(t("detailTitle"), t("scenario")+" "+SL[k]+" · "+agesWho(st)+" · "+mtxt)+`<div class="cols">${hero}${couple()? `<div class="g2">${pc}</div>` : pc}${ch}${phc}${renteCapCard(r,k)}${wdCard(r)}${avsC}</div>`;
-}
+/* renderDetail : voir ui_sim5.js (v5) */
 function renteCapCard(r, k){
   const i=couple()? UI.who : 0, x=r.per[i], p=P(i), A=engA(), q=modeShare();
   const H90=p.birthYear+A.horizon, real90=x.renteFull/12/r.defl(H90);
@@ -1770,14 +2181,14 @@ function renteCapCard(r, k){
   const m=["annuity","mixed","capital"].map(md=>[md, simMode(k,md)]);
   return `<div class="card"><div class="ch"><h3>${esc(t("renteOrCap"))}</h3><span class="lk" style="color:var(--mut)">${esc(t("lppAtStop",{v:kfmt(Math.round(x.lpp)), c:pct(x.conv,2)}))}</span></div>${who}
     <div class="rc2"><div class="rd"><small>${esc(t("lifeAnnuity"))}</small><b class="n">${M(x.renteFull/12)}<span>${esc(t("perMonthShort"))}</span></b>
-      <ul><li>${esc(t(couple()?"rcA1c":"rcA1"))}</li><li>${esc(t("rcA2",{m:M(real90), h:A.horizon}))}</li><li>${esc(t("rcA3"))}</li></ul></div>
+      <ul><li>${esc(t(married()?"rcA1c":concub()?"rcA1k":"rcA1"))}</li><li>${esc(t("rcA2",{m:M(real90), h:A.horizon}))}</li><li>${esc(t("rcA3"))}</li></ul></div>
       <div class="rl"><small>${esc(t("capConsumed",{h:A.horizon}))}</small><b class="n">${M(x.pay)}<span>${esc(t("perMonthShort"))}</span></b>
       <ul><li>${esc(t("rcC1"))}</li><li>${esc(t("rcC2",{t:M(x.taxAlone), c:S.household.canton, n:M(x.net)}))}</li><li>${esc(t("rcC3",{h:A.horizon}))}</li></ul></div></div>
     ${kv(esc(t("breakEven")), `<b class="n" style="font-size:18px;color:var(--terra)">${x.renteFull>0? fmtNum(x.be,0)+" "+esc(t("yearsShort")) : "—"}</b>`)}
     <p class="tiny">${esc(t("breakEvenTxt",{a:fmtNum(x.be,0)}))}</p>
     <div class="seg sm">${m.map(([md,rr])=>`<button data-a="mode" data-v="${md}" class="${S.sim.mode===md?"on":""}"><span>${esc(t(md==="annuity"?"modeAnnuity100":md==="capital"?"modeCapital100":"modeMixedN",{p:S.sim.mixShare}))}</span><br><b class="n">${M(shownM(rr))}</b></button>`).join("")}</div>
     <p class="tiny" style="margin-top:6px">${esc(t("modeCmpNote"))}</p>
-    ${couple() && x.taxJoint>x.taxAlone+1? note("info",esc(t("jointTitle")),esc(t("jointTxt",{a:M(x.taxAlone), b:M(x.taxJoint), y:x.ystop}))) : ""}</div>`;
+    ${married() && x.taxJoint>x.taxAlone+1? note("info",esc(t("jointTitle")),esc(t("jointTxt",{a:M(x.taxAlone), b:M(x.taxJoint), y:x.ystop}))) : ""}</div>`;
 }
 function wdCard(r){
   const by={}; r.ev.forEach(e=>{ (by[e[3]]=by[e[3]]||[]).push(e); });
@@ -1796,42 +2207,21 @@ function wdCard(r){
 /* ---------- page Objectif ---------- */
 /* objectif par défaut : revenu du scénario B arrondi au 500 supérieur, + 500 (un objectif atteignable mais exigeant) */
 function goalTarget(){ if(S.sim.target>0) return S.sim.target; const r=ready()? simK(1) : null; return r? Math.max(1000, Math.ceil(shownM(r)/500)*500+500) : 5000; }
-function renderGoal(){
-  if(!ready()){ $("p-goal").innerHTML=head(t("goalTitle"))+`<div class="cols">${welcomeCard()}</div>`; return; }
-  const T=goalTarget(), mode=couple()? S.sim.revMode : "sameYear";
-  const sc=scOf(S.sim.sel);
-  const rv=memo("rev", ()=>ENG.reverse(ECTX(), engH(), engA(), sc, T, mode));
-  const f=rv.first, hiT=Math.max(20000, Math.ceil(T/1000)*1000);
-  const segs= couple()? `<div class="seg sm">${[["sameYear","revSameYear"],["sameAge","revSameAge"],["fixed","revFixed"]].map(([v,l])=>`<button data-a="revMode" data-v="${v}" class="${mode===v?"on":""}">${esc(t(l,{n:pname(1), a:sc.stops[1]}))}</button>`).join("")}</div>` : "";
-  const fy=f? Math.min(...f[0].map((a,i)=>P(i).birthYear+a)) : null;
-  const hero=`<div class="card hero">${wm(250,-70,-40)}<div class="eb">${esc(t(couple()?"goalEbHH":"goalEb"))}</div>
-    <div class="big n"><span class="c">CHF</span>${H(T)}<span class="u">${esc(t("perMonth"))}</span></div>
-    ${rangeInput("r_target","sim.target",1000,hiT,100,T)}${segs}
-    <div class="split"><div><small>${esc(t("possibleFrom"))}</small><b class="n">${f? fy+` <small>${esc(agesWho(f[0]))}</small>` : esc(t("after70"))}</b></div><div><small>${esc(t("incomeK"))}</small><b class="n">${f? M(f[1]) : "—"}</b></div></div>
-    <p class="tiny" style="margin-top:8px">${esc(t("goalNote"))}</p></div>`;
-  const vals=rv.rows.map(x=>x[1]), hi=rv.rows.findIndex(x=>f && x[0].join()===f[0].join());
-  const cols=rv.rows.map((x,i)=> x[1]<T? "#D49A85" : "#0F3D2E");
-  const labels=rv.rows.map(x=> couple()? `${x[0][0]}<br>${x[0][1]}` : String(x[0][0]));
-  const mx=Math.max(T,...vals)*1.05, tl=(1-T/mx)*120;
-  const bars=`<div class="card"><div class="ch"><h3>${esc(t(couple()? (mode==="sameYear"?"barsSameYear":mode==="sameAge"?"barsSameAge":"barsFixed") : "barsSingle",{n:pname(1)}))}</h3><span class="lk" style="color:var(--sapin)">${esc(t(couple()?"agesYouSp":"agesYou",{n:pname(1)}))}</span></div>
-    <div class="gb"><div class="tgl" style="top:${tl.toFixed(0)}px"><span>${esc(t("targetLbl",{m:fmtNum(T)}))}</span></div>${vbarsMax(vals, 120, cols, hi, mx)}</div>
-    <div class="xl gl">${labels.map((l,i)=>`<span class="${i===hi?"on":""}">${l}</span>`).join("")}</div></div>`;
-  $("p-goal").innerHTML = head(t("goalTitle"), t(couple()?"goalSubHH":"goalSub"))+`<div class="cols">${hero}${bars}${leverCard(T)}</div>`;
-}
+/* renderGoal : voir ui_sim5.js (v5) */
 function vbarsMax(vals, h, cols, hi, mx){
   const W=300, n=vals.length||1, gap=W/n*.18, bw=W/n-gap; let s="";
   vals.forEach((v,i)=>{ const bh=Math.max(2,v/mx*h), x=i*W/n+gap/2;
     s+=`<rect x="${x.toFixed(1)}" y="${(h-bh).toFixed(1)}" width="${bw.toFixed(1)}" height="${bh.toFixed(1)}" rx="4" fill="${cols[i]}" ${i===hi?`stroke="#B8894A" stroke-width="2.5"`:""}/>`; });
   return `<svg class="chart" viewBox="0 0 ${W} ${h}" preserveAspectRatio="none" width="100%" height="${h}" aria-hidden="true">${s}</svg>`;
 }
-function leverCard(T){
-  const k=S.sim.sel, r=simK(k), st=stopsOf(k), gap=T-r.Ym, ctx=ECTX(), H0=engH(), A=engA(), sc=scOf(k);
+function leverCard(T, net){
+  const k=S.sim.sel, r=simK(k), st=stopsOf(k), gap=T-goalVal(r,net), ctx=ECTX(), H0=engH(), A=engA(), sc=scOf(k);
   const head2=`<div class="ch"><h3>${esc(t("leverTitle",{y:firstYear(st), a:agesTxt(st)}))}</h3>${gap>0.5? pill("t",`<span class="n">− ${M(gap)}</span> ${esc(t("perMonthShort"))}`) : pill("l",esc(t("goalMet")))}</div>`;
   if(gap<=0.5) return `<div class="card">${head2}${note("ok","",esc(t("goalMetTxt",{s:SL[k]})))}${scenChips()}</div>`;
-  const L=memo("lev"+T, ()=>{
-    const lm=ENG.leverMonthly(ctx,H0,A,sc,T), lb= (+H0.people[0].lpp>0 || H0.people[0].contribMode!=="year")? ENG.leverBuyback(ctx,H0,A,sc,T) : null;
-    let wl=null; if(couple()){ const s1=Math.min(ageMax(1), st[1]+2); if(s1>st[1]) wl={who:1, a:s1, d:ENG.simulate(ctx,H0,A,Object.assign({},sc,{stops:[st[0],s1]})).Ym-r.Ym}; }
-    else { const s0=Math.min(ageMax(0), st[0]+1); if(s0>st[0]) wl={who:0, a:s0, d:ENG.simulate(ctx,H0,A,Object.assign({},sc,{stops:[s0]})).Ym-r.Ym}; }
+  const L=memo("lev"+T+(net?"n":""), ()=>{
+    const lm=ENG.leverMonthly(ctx,H0,A,sc,T,net), lb= (+H0.people[0].lpp>0 || H0.people[0].contribMode!=="year")? ENG.leverBuyback(ctx,H0,A,sc,T,net) : null;
+    let wl=null; if(couple()){ const s1=Math.min(ageMax(1), st[1]+2); if(s1>st[1]) wl={who:1, a:s1, d:goalVal(ENG.simulate(ctx,H0,A,Object.assign({},sc,{stops:[st[0],s1]})), net)-goalVal(r,net)}; }
+    else { const s0=Math.min(ageMax(0), st[0]+1); if(s0>st[0]) wl={who:0, a:s0, d:goalVal(ENG.simulate(ctx,H0,A,Object.assign({},sc,{stops:[s0]})), net)-goalVal(r,net)}; }
     return {lm, lb, wl}; });
   const li=(ic,ti,sub,v,u)=>`<div class="li"><div class="av round">${ico(ic,17)}</div><div class="t"><b>${esc(ti)}</b><small>${esc(sub)}</small></div><div class="v"><b class="n">${v}</b><small>${esc(u)}</small></div></div>`;
   let out="";
@@ -1846,6 +2236,256 @@ function hypSlider(key, lbl, min, max, step, dec, srcHtml, unit){
   const v=S.assume[key];
   return `<div class="hy"><div class="row"><span>${esc(lbl)}</span><b class="n">${fmtNum(v,dec)}${unit==null?" %":unit}</b></div>${rangeInput("h_"+key,"assume."+key,min,max,step,v)}<div class="hs">${srcHtml}</div></div>`;
 }
+/* renderHyp : voir ui_sim5.js (v5) */
+
+/* ================= v5 : Simulation · Détail · Objectif · Hypothèses (mise en page web) ================= */
+const GC=['#0F3D2E','#2E6B55','#5C8B74','#7FA893','#AFC7B8','#C9A15B','#B4543A','#8A6430','#D9CDB4'];
+function sgn(v){ v=Math.round(v); return (v>=0? "+" : "−")+fmtNum(Math.abs(v)); }
+function co(html, icon){ return `<div class="co">${ico(icon||"info",16,1.9)}<span>${html}</span></div>`; }
+function dotc(c){ return `<i class="dot" style="background:${c};margin-right:7px"></i>`; }
+function svT(x, y, s, o){ return `<text x="${(+x).toFixed(1)}" y="${(+y).toFixed(1)}" font-family="Hanken Grotesk, sans-serif" font-size="11" fill="#8C948E" ${o||""}>${s}</text>`; }
+function niceStep(range, n){ const raw=range/(n||4), p=Math.pow(10,Math.floor(Math.log10(raw||1))), f=raw/p; return (f<=1?1:f<=2?2:f<=2.5?2.5:f<=5?5:10)*p; }
+function axisY(lo, hi, L, W, R, y){ const st=niceStep(hi-lo,4); let s=""; for(let v=Math.ceil(lo/st)*st; v<=hi+1e-9; v+=st) s+=`<line x1="${L}" x2="${W-R}" y1="${y(v).toFixed(1)}" y2="${y(v).toFixed(1)}" stroke="#ECE5D7"/>`+svT(L-8, y(v)+4, fmtNum(Math.round(v)), 'text-anchor="end"'); return s; }
+function sexAges(y){ return persons().map(p=>y-p.birthYear).join("·"); }
+function savedOf(r, k){ if(!(savEff()>0)) return 0; const b=simAlt("nosav", k, null, {savMonthly:0}); return shownM(r)-shownM(b); }
+/* --- revenu par année (barres empilées, CHF d'aujourd'hui, brut) --- */
+function stackChart5(r, W, H){
+  W=W||820; H=H||270;
+  const rows=r.trace.map(tr=>{ const c=compAt(r,tr.y); return {y:tr.y, sal:Math.max(0,c.sal), avs:c.avs, lpp:c.lpp.reduce((a,b)=>a+b,0), draw:Math.max(0,c.cap)}; });
+  if(rows.length<2) return `<div class="nochart">—</div>`;
+  const L=50, R=8, Tp=30, Bt=40, n=rows.length, bw=(W-L-R)/n;
+  const mx=Math.max(...rows.map(d=>d.sal+d.avs+d.lpp+d.draw), r.Ym)*1.06, st=niceStep(mx,4), max=Math.ceil(mx/st)*st;
+  const y=v=>Tp+(1-v/max)*(H-Tp-Bt), col={sal:"#D9C9A8", avs:"#0F3D2E", lpp:"#7FA893", draw:"#C9A15B"};
+  let s=axisY(0,max,L,W,R,y);
+  const every=n>36? 5 : n>18? 3 : 2;
+  rows.forEach((d,i)=>{ let acc=0; ["avs","lpp","draw","sal"].forEach(k=>{ const v=d[k]; if(v<=0.5) return; s+=`<rect x="${(L+i*bw+1.2).toFixed(1)}" y="${y(acc+v).toFixed(1)}" width="${Math.max(1,bw-2.4).toFixed(1)}" height="${Math.max(0,y(acc)-y(acc+v)).toFixed(1)}" fill="${col[k]}"/>`; acc+=v; });
+    if(i%every===0 || i===n-1){ s+=svT(L+i*bw+bw/2, H-Bt+16, d.y, 'text-anchor="middle"'); if(i%(every*2)===0) s+=svT(L+i*bw+bw/2, H-Bt+30, sexAges(d.y), 'text-anchor="middle" font-size="9.5" fill="#B0B5B0"'); } });
+  // départs et débuts AVS
+  const marks=[], byY={}; persons().forEach((p,i)=>{ const a=r.per[i], yy=p.birthYear+a.avsAge; (byY[yy]=byY[yy]||[]).push([i,a.avsAge]); });
+  Object.keys(byY).forEach(yy=>{ const L2=byY[yy]; const nm=couple()? L2.map(([i])=>pname(i)).join(" + ") : ""; const ag=[...new Set(L2.map(x=>x[1]))].join("/"); marks.push([+yy, t("mkAvs",{n:nm, a:ag})]); });
+  const seen={}; marks.forEach(([yy,lbl])=>{ const i=rows.findIndex(d=>d.y===yy); if(i<0) return; const x=L+i*bw; const lv=seen[yy]? 0 : (Object.keys(seen).length%2); seen[yy]=1;
+    s+=`<line x1="${x.toFixed(1)}" x2="${x.toFixed(1)}" y1="${Tp-8-lv*12}" y2="${H-Bt}" stroke="#17211C" stroke-dasharray="3 3" opacity=".35"/>`+svT(x+4, Tp-12-lv*12, esc(lbl), 'font-size="10.5" font-weight="650" fill="#5E6A63"'); });
+  s+=`<line x1="${L}" x2="${W-R}" y1="${y(r.Ym).toFixed(1)}" y2="${y(r.Ym).toFixed(1)}" stroke="#B4543A" stroke-width="1.4" stroke-dasharray="5 4"/>`;
+  return `<div class="chartbox"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(t("chartIncome"))}">${s}</svg></div>`;
+}
+/* --- barres groupées : sans / avec épargne, ligne d'objectif --- */
+function goalChart5(rows, T, hiIdx, W, H){
+  W=W||760; H=H||290; const L=50, R=10, Tp=26, Bt=42, n=rows.length, gw=(W-L-R)/Math.max(1,n);
+  const vals=rows.flatMap(x=>[x.a, x.b==null? x.a : x.b]).concat([T]);
+  let lo=Math.min(...vals)*0.86, hi=Math.max(...vals)*1.05; const st=niceStep(hi-lo,4); lo=Math.max(0,Math.floor(lo/st)*st); hi=Math.ceil(hi/st)*st;
+  const y=v=>Tp+(1-(v-lo)/(hi-lo))*(H-Tp-Bt); let s=axisY(lo,hi,L,W,R,y);
+  const two=rows.some(x=>x.b!=null), fs=n>10? 9 : 10.5;
+  rows.forEach((x,i)=>{ const X=L+i*gw, bw=two? gw*0.32 : gw*0.5, sel=i===hiIdx;
+    if(sel) s+=`<rect x="${(X+3).toFixed(1)}" y="${Tp-18}" width="${(gw-6).toFixed(1)}" height="${H-Tp-Bt+18}" rx="10" fill="#F3E7CF" opacity=".7"/>`;
+    if(two){ s+=`<rect x="${(X+gw/2-bw-2).toFixed(1)}" y="${y(x.a).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(0,y(lo)-y(x.a)).toFixed(1)}" rx="4" fill="#CFDCD2"/>`;
+      s+=`<rect x="${(X+gw/2+2).toFixed(1)}" y="${y(x.b).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(0,y(lo)-y(x.b)).toFixed(1)}" rx="4" fill="#2E6B55"/>`;
+      if(n<=10) s+=svT(X+gw/2+2+bw/2, y(x.b)-6, fmtNum(Math.round(x.b)), `text-anchor="middle" font-size="${fs}" font-weight="700" fill="${x.b>=T? "#0F3D2E" : "#5E6A63"}"`); }
+    else { s+=`<rect x="${(X+gw/2-bw/2).toFixed(1)}" y="${y(x.a).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(0,y(lo)-y(x.a)).toFixed(1)}" rx="4" fill="${x.a>=T? "#2E6B55" : "#D49A85"}"/>`;
+      if(n<=10) s+=svT(X+gw/2, y(x.a)-6, fmtNum(Math.round(x.a)), `text-anchor="middle" font-size="${fs}" font-weight="700" fill="${x.a>=T? "#0F3D2E" : "#5E6A63"}"`); }
+    s+=svT(X+gw/2, H-Bt+18, x.y, `text-anchor="middle" font-size="${n>10? 10 : 12}" ${sel? 'font-weight="700" fill="#0F3D2E"' : ""}`)+svT(X+gw/2, H-Bt+32, x.st.join("·"), 'text-anchor="middle" font-size="9.5" fill="#B0B5B0"'); });
+  const lbl=esc(t("targetLbl",{m:fmtNum(T)})), lw=lbl.length*6+16;
+  s+=`<line x1="${L}" x2="${W-R}" y1="${y(T).toFixed(1)}" y2="${y(T).toFixed(1)}" stroke="#B4543A" stroke-width="2" stroke-dasharray="6 4"/>`;
+  s+=`<rect x="${L+4}" y="${(y(T)-22).toFixed(1)}" width="${lw}" height="17" rx="8.5" fill="#B4543A"/>`+svT(L+4+lw/2, y(T)-10, lbl, 'text-anchor="middle" font-size="10.5" font-weight="700" fill="#FFF8F2"');
+  return `<div class="chartbox"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(t("goalChartAria"))}">${s}</svg></div>`;
+}
+function donut(items, cols, R, r, label){
+  R=R||108; r=r||70; const tot=items.reduce((a,b)=>a+b[1],0)||1; let a0=-Math.PI/2, s="";
+  items.forEach(([k,v],i)=>{ const a1=a0+v/tot*2*Math.PI, la=a1-a0>Math.PI? 1 : 0, g=items.length>1? 0.012 : 0;
+    const p=(a,rr)=>`${(R+6+rr*Math.cos(a)).toFixed(2)} ${(R+6+rr*Math.sin(a)).toFixed(2)}`;
+    if(items.length===1) s+=`<circle cx="${R+6}" cy="${R+6}" r="${(R+r)/2}" fill="none" stroke="${cols[i]}" stroke-width="${R-r}"/>`;
+    else s+=`<path d="M${p(a0+g,R)} A${R} ${R} 0 ${la} 1 ${p(a1-g,R)} L${p(a1-g,r)} A${r} ${r} 0 ${la} 0 ${p(a0+g,r)} Z" fill="${cols[i%cols.length]}"/>`; a0=a1; });
+  s+=`<text x="${R+6}" y="${R+2}" text-anchor="middle" font-family="Hanken Grotesk, sans-serif" font-size="27" font-weight="500" fill="#0F3D2E">${fmtNum(Math.round(tot))}</text><text x="${R+6}" y="${R+22}" text-anchor="middle" font-family="Hanken Grotesk, sans-serif" font-size="11" fill="#8C948E">${esc(label||"")}</text>`;
+  return `<svg width="${2*R+12}" height="${2*R+12}" viewBox="0 0 ${2*R+12} ${2*R+12}" style="display:block;flex:none;max-width:100%" aria-hidden="true">${s}</svg>`;
+}
+function mixChart5(mx, best, cur, W, H){
+  W=W||400; H=H||230; const L=50, R=16, Tp=30, Bt=30, v=mx.map(x=>x.net);
+  let lo=Math.min(...v), hi=Math.max(...v); const pad=Math.max(10,(hi-lo)*0.15); lo-=pad; hi+=pad; const st=niceStep(hi-lo,4); lo=Math.floor(lo/st)*st; hi=Math.ceil(hi/st)*st;
+  const x=q=>L+q*(W-L-R), y=val=>Tp+(1-(val-lo)/(hi-lo))*(H-Tp-Bt); let s=axisY(lo,hi,L,W,R,y);
+  s+=`<path d="M${mx.map(r=>`${x(r.q).toFixed(1)} ${y(r.net).toFixed(1)}`).join(" L")}" fill="none" stroke="#2E6B55" stroke-width="2.4"/>`;
+  mx.forEach(r=>{ const b=r===best, c=r===cur; s+=`<circle cx="${x(r.q).toFixed(1)}" cy="${y(r.net).toFixed(1)}" r="${b?6:c?5:3.5}" fill="${b?"#B8894A":"#2E6B55"}" stroke="${c?"#17211C":"#FFFDF8"}" stroke-width="2"/>`+svT(x(r.q), H-Bt+18, Math.round(r.q*100)+" %", `text-anchor="middle" ${b?'font-weight="700" fill="#0F3D2E"':""}`); });
+  s+=svT(Math.min(W-R-40,Math.max(L+40,x(best.q))), y(best.net)-13, "★ "+fmtNum(Math.round(best.net)), 'text-anchor="middle" font-weight="700" fill="#8A6430"');
+  return `<div class="chartbox"><svg viewBox="0 0 ${W} ${H}" aria-hidden="true">${s}</svg></div>`;
+}
+function cmpBars(items, T, W, H){
+  W=W||520; H=H||210; const L=50, R=10, Tp=22, Bt=34, gw=(W-L-R)/Math.max(1,items.length);
+  const vals=items.map(i=>i[1]).concat(T>0? [T] : []); let lo=Math.min(...vals)*0.8, hi=Math.max(...vals)*1.08; const st=niceStep(hi-lo,4); lo=Math.max(0,Math.floor(lo/st)*st); hi=Math.ceil(hi/st)*st;
+  const y=v=>Tp+(1-(v-lo)/(hi-lo))*(H-Tp-Bt); let s=axisY(lo,hi,L,W,R,y);
+  items.forEach(([n,v,c],i)=>{ const x=L+i*gw+gw*.22, bw=gw*.56; s+=`<rect x="${x.toFixed(1)}" y="${y(v).toFixed(1)}" width="${bw.toFixed(1)}" height="${Math.max(0,y(lo)-y(v)).toFixed(1)}" rx="6" fill="${c}"/>`+svT(x+bw/2, y(v)-7, fmtNum(Math.round(v)), 'text-anchor="middle" font-size="12" font-weight="700" fill="#17211C"')+svT(x+bw/2, H-Bt+18, esc(n.length>16? n.slice(0,15)+"…" : n), 'text-anchor="middle" font-size="11.5" fill="#5E6A63"'); });
+  if(T>0) s+=`<line x1="${L}" x2="${W-R}" y1="${y(T).toFixed(1)}" y2="${y(T).toFixed(1)}" stroke="#B4543A" stroke-width="2" stroke-dasharray="6 4"/>`+svT(L+4, y(T)-6, esc(t("targetLbl",{m:fmtNum(T)})), 'font-size="10.5" font-weight="700" fill="#B4543A"');
+  return `<div class="chartbox"><svg viewBox="0 0 ${W} ${H}" aria-hidden="true">${s}</svg></div>`;
+}
+function scenLbl(k){ return t("scenario")+" "+SL[k]; }
+function headActs(extra){ return abtn("print","print",t("printPdf"),"hide-m")+(extra||""); }
+function swRow(a, k, title, sub, on, dis){ return `<label class="sw ${dis?"dis":""}"><span class="t"><b>${esc(title)}</b><small>${sub}</small></span><input type="checkbox" data-a="${a}" ${k?`data-k="${k}"`:""} ${on?"checked":""} ${dis?"disabled":""}><span class="tg"></span></label>`; }
+function civilTxt(){ const st=status(); return t(st==="married"? (S.household.civil==="married"? "stMarried" : "stMarried") : st==="concubinage"? "stConc" : "stSingle"); }
+function eduTxt(){ const h=S.household; if(!(h.kidsBorn||[]).length) return null; if(!concub()) return "50 / 50"; return h.eduShare==="p0"? t("edu100",{n:pname(0)}) : h.eduShare==="p1"? t("edu100",{n:pname(1)}) : "50 / 50"; }
+function modeTxt(){ return S.sim.mode==="capital"? t("capShareAll") : S.sim.mode==="annuity"? t("capShareNone") : S.sim.mixShare+" %"; }
+function concWarn(){ return `<div class="x-warn">${ico("shield",20)}<span><b>${esc(t("concWarnT"))}</b> ${esc(t("concWarn"))}</span></div>`; }
+/* ---------- page Simulation ---------- */
+function renderSim(){
+  if(!ready()){ $("p-sim").innerHTML=dh(t("simTitle"), t("simSub"))+`<div class="cols">${welcomeCard()}</div>`; return; }
+  const R=sims(), st=[0,1,2].map(stopsOf), v=UI.view, sel=S.sim.sel, r=R[sel], gi=goalInfo();
+  const acts=headActs(abtn("goScen","compare",t("compareBtn"))+abtn("saveScen","bookmark",t("saveScen"),"pri"));
+  // chiffres-clés : trois scénarios + objectif
+  const kp=R.map((x,k)=>{ const sv=savedOf(x,k);
+    return `<button class="card kpi ${sel===k?"sel":""}" data-a="sel" data-k="${k}" style="--c:${SCOL[k]}"><div class="eb"><span>${SL[k]} · ${esc(t("scenShort"+k))}</span><span>${firstYear(st[k])}</span></div>
+      <div class="kv2 n">${M(shownM(x))}<small>${esc(t("perMonthShort"))}</small></div><div class="ks">${esc(t("kpiDep",{a:agesTxt(st[k])}))} · ${esc(t(couple()?"pctSalaries":"pctSalary",{p:pct(x.repl_real,0)}))}</div>
+      ${sv>0.5? `<span class="sv2">${esc(t("ofSav",{m:M(sv)}))}</span>` : couple()? `<span class="sv2">${esc(capped(x)? t("tagCap") : t("tagAvs2"))}</span>` : ""}</button>`; }).join("");
+  const rg=memo("revSel", ()=>ENG.reverse(ECTX(), engH(), engA(), scOf(sel), gi.v, couple()? S.sim.revMode : "sameYear", gi.net));
+  const gv=goalVal(r, gi.net), gd=gv-gi.v;
+  const gk=`<a class="card kpi" href="#goal"><div class="eb"><span>${esc(t(gi.src==="budget"? "goalKpiB" : "goalKpiM"))}</span>${ico("chev",14)}</div><div class="kv2 n">${M(gi.v)}<small>${esc(t("perMonthShort"))}</small></div>
+    <div class="ks">${SL[sel]} : <b class="${gd>=0?"up":"dn"}">${sgn(gd)}</b> · ${rg.first? esc(t("reachedFrom"))+` <b class="okc">${firstYear(rg.first[0])} (${agesTxt(rg.first[0])})</b>` : esc(t("after70"))}</div>
+    <span class="sv2 ${gi.src==="budget"?"r":""}">${esc(t(gi.src==="budget"? "fromBudget" : "goalManual"))}</span></a>`;
+  // curseurs + réglages
+  const linkSw = couple()? `<label class="sw inl"><span>${esc(t("linkLbl"))}</span><input type="checkbox" data-a="link" ${S.sim.link?"checked":""}><span class="tg"></span></label>` : "";
+  const hero=`<div class="card hero sim">${wm(260,-80,-30)}<div class="row"><div class="eb">${esc(t("scen3"))}</div>${linkSw}</div>
+    ${persons().map((_,i)=>ageTrack(i)).join("")}${simControls()}</div>`;
+  // pris en compte
+  const sm=savMonthly(), hasSav=S.savings.src==="budget"? hasBudget() : (+S.savings.monthly||0)>0;
+  const savSub= hasSav? esc(t("savSub",{m:M(S.savings.src==="budget"? Math.max(0,budgetCap()) : +S.savings.monthly||0), e:M((S.savings.src==="budget"? Math.max(0,budgetCap()) : +S.savings.monthly||0)*SAV_RATE)})) : `<a href="#data" class="lk">${esc(t("savNone"))}</a>`;
+  const per=hasPeriods(), pd= per? (()=>{ const a=simAlt("noper", sel, noPeriods); return goalVal(r,true)-goalVal(a,true); })() : 0;
+  const perSub= per? esc(t("perSub",{n:persons().reduce((s,p)=>s+(p.periods||[]).length,0)}))+(S.sim.periodsOn!==false? " · "+sgn(pd)+" "+esc(t("perMonthShort")) : "") : `<a href="#data" class="lk">${esc(t("perNone"))}</a>`;
+  const bt=budgetRetT();
+  const inc=`<div class="card"><div class="ch3"><h3>${esc(t("takenTitle"))}</h3></div>
+    ${swRow("savOn","",t("savTitle"), savSub, S.savings.on && hasSav, !hasSav)}
+    ${swRow("simFlag","periodsOn",t("perTitle"), perSub, per && S.sim.periodsOn!==false, !per)}
+    ${swRow("goalOn","",t("goalBudgetSw"), bt>0? esc(t("goalBudgetSub",{m:M(bt)})) : `<a href="#budget" class="lk">${esc(t("goalBudgetNone"))}</a>`, goalFromBudget(), !(bt>0))}
+    <div class="x-row" style="margin-top:4px"><span>${esc(t("capShareK"))}</span><b>${esc(modeTxt())}</b></div>
+    <a class="x-row" href="#data"><span>${esc(t("civilK"))}</span><b>${esc(civilTxt())}</b></a>
+    ${eduTxt()? `<a class="x-row" href="#data"><span>${esc(t("eduK"))}</span><b>${esc(eduTxt())}</b></a>` : ""}
+    ${concub()? concWarn() : ""}</div>`;
+  // graphique empilé + tableau
+  const ch=`<div class="card"><div class="ch3"><h3>${esc(t("whereFrom",{s:SL[sel]}))}</h3><div class="r">${scenChips()}</div></div>
+    ${stackChart5(r)}
+    <div class="ch3" style="margin:6px 0 0"><div class="lgd"><span><i style="background:#0F3D2E"></i>AVS</span><span><i style="background:#7FA893"></i>${esc(t("lgLppR"))}</span><span><i style="background:#C9A15B"></i>${esc(t("lgDraw"))}</span>${r.trace.some(x=>x.sal>0.5)? `<span><i style="background:#D9C9A8"></i>${esc(t("lgSal"))}</span>` : ""}<span><i style="background:none;border-top:2px dashed #B4543A;border-radius:0;height:0;width:14px;vertical-align:3px"></i>${esc(t("lgConst"))}</span></div><span class="mini">${esc(t("stackNote"))}</span></div>
+    ${r.minpool<-1? note("warn","",esc(t("negPool"))) : ""}</div>`;
+  let side;
+  if(v==="hh" || !couple()){
+    const row=(l,f)=>`<tr><td>${esc(l)}</td>${R.map((x,k)=>`<td class="n ${sel===k?"me":""}">${f(x,k)}</td>`).join("")}</tr>`;
+    side=`<table class="tbl"><tr><th></th>${SL.map((l,k)=>`<th style="color:${SCOL[k]}">${l}</th>`).join("")}</tr>
+      ${row(t(couple()?"rowIncHH":"rowInc"), x=>M(shownM(x)*12))}${row(t("rowReplNom"), x=>pct(x.repl_nom,0))}${row(t("rowCapLpp"), x=>kfmt(Math.round(x.per.reduce((s,p)=>s+p.lpp,0))))}
+      ${row(t(S.sim.mode==="annuity"?"rowCapTax3a":"rowCapTax"), x=>M(x.taxCap))}${row(t("rowAvsFrom"), x=>x.per.map(p=>p.avsAge).join(" · "))}${S.sim.net? "" : row(t("rowIncTax"), x=>M(x.taxInc/12))}</table>`;
+  } else {
+    const i=v, q=modeShare();
+    const row=(l,f)=>`<tr><td>${esc(l)}</td>${R.map((x,k)=>`<td class="n ${sel===k?"me":""}">${f(x,k)}</td>`).join("")}</tr>`;
+    const capf=x=>capped(x)? PRM.ahv.coupleCapPct*yp(PRM.ahv.byYear,YEAR).maxMonthly/x.per.reduce((s,y)=>s+y.full,0) : 1;
+    side=`<table class="tbl"><tr><th></th>${SL.map((l,k)=>`<th style="color:${SCOL[k]}">${l}</th>`).join("")}</tr>
+      ${row(t("stopK"), (x,k)=>st[k][i]+" · "+x.per[i].ystop)}${row(t("avsMonthK"), x=>M(x.per[i].full*(1-x.per[i].avsRed)*capf(x)*13/12))}
+      ${row(t("lppRenteK"), x=>q<1? M(x.rente[i]/12/x.defl(x.per[i].ystop)) : "—")}${row(t("lppCapK"), x=>q>0? kfmt(Math.round(x.per[i].lpp*q)) : "—")}
+      ${row(t("cap3aK"), x=>{ const c=x.ev.filter(e=>e[1]===i && e[0]==="3a").reduce((s,e)=>s+e[4],0); return c>0? kfmt(Math.round(c)) : "—"; })}</table><p class="tiny" style="margin-top:6px">${esc(t("personViewNote"))}</p>`;
+  }
+  const tbl=`<div class="card"><div class="ch3"><h3>${esc(t("sideBySide5"))}</h3><a class="lk" href="#detail">${esc(t("seeDetail"))} ›</a></div>${viewSeg()}<div class="tw">${side}</div>
+    <p class="tiny" style="margin-top:8px">${esc(unitTxt())} · ${esc(t("salNowTxt",{s:fmtNum(salNow())}))}</p></div>`;
+  // chiffres du scénario retenu
+  const lppT=r.per.reduce((s,p)=>s+p.lpp,0), q=modeShare(), rentes=r.rente.reduce((s,x,i)=>s+x/12/r.defl(r.per[i].ystop),0), cf=compAt(r,yFull(r));
+  const k4=[[t("kLppStart"), M(lppT), persons().map((p,i)=>(couple()? pname(i)+" " : "")+M(r.per[i].lpp)).join(" · ")],
+    [t("kLppRentes"), q<1? M(rentes)+` <small>${esc(t("perMonthShort"))}</small>` : "—", q<1? esc(t("kRentesSub",{y:r.first})) : esc(t("modeCapital"))],
+    [t(couple()?"kAvsHH":"kAvs"), M(cf? cf.avs : 0)+` <small>${esc(t("perMonthShort"))}</small>`, esc(capped(r)? t("kAvsCap") : concub()? t("kAvsConc") : t("kAvsFrom",{y:yFull(r)}))],
+    [t("kCapTax"), M(r.taxCap), esc(t("kCapTaxSub"))]].map(([l,val,s])=>`<div class="card kpi"><div class="eb"><span>${esc(l)}</span></div><div class="kv2 s n">${val}</div><div class="ks">${s}</div></div>`).join("");
+  $("p-sim").innerHTML = dh(t("simTitle"), t(couple()?"simSubHH":"simSub")+" · "+unitTxt(), acts)+
+    `<div class="dg g4 st">${kp}${gk}</div><div class="dg g31">${hero}${inc}</div><div class="dg g21">${ch}${tbl}</div><div class="dg g4 st">${k4}</div>`;
+}
+/* ---------- page Détail ---------- */
+const QS=[0,.2,.4,.5,.6,.8,1];
+function mixRows(k){ return memo("mix"+k, ()=>QS.map(q=>{ const x=ENG.simulate(ECTX(), engH(), engA(), scOf(k,{share:q}));
+  return {q, net:x.YnetM, netY:x.YnetM*12, cap:x.per.reduce((s,p)=>s+p.lpp,0)*q, taxCap:x.taxCap, taxInc:x.taxInc, rente:x.rente.reduce((s,v)=>s+v/12,0), minpool:x.minpool}; })); }
+function renderDetail(){
+  if(!ready()){ $("p-detail").innerHTML=dh(t("detailTitle"))+`<div class="cols">${welcomeCard()}</div>`; return; }
+  const k=S.sim.sel, r=simK(k), st=stopsOf(k), q=modeShare(), ps=persons();
+  const mtxt=t(S.sim.mode==="capital"?"modeCapital":S.sim.mode==="annuity"?"modeAnnuity":"modeMixed");
+  const youngest=ps.reduce((b,p,i)=> p.birthYear>P(b).birthYear? i : b, 0);
+  const hero=`<div class="card hero">${wm(240,-70,-40)}<div class="row"><div class="eb">${esc(t(couple()?"heroDetailHH":"heroDetail",{y:firstYear(st)}))}</div>${pill("iv",esc(scenLbl(k)))}</div>
+    <div class="big n"><span class="c">CHF</span>${H(Math.round(shownM(r)))}<span class="u">${esc(t("perMonth"))}</span></div>
+    <div class="sub">${esc(t("heroDetailSub",{p:pct(r.repl_real,0), h:engA().horizon, n:couple()? pname(youngest) : t("you")}))}</div>
+    <p class="tiny" style="margin-top:8px">${esc(unitTxt())}${S.sim.net? "" : " · "+esc(t("taxIncLine",{m:M(r.taxInc/12)}))}</p></div>`;
+  // part en capital
+  const mx=mixRows(k), best=mx.reduce((b,x)=>x.net>b.net+0.5? x : b, mx[0]), cur=mx.find(x=>Math.abs(x.q-q)<1e-9)||null;
+  const pick=cur && cur.q>0? cur : best.q>0? best : mx[mx.length-1];
+  const spread=Math.max(...mx.filter(x=>x.q>=0.4).map(x=>x.net))-Math.min(...mx.filter(x=>x.q>=0.4).map(x=>x.net));
+  const capC=`<div class="card"><div class="ch3"><h3>${esc(t("capShareTitle"))}</h3><span class="x-pill">${esc(scenLbl(k))}</span></div>
+    <div class="mixsl"><div class="sl" style="margin:0"><div class="row"><span>${esc(t("capShareK"))}</span><b class="n">${esc(modeTxt())}</b></div>${rangeInput("r_mix5","sim.mixShare",0,100,5,Math.round(q*100))}</div>
+      <div><div class="mini">${esc(t("lppRentesLeft"))}</div><b class="n" style="font-size:18px">${M(cur? cur.rente : r.rente.reduce((s,v)=>s+v/12,0))}<small class="mini"> ${esc(t("perMonthShort"))}</small></b></div>
+      <div><div class="mini">${esc(t("incTaxK"))}</div><b class="n" style="font-size:18px">${M(r.taxInc)}<small class="mini"> ${esc(t("perYearShort"))}</small></b></div></div>
+    <div class="tw2"><table class="x-tbl w"><thead><tr><th>${esc(t("capShareK"))}</th><th>${esc(t("netMonth"))}</th><th>${esc(t("netYear"))}</th><th>${esc(t("capRecv"))}</th><th>${esc(t("capTaxK5"))}</th><th>${esc(t("lppRentesM"))}</th></tr></thead><tbody>
+    ${mx.map(x=>`<tr class="ck ${x===best?"best":""} ${x===cur?"cur":""}" data-a="capQ" data-q="${x.q}"><td>${Math.round(x.q*100)} %${x===best? " ★ "+esc(t("bestLbl")) : ""}</td><td>${M(x.net)}</td><td>${M(x.netY)}</td><td>${x.cap>0.5? M(x.cap) : "–"}</td><td>${M(x.taxCap)}</td><td>${M(x.rente)}</td></tr>`).join("")}
+    </tbody></table></div>
+    ${co(`<b>${esc(t("bestMix",{q:Math.round(best.q*100)}))}</b> ${esc(t("bestMixTxt",{m:M(best.net), d:M(spread)}))}`)}
+    <p class="tiny" style="margin-top:8px">${esc(t("capShareNote"))}</p></div>`;
+  const mixC=`<div class="card"><div class="ch3"><h3>${esc(t("mixChartT"))}</h3><span class="mini">${esc(t("axisTight"))}</span></div>${mixChart5(mx,best,cur)}</div>`;
+  const z=mx[0];
+  const chg=`<div class="card"><div class="ch3"><h3>${esc(t("capChangeT"))}</h3><span class="x-pill">${Math.round(pick.q*100)} %</span></div>
+    <div class="x-row"><span>${esc(t("capAvail",{a:agesTxt(st)}))}<small>${esc(t("capAvailSub"))}</small></span><b>${M(pick.cap)}</b></div>
+    <div class="x-row"><span>${esc(t("capTaxMore"))}<small>${esc(t("vsAnnuity"))}</small></span><b class="dn">${sgn(pick.taxCap-z.taxCap)}</b></div>
+    <div class="x-row"><span>${esc(t("incTaxK"))}<small>${esc(t("vsAnnuityY",{m:M(z.taxInc)}))}</small></span><b class="${pick.taxInc<=z.taxInc?"up":"dn"}">${sgn(pick.taxInc-z.taxInc)} ${esc(t("perYearShort"))}</b></div>
+    <div class="x-row"><span>${esc(t("minPool"))}</span><b>${M(Math.max(0,pick.minpool))}</b></div></div>`;
+  // cartes v4
+  const capf=capped(r)? PRM.ahv.coupleCapPct*yp(PRM.ahv.byYear,YEAR).maxMonthly/r.per.reduce((s,x)=>s+x.full,0) : 1;
+  const pc=ps.map((p,i)=>{ const x=r.per[i], d=r.defl(x.ystop), y3=r.ev.filter(e=>e[1]===i && e[0]==="3a").map(e=>e[3]);
+    return `<div class="card pcd"><div class="row" style="justify-content:flex-start;gap:8px"><span class="mi lg2">${esc(initials(p.name,t(i?"spouse":"you")[0]))}</span><b>${esc(pname(i))}</b></div>
+      <div class="sub">${esc(t("stopAt",{a:st[i], y:x.ystop}))}</div>
+      ${kv(esc(t("avsAtK",{a:x.avsAge, y:p.birthYear+x.avsAge})), M(x.full*(1-x.avsRed)*capf*13/12))}${kv(esc(t("lppRenteK")), q<1? M(r.rente[i]/12/d) : "—")}${kv(esc(t("lppCapK")), q>0? M(x.lpp*q) : "—")}${kv(esc(t("w3aK")), y3.length? [...new Set(y3)].join(", ") : "—")}</div>`; }).join("");
+  const rows=r.trace.map(tr=>{ const c=compAt(r,tr.y); return {y:tr.y, avs:c.avs, lpp0:c.lpp[0]||0, lpp1:c.lpp[1]||0, sal:c.sal, cap:c.cap}; });
+  const keys=["avs","lpp0"].concat(couple()?["lpp1"]:[]).concat(["sal","cap"]);
+  const ch=`<div class="card"><div class="ch"><h3>${esc(t(couple()?"perMonthHH":"perMonthYou"))}</h3>${scenChips()}</div>
+    <div class="tiny" style="color:var(--terra);font-weight:650;margin-bottom:4px">${esc(t("constLine",{m:M(r.Ym)}))}</div>
+    ${areaChart(rows, keys, r.Ym, 170)}
+    <div class="lg">${keys.map(x=>`<span><i style="background:${CCOL[x]}"></i>${esc(t({avs:couple()?"lgAvs2":"lgAvs",lpp0:couple()?"lgLppYou":"lgLpp",lpp1:"lgLppSp",sal:"lgSal",cap:"lgCap"}[x],{n:pname(1)}))}</span>`).join("")}</div>
+    ${r.minpool<-1? note("warn","",esc(t("negPool"))) : ""}</div>`;
+  // phases (tableau)
+  const ys=new Set(); ps.forEach((p,i)=>{ ys.add(r.per[i].ystop); ys.add(p.birthYear+r.per[i].avsAge); }); ys.add(r.yend-1);
+  const ph=[...ys].filter(y=>y>=r.first && y<r.yend).sort((a,b)=>a-b).map(y=>{ const c=compAt(r,y), who=[];
+    ps.forEach((p,i)=>{ if(r.per[i].ystop===y) who.push(i===0 && !(p.name||"").trim()? t("phStopYou") : t("phStop",{n:pname(i)})); if(p.birthYear+r.per[i].avsAge===y) who.push(i===0 && !(p.name||"").trim()? t("phAvsYou") : t("phAvs",{n:pname(i)})); });
+    if(!who.length) who.push(t("phEnd",{h:engA().horizon}));
+    const lpp=c.lpp.reduce((a,b)=>a+b,0), tot=c.avs+lpp+Math.max(0,c.cap)+Math.max(0,c.sal);
+    return `<tr><td>${y}</td><td style="text-align:left">${sexAges(y).replace(/·/g," · ")}</td><td class="l">${esc(who.join(" · "))}</td><td>${c.avs>0.5? M(c.avs) : "–"}</td><td>${lpp>0.5? M(lpp) : "–"}</td><td>${M(Math.max(0,c.cap)+Math.max(0,c.sal))}</td><td><b>${M(tot)}</b></td></tr>`; }).join("");
+  const neY=r.trace.filter(x=>x.ne>0), neM=neY.length? neY.reduce((s,x)=>s+x.ne/x.d,0)/neY.length/12 : 0;
+  const phc=`<div class="card"><div class="ch3"><h3>${esc(t("phases"))}</h3><span class="mini">${esc(t("phasesSub"))}</span></div>
+    <div class="tw2"><table class="x-tbl w"><thead><tr><th>${esc(t("yearK"))}</th><th style="text-align:left">${esc(t("agesK"))}</th><th style="text-align:left">${esc(t("whatChanges"))}</th><th>AVS</th><th>${esc(t("lgLppR"))}</th><th>${esc(t("drawK"))}</th><th>${esc(t("totalGross"))}</th></tr></thead><tbody>${ph}</tbody></table></div>
+    ${neM>0.5? `<p class="tiny" style="margin:10px 0 0">${esc(t("phNeTxt",{m:M(neM), y:M(r.Ym)}))}</p>` : ""}</div>`;
+  const avsC=`<div class="card"><div class="ch"><h3>${esc(t(couple()?"avsCouple":"avsTitle"))}</h3><button class="lk" data-a="editAvs">${esc(t("edit"))}</button></div>
+    ${ps.map((p,i)=>{ const x=r.per[i]; return kv(esc(pname(i)+" · "+t("avsFullK")), `${M(x.full)} <span class="cc0">${x.avsAge<65? esc(t("avsEarlyRed",{a:x.avsAge, p:pct(x.avsRed,1)})) : esc(t("avsAt65"))}</span>`); }).join("")}
+    ${married()? `<p class="sub" style="margin-top:6px">${esc(t("splitTxt",{a:M(r.per[0].ownFull), b:M(r.per[1].ownFull), c:M(r.per[0].full), d:M(r.per[1].full)}))}${capped(r)? " "+esc(t("capTxt",{m:M(PRM.ahv.coupleCapPct*yp(PRM.ahv.byYear,YEAR).maxMonthly)})) : ""}</p>` : ""}
+    ${concub()? `<p class="sub" style="margin-top:6px">${esc(t("avsConcTxt"))}</p>` : ""}
+    ${r.edu>0? `<p class="sub" style="margin-top:6px">${esc(t("eduApplied",{s:eduTxt()||"50 / 50"}))}</p>` : ""}
+    <p class="tiny" style="margin-top:6px">${esc(t("avsNote13"))} ${src("avs21")}</p></div>`;
+  $("p-detail").innerHTML = dh(t("detailTitle"), scenLbl(k)+" · "+agesWho(st)+" · "+t("fromYear",{y:firstYear(st)})+" · "+mtxt, headActs(`<span class="hide-m">${scenChips()}</span>`))+
+    `<div class="dg g21">${capC}<div class="stk">${mixC}${chg}</div></div>
+     <div class="dg g21"><div class="stk">${hero}${ch}</div><div class="stk">${pc}${avsC}</div></div>
+     ${phc.replace('<div class="card">','<div class="card" style="margin-bottom:16px">')}
+     <div class="dg g2">${renteCapCard(r,k)}${wdCard(r)}</div>`;
+}
+/* ---------- page Objectif ---------- */
+function renderGoal(){
+  if(!ready()){ $("p-goal").innerHTML=dh(t("goalTitle"))+`<div class="cols">${welcomeCard()}</div>`; return; }
+  const gi=goalInfo(), T=gi.v, mode=couple()? S.sim.revMode : "sameYear", sc=scOf(S.sim.sel), hasS=savEff()>0;
+  const rv=memo("rev"+gi.net, ()=>ENG.reverse(ECTX(), engH(), engA(), sc, T, mode, gi.net));
+  const r0=hasS? memo("rev0"+gi.net, ()=>ENG.reverse(ECTX(), engH(), engA(), Object.assign({}, sc, {savMonthly:0}), T, mode, gi.net)) : null;
+  const f=rv.first, f0=r0? r0.first : null, fy=x=>Math.min(...x[0].map((a,i)=>P(i).birthYear+a));
+  const rows=rv.rows.map((x,i)=>({y:fy(x), st:x[0], a: r0? r0.rows[i][1] : x[1], b: r0? x[1] : null}));
+  const hi=rv.rows.findIndex(x=>f && x[0].join()===f[0].join());
+  const acts=(gi.src==="budget"? `<a class="btn" href="#budget">${ico("wallet",15)}<span>${esc(t("editBudget"))}</span></a>` : "")+(f? abtn("goalSave","bookmark",t("saveAt",{a:agesTxt(f[0])}),"pri",`data-st="${f[0].join(",")}"`) : "");
+  const hiT=Math.max(20000, Math.ceil(T/1000)*1000);
+  const k1=`<div class="card kpi"><div class="eb"><span>${esc(t("goalK"))}</span></div><div class="kv2 n">${M(T)}<small>${esc(t("perMonthShort"))}</small></div>
+    <div class="ks">${esc(gi.src==="budget"? t("goalFromBudgetTxt",{n:(S.budget.cost||[]).filter(c=>+c.ret>0).length}) : t("goalManualTxt"))}</div>
+    ${gi.src==="budget"? "" : `<div class="sl" style="margin-top:4px">${rangeInput("r_target","sim.target",1000,hiT,100,T)}</div>`}</div>`;
+  const k2=`<div class="card kpi sel"><div class="eb"><span>${esc(t("reachedFromK"))}</span></div><div class="kv2 n">${f? fy(f) : "—"}<small>${f? esc(agesTxt(f[0])) : ""}</small></div>
+    <div class="ks">${f? esc(t(hasS? "withSavTxt" : "incomeTxt",{m:M(f[1]), d:sgn(f[1]-T)})) : esc(t("after70"))}</div></div>`;
+  const k3= hasS? `<div class="card kpi"><div class="eb"><span>${esc(t("noSavK"))}</span></div><div class="kv2 n">${f0? fy(f0) : "—"}<small>${f0? esc(agesTxt(f0[0])) : ""}</small></div>
+    <div class="ks">${f0? esc(t("incomeTxt",{m:M(f0[1]), d:sgn(f0[1]-T)}))+(f? " · "+esc(t("yearsLater",{n:fy(f0)-fy(f)})) : "") : esc(t("after70"))}</div></div>`
+    : `<div class="card kpi"><div class="eb"><span>${esc(t("selNowK",{s:SL[S.sim.sel]}))}</span></div><div class="kv2 n">${M(goalVal(simK(S.sim.sel),gi.net))}<small>${esc(t("perMonthShort"))}</small></div><div class="ks">${esc(t("gapTxt",{d:sgn(goalVal(simK(S.sim.sel),gi.net)-T)}))}</div></div>`;
+  const k4=`<a class="card kpi" href="#data"><div class="eb"><span>${esc(t("savK"))}</span>${ico("chev",14)}</div><div class="kv2 n">${M(savMonthly())}<small>${esc(t("perMonthShort"))}</small></div>
+    <div class="ks">${esc(hasS? t(S.savings.src==="budget"? "savFromBudget" : "savManual",{e:M(savEff())}) : t("savNoneGoal"))}</div></a>`;
+  const segs= couple()? `<div class="seg sm" style="margin:0 0 10px">${[["sameYear","revSameYear"],["sameAge","revSameAge"],["fixed","revFixed"]].map(([v,l])=>`<button data-a="revMode" data-v="${v}" class="${mode===v?"on":""}">${esc(t(l,{n:pname(1), a:sc.stops[1]}))}</button>`).join("")}</div>` : "";
+  const chart=`<div class="card"><div class="ch3"><h3>${esc(t(gi.net? "goalChartNet" : "goalChartGross"))}</h3><div class="lgd">${hasS? `<span><i style="background:#CFDCD2"></i>${esc(t("noSavK"))}</span><span><i style="background:#2E6B55"></i>${esc(t("withSav66"))}</span>` : `<span><i style="background:#2E6B55"></i>${esc(t("reachedLbl"))}</span><span><i style="background:#D49A85"></i>${esc(t("notReachedLbl"))}</span>`}</div></div>${segs}${goalChart5(rows, T, hi)}</div>`;
+  const val=x=> x.b==null? x.a : x.b;
+  const tbl=`<div class="card"><div class="ch3"><h3>${esc(t("tableK"))}</h3><span class="mini">${esc(t("gapTo",{m:M(T)}))}</span></div>
+    <div class="tw2"><table class="x-tbl w"><thead><tr><th>${esc(t("departK"))}</th>${hasS? `<th>${esc(t("withoutK"))}</th>` : ""}<th>${esc(hasS? t("withSavK") : t("incomeK"))}</th><th>${esc(t("gapK5"))}</th></tr></thead><tbody>
+    ${rows.map((x,i)=>`<tr class="${i===hi?"best":""}"><td>${x.y} · ${x.st.join("/")}</td>${hasS? `<td>${M(x.a)}${x.a>=T?" ✓":""}</td>` : ""}<td>${M(val(x))}${val(x)>=T?" ✓":""}</td><td class="${val(x)>=T?"up":"dn"}">${sgn(val(x)-T)}</td></tr>`).join("")}
+    </tbody></table></div></div>`;
+  $("p-goal").innerHTML = dh(t("goalTitle"), t(gi.net? "goalSubNet" : (couple()?"goalSubHH":"goalSub")), acts)+
+    `<div class="dg g4 st">${k1}${k2}${k3}${k4}</div><div class="dg g21">${chart}${tbl}</div><div class="dg g21">${leverCard(T, gi.net)}<div class="stk">${co(esc(t(hasS? "goalCoSav" : "goalCo")),"target")}<p class="tiny" style="margin-top:8px">${esc(t("goalNote"))}</p></div></div>`;
+}
+/* ---------- page Hypothèses ---------- */
 function renderHyp(){
   const A=S.assume, d=ENG.derived(engA());
   const eco=`<div class="card"><div class="ch"><h3>${esc(t("hypEco"))}</h3><button class="lk" data-a="hypReset">${esc(t("hypReset"))}</button></div>
@@ -1866,19 +2506,20 @@ function renderHyp(){
     ${hypSlider("convRed", t("hConvRed"), 0, 0.3, 0.01, 2, esc(t("hConvRedSrc"))+" "+src("pktg","PKTG"), " pt")}
     ${hypSlider("horizon", t("hHorizon"), 80, 100, 1, 0, esc(t("hHorizonSrc"))+" "+src("life"), " "+t("yearsShort"))}</div>`;
   const sw=(k,l,sub)=>`<label class="sw"><span class="t"><b>${esc(t(l))}</b><small>${esc(t(sub))}</small></span><input type="checkbox" data-a="simFlag" data-k="${k}" ${S.sim[k]?"checked":""}><span class="tg"></span></label>`;
-  const opt=`<div class="card"><div class="ch"><h3>${esc(t("hypOpt"))}</h3></div>
+  const opt=`<div class="stk"><div class="card"><div class="ch"><h3>${esc(t("hypOpt"))}</h3></div>
     ${sw("real","optReal","optRealSub")}${sw("net","optNet","optNetSub")}${sw("avsWait65","optWait65","optWait65Sub")}${sw("stagger","staggerAuto","staggerAutoSub")}
     <div class="sl"><div class="row"><span>${esc(t("mixShareLbl"))}</span><b class="n">${S.sim.mixShare} %</b></div>${rangeInput("r_mix2","sim.mixShare",0,100,5,S.sim.mixShare)}</div>
-    <button class="lnk" data-a="settings" data-sec="params">${ico("file",18)}<div class="t"><b>${esc(t("paramsTitle"))}</b><small>${esc(t("paramsShort"))}</small></div>${ico("chev",15)}</button></div>`;
-  const meth=`<div class="card soft">${more(t("methodTitle"), `<ul>${["m1","m2","m3","m4","m5","m6","m7"].map(x=>`<li>${esc(t(x))}</li>`).join("")}</ul>`)}</div>`;
-  $("p-hyp").innerHTML = head(t("hypTitle"), t("hypSub"))+`<div class="cols">${eco}${ret}${opt}${meth}</div>`;
+    <div class="x-row" style="margin-top:8px"><span>${esc(t("savRateK"))}<small>${esc(t("savRateSub"))}</small></span><b>66 %</b></div>
+    <button class="lnk" data-a="settings" data-sec="params">${ico("file",18)}<div class="t"><b>${esc(t("paramsTitle"))}</b><small>${esc(t("paramsShort"))}</small></div>${ico("chev",15)}</button></div>
+    <div class="card soft">${more(t("methodTitle"), `<ul>${["m1","m2","m3","m4","m5","m6","m7","m8","m9"].map(x=>`<li>${esc(t(x))}</li>`).join("")}</ul>`)}</div></div>`;
+  $("p-hyp").innerHTML = subNav()+dh(t("hypTitle5"), t("hypSub"), `<span class="x-pill hide-m">${esc(t("hypMoved"))}</span>`)+`<div class="dg g3">${eco}${ret}${opt}</div>`;
 }
 
 /* ================= v4 : Rappels · Données · Saisie guidée ================= */
 function selPlan(){ return ready()? simK(S.sim.sel) : null; }
 function reminders(){
   if(!ready()) return [];
-  const R=[], ps=persons(), Y=YEAR, end=Y+"-12-31", tb=taxable(), r=selPlan(), st=stopsOf(S.sim.sel), q=modeShare();
+  const R=[], ps=persons(), Y=YEAR, end=Y+"-12-31", tb0=taxable(), tb=pi=>concub()? taxable(pi) : tb0, r=selPlan(), st=stopsOf(S.sim.sel), q=modeShare();
   const who = pi => couple()? pname(pi)+" · " : "";
   let anyDed=false;
   ps.forEach((p,pi)=>{
@@ -1889,15 +2530,15 @@ function reminders(){
       if(rest>0){ anyDed=true;
         R.push({id:`3a-${Y}-${p.id}`, date:end, kind:"3a", pi, title:who(pi)+t("rem3a",{y:Y}),
           sub: paid==null? t("rem3aPlanned",{m:fmtNum(contrib3a(p))}) : t("rem3aPaid",{p:fmtNum(paid), m:fmtNum(mx)}),
-          amt:rest, sav:deductionSaving(rest, tb+Math.min(rest, contrib3a(p))), bar: paid==null? null : paid/mx, act:"edit3a"}); }
+          amt:rest, sav:deductionSaving(rest, tb(pi)+Math.min(rest, contrib3a(p))), bar: paid==null? null : paid/mx, act:"edit3a"}); }
       else if(paid!=null && contrib3a(p)>0) anyDed=true;
       const rm=retroMax(p);
       if(rm>0){ const amt=p.p3a.retro>0? Math.min(p.p3a.retro, rm) : rm; anyDed = anyDed || p.p3a.retro>0;
-        R.push({id:`retro-${Y}-${p.id}`, date:end, kind:"retro", pi, title:who(pi)+t("remRetro"), sub:t("remRetroSub",{m:fmtNum(mx)}), amt, sav:deductionSaving(amt, tb), act:"goRetro"}); }
+        R.push({id:`retro-${Y}-${p.id}`, date:end, kind:"retro", pi, title:who(pi)+t("remRetro"), sub:t("remRetroSub",{m:fmtNum(mx)}), amt, sav:deductionSaving(amt, tb(pi)), act:"goRetro"}); }
     }
     const B=+p.lpp.buyback||0, k=Math.max(1,Math.round(p.lpp.buybackYears||1));
     if(B>0 && hasLpp(p) && !p.lpp.wef){ anyDed=true;
-      R.push({id:`bb-${Y}-${p.id}`, date:end, kind:"bb", pi, title:who(pi)+t("remBb"), sub:t("remBbSub",{k}), amt:B/k, sav:deductionSaving(B/k, tb), act:"goBuy"});
+      R.push({id:`bb-${Y}-${p.id}`, date:end, kind:"bb", pi, title:who(pi)+t("remBb"), sub:t("remBbSub",{k}), amt:B/k, sav:deductionSaving(B/k, tb(pi)), act:"goBuy"});
       const last=Y+k-1, lockEnd=last+PRM.bvg.buybackLockYears;
       if(q>0 && lockEnd-Y<=8) R.push({id:`lock-${lockEnd}-${p.id}`, date:`${lockEnd}-01-01`, kind:"lock", pi, title:who(pi)+t("remLock",{y:lockEnd}), sub:t("remLockSub",{y:last}), act:"goBuy"});
     }
@@ -1927,8 +2568,8 @@ function contribTxt(p){
   if(m==="pct") return t("cmPctTxt",{a:fmtNum(L.emp,1), b:fmtNum(L.er,1)});
   return t(m==="month"?"cmMonthTxt":"cmYearTxt",{a:fmtNum(L.emp), b:fmtNum(L.er)});
 }
-/* ---------- page Données ---------- */
-function renderData(){
+/* ---------- page Données (v4, remplacée par ui_data5.js) ---------- */
+function renderData4(){
   if(!ready()){ $("p-data").innerHTML=head(t("dataPage"), t("dataPageSub"))+`<div class="cols">${welcomeCard()}${mwCard()}</div>`; return; }
   const ps=persons(), h=S.household;
   const pcs=ps.map((p,i)=>`<button class="card pcd" data-a="setup" data-step="${i?4:1}"><div class="row" style="justify-content:flex-start;gap:8px"><span class="mi lg2">${esc(initials(p.name,t(i?"spouse":"you")[0]))}</span><b>${esc(pname(i))}</b></div>
@@ -2031,7 +2672,7 @@ function startSetup(step){
     free:S.fire.otherAssets||0, freeTouched:false, people:[draftPerson(P(0)), draftPerson(p1)] };
   UI.step=step||1;
 }
-function nSteps(){ return UI.draft && UI.draft.civil==="married"? 4 : 3; }
+function nSteps(){ return UI.draft && UI.draft.civil!=="single"? 4 : 3; }
 function stepFields(){
   const D=UI.draft, s=UI.step, cantons=Object.keys(TX.cantons).sort((a,b)=>TX.cantons[a].name.localeCompare(TX.cantons[b].name, LANG)).map(c=>[c, TX.cantons[c].name]);
   const pi= s===4? 1 : 0, p=D.people[pi];
@@ -2056,7 +2697,7 @@ function stepFields(){
     if(s===4) out.push({k:pre("name1"), label:t("fName"), opt:1, ph:t("spouse"), v:p.name, half:1},
       {k:pre("bd1"), label:t("birthDate"), type:"date", v:p.birthDate, half:1, hint:bdHint(p)+(p.birthYear && !p.birthDate? " · "+t("bdKnownYear",{y:p.birthYear}) : "")},
       {k:pre("status1"), label:t("status"), type:"select", opts:[["employee",t("employee")],["self",t("self")]], v:p.status, half:1},
-      {k:pre("ms"), plain:1, label:t("marriedSince"), type:"num", dec:0, int:1, opt:1, min:1950, max:YEAR, v:D.marriedSince||"", half:1, hint:t("marriedSinceHint")},
+      ...(D.civil==="married"? [{k:pre("ms"), plain:1, label:t("marriedSince"), type:"num", dec:0, int:1, opt:1, min:1950, max:YEAR, v:D.marriedSince||"", half:1, hint:t("marriedSinceHint")}] : []),
       {k:pre("income1"), label:t("salaryGross"), type:"num", dec:0, min:0, v:p.income, half:1, hint:t("chfYear")},
       {k:pre("bonus1"), label:t("bonusLbl"), type:"num", dec:0, min:0, v:p.bonus, half:1, hint:t("chfYear")},
       {k:pre("bonusIns1"), label:t("bonusIns"), type:"check", v:p.bonusInsured, hint:t("bonusInsHint")},
@@ -2124,9 +2765,9 @@ function stepValidate(){
 }
 function commitSetup(){
   const D=UI.draft, h=S.household;
-  h.civil=D.civil; h.couple= D.civil==="married"; h.canton=D.canton; h.commune=D.commune; h.marriedSince= D.marriedSince>1900? +D.marriedSince : null;
-  if(h.couple && S.people.length<2) S.people.push(fillPerson(defaultPerson(1),1));
-  [0,1].forEach(i=>{ if(i && !h.couple) return; const p=S.people[i], d=D.people[i];
+  h.civil=D.civil; h.couple= D.civil==="married"; h.partner= D.civil!=="single"; h.canton=D.canton; h.commune=D.commune; h.marriedSince= D.civil==="married" && D.marriedSince>1900? +D.marriedSince : null;
+  if(h.partner && S.people.length<2) S.people.push(fillPerson(defaultPerson(1),1));
+  [0,1].forEach(i=>{ if(i && !h.partner) return; const p=S.people[i], d=D.people[i];
     p.name=d.name.trim(); p.birthDate=d.birthDate; if(d.birthDate) p.birthYear=+d.birthDate.slice(0,4); p.status=d.status; p.income=d.income; p.bonus=d.bonus; p.bonusInsured=!!d.bonusInsured;
     Object.assign(p.lpp, {balance:d.lpp.balance, contribMode:d.lpp.contribMode, emp:d.lpp.emp, er:d.lpp.er, conv65: d.lpp.conv65>0? d.lpp.conv65 : null});
     if(!d.multi){ if(d.p3aBal>0){ const a=p.p3a.accounts[0]||{id:uid(), name:"3a", age:null}; a.balance=d.p3aBal; p.p3a.accounts=[a]; } else p.p3a.accounts=[]; }
@@ -2141,6 +2782,394 @@ function stepGo(dir){
   else { softCollect(); if(UI.step<=1){ UI.draft=null; location.hash = ready()? "#data" : "#sim"; return; } UI.step--; }
   render(); window.scrollTo(0,0);
 }
+
+/* ================= v5 : Données · Ménage / Scénarios ; périodes, enfants, bonifications, épargne, réinitialisation ================= */
+function xr(l, v, sub, cls){ return `<div class="x-row"><span>${l}${sub?`<small>${sub}</small>`:""}</span><b class="${cls||""}">${v}</b></div>`; }
+function xres(l, v, d){ return `<div class="x-res"><div class="l">${l}</div><div class="v">${v}${d? `<small class="${d<0?"dn":"up"}">${sgn(d)}</small>` : ""}</div></div>`; }
+function avTxt(p){ return (p.name||"?").trim().charAt(0).toUpperCase()||"?"; }
+function stopYearOf(i){ return P(i).birthYear+stopsOf(S.sim.sel)[i]; }
+function periodSub(q, i){
+  const parts=[];
+  if(q.rate===0){ parts.push(t("perNoLpp")); parts.push(married()? t("perAvsMarried") : S.household.avsMinPaid!==false? t("perAvsMin") : t("perAvsGap")); }
+  else { parts.push(t("perLppPro")); parts.push(q.no3a? t("perNo3a") : t("per3aKept")); }
+  return parts.join(" · ");
+}
+function periodTitle(q, i){ return (couple()? pname(i)+" · " : "")+(q.from===q.to? q.from : q.from+" – "+q.to)+" · "+(q.rate===0? t("perPause") : q.rate+" %"); }
+function timeline(){
+  const ps=persons(), y0=YEAR, y1=Math.max(y0+5, ...ps.map((p,i)=>stopYearOf(i)));
+  const yrs=[]; for(let y=y0; y<y1; y++) yrs.push(y);
+  const rows=ps.map((p,i)=>{ const ys=stopYearOf(i);
+    return `<div class="pp"><span class="who"><span class="av">${esc(avTxt({name:pname(i)}))}</span>${esc(pname(i))}</span><div><div class="x-tl">${yrs.map(y=>{ if(y>=ys) return `<i class="ret" title="${y}"></i>`;
+      const q=(p.periods||[]).find(x=>x.from<=y && y<=x.to); const r=q? q.rate : 100;
+      return `<i class="${r>=100?"full":r>0?"part":"hatch"}" title="${y} · ${r} %"></i>`; }).join("")}</div></div></div>`; }).join("");
+  const n=yrs.length, step=n>24? 5 : n>12? 3 : 2, ticks=[];
+  for(let k=0;k<=n;k+=step) ticks.push(y0+k); if(ticks[ticks.length-1]!==y0+n) ticks.push(y0+n);
+  const tk=ticks.map((y,j)=>`<span style="left:${((y-y0)/n*100).toFixed(2)}%;${j===0?"transform:none":y===y0+n?"transform:translateX(-100%)":""}">${y}</span>`).join("");
+  return rows+`<div class="pp" style="margin-top:0"><span></span><div class="x-tick2">${tk}</div></div>`;
+}
+function renderData(){
+  if(!ready()){ $("p-data").innerHTML=subNav()+dh(t("dataPage"), t("dataPageSub"))+`<div class="cols">${welcomeCard()}${mwCard()}</div>`; return; }
+  const ps=persons(), h=S.household, st=status(), sel=S.sim.sel, r=simK(sel);
+  const acts=abtn("export","down",t("exportBtn"))+abtn("openReset","reset",t("resetBtn"),"hide-m");
+  // personnes
+  const pc=ps.map((p,i)=>{ const nq=(p.periods||[]).length;
+    return `<div class="card"><div class="ch3"><h3>${esc(pname(i))}</h3><div class="r"><span class="x-pill">${esc(t("ageYearPill",{a:ageOf(p), y:p.birthYear}))}</span><button class="lk" data-a="setup" data-step="${i?4:1}">${ico("edit",14)}</button></div></div>
+      ${xr(esc(t("salaryK")), M((+p.income||0)+(+p.bonus||0))+" "+esc(t("perYearShort")))}${xr(esc(t("lppBalance")), M(p.lpp.balance))}
+      ${xr("3a", M(sum3a(p))+" · "+M(contrib3a(p)/12)+" "+esc(t("perMonthShort")))}
+      ${xr(esc(t("avsYearsK")), p.avs.missing>0? esc(t("avsMissingN",{n:p.avs.missing})) : esc(t("avsComplete")), "", p.avs.missing>0? "dn" : "")}
+      ${xr(esc(t("perTitle")), nq? esc(t("perCount",{n:nq})) : "—", "", nq? "okc" : "")}
+      <p class="tiny" style="margin-top:6px">${esc(contribTxt(p))}</p></div>`; }).join("");
+  // situation
+  const civBtn=(v,l)=>`<button data-a="civil5" data-v="${v}" class="${h.civil===v?"on":""}">${esc(t(l))}</button>`;
+  const kids=h.kidsBorn||[], hasKids=kids.length>0, ey=hasKids? [Math.min(...kids)+1, Math.max(...kids)+16] : null;
+  const anyPause=ps.some(p=>(p.periods||[]).some(q=>q.rate===0));
+  const sit=`<div class="card"><div class="ch3"><h3>${esc(t("situationT"))}</h3><span class="x-pill">${esc(cantonData().name)}</span></div>
+    <div class="x-lbl" style="margin-top:0">${esc(t("civilLbl"))}</div><div class="seg sm">${civBtn("married","civilMarried")}${civBtn("cohab","stConc")}${civBtn("single","civilSingle")}</div>
+    ${h.civil==="cohab" && !couple()? `<div class="x-flow" style="margin:10px 0 0"><span class="i">${ico("users",18)}</span><span class="t"><b>${esc(t("partnerOnT"))}</b>${esc(t("partnerOnSub"))}</span><button class="btn sm pri" data-a="partnerOn">${esc(t("partnerOnBtn"))}</button></div>` : ""}
+    ${married() && h.marriedSince? xr(esc(t("marriedSince")), String(h.marriedSince)) : ""}
+    <button class="x-row" data-a="kids"><span>${esc(t("kidsK"))}<small>${hasKids? esc(t("kidsBornTxt",{y:kids.join(", ")})) : esc(t("kidsNone"))}</small></span><b>${kids.length} ${ico("chev",13)}</b></button>
+    ${hasKids && couple()? `<button class="x-row" data-a="eduDlg"><span>${esc(t("eduK"))}<small>${ey[0]}–${ey[1]} · ${esc(married()? t("eduLegal") : t("eduChoice"))}</small></span><b>${esc(eduTxt())} ${ico("chev",13)}</b></button>` : ""}
+    ${!married() && anyPause? `<label class="sw"><span class="t"><b>${esc(t("avsMinT"))}</b><small>${esc(t("avsMinSub"))}</small></span><input type="checkbox" data-a="avsMin" ${h.avsMinPaid!==false?"checked":""}><span class="tg"></span></label>` : ""}
+    <button class="x-row" data-a="setup" data-step="1"><span>${esc(t("cantonCommune"))}</span><b>${esc(cantonData().name)}${h.commune? " · "+esc(h.commune) : ""} ${ico("chev",13)}</b></button>
+    ${concub()? concWarn() : ""}</div>`;
+  // périodes
+  const items=[]; ps.forEach((p,i)=>(p.periods||[]).slice().sort((a,b)=>a.from-b.from).forEach(q=>items.push({q,i})));
+  const perC=`<div class="card"><div class="ch3"><h3>${esc(t("perCardT",{a:YEAR, b:Math.max(...ps.map((p,i)=>stopYearOf(i)))}))}</h3><button class="btn sm" data-a="period" data-i="${couple()? 1 : 0}" data-id="new">${ico("plus",15)}<span>${esc(t("perAdd"))}</span></button></div>
+    ${timeline()}
+    ${items.length? `<div class="pcards">${items.map(({q,i})=>`<button class="pcard" data-a="period" data-i="${i}" data-id="${q.id}"><span class="av n">${q.rate===0? ico("pause",17) : q.rate+"%"}</span><span class="t"><b>${esc(periodTitle(q,i))}</b><small>${esc(periodSub(q,i))}</small></span>${ico("edit",15)}</button>`).join("")}</div>` : `<p class="sub" style="margin:10px 0 0">${esc(t("perEmpty"))}</p>`}
+    <div class="x-leg" style="margin-top:12px"><span><i style="background:#7FA893"></i>100 %</span><span><i style="background:#E3C99A"></i>${esc(t("perPart"))}</span><span><i class="hatch"></i>${esc(t("perPause"))}</span><span><i style="background:#EEE7DA"></i>${esc(t("perRetired"))}</span></div>
+    ${S.sim.periodsOn===false && items.length? note("warn","",esc(t("perOff"))) : ""}</div>`;
+  // effet des périodes
+  let eff;
+  if(hasPeriods() && S.sim.periodsOn!==false){
+    const a=simAlt("noper", sel, noPeriods), d=r.YnetM-a.YnetM;
+    const gapsTxt= married()? t("gapsMarried") : h.avsMinPaid!==false? t("gapsMinPaid") : t("gapsOpen");
+    eff=`<div class="card"><div class="ch3"><h3>${esc(t("perEffT"))}</h3><span class="x-pill">${esc(scenLbl(sel))}</span></div>
+      ${xr(esc(t("avsGapsK")), esc(married() || h.avsMinPaid!==false? t("none") : t("seeBelow")), esc(gapsTxt), married() || h.avsMinPaid!==false? "up" : "dn")}
+      ${ps.map((p,i)=>{ const dl=r.per[i].lpp-a.per[i].lpp, da=r.per[i].full-a.per[i].full; return (Math.abs(dl)>0.5? xr(esc(t("lppAtStop5",{n:pname(i), a:stopsOf(sel)[i]})), M(r.per[i].lpp)+` <span class="dn" style="font-weight:600">${sgn(dl)}</span>`) : "")+(Math.abs(da)>0.5? xr(esc(t("avsFullOf",{n:pname(i)})), M(r.per[i].full)+` <span class="dn" style="font-weight:600">${sgn(da)}</span>`) : ""); }).join("")}
+      ${xres(esc(t("netHHFrom",{y:r.first})), `<s>${M(a.YnetM)}</s>${M(r.YnetM)}`, d)}
+      <p class="tiny" style="margin-top:8px">${esc(t("perEffNote"))}</p></div>`;
+  } else eff=`<div class="card"><div class="ch3"><h3>${esc(t("perEffT"))}</h3></div><p class="sub" style="margin:0">${esc(t(hasPeriods()? "perOff" : "perEffNone"))}</p>
+      ${co(esc(t("perEffHint")),"pause")}</div>`;
+  // épargne
+  const sv=S.savings, man=sv.src!=="budget", mAmt= man || !hasBudget()? (+sv.monthly||0) : Math.max(0,budgetCap()), yrs=Math.max(0, r.first-YEAR);
+  const b0=simAlt("nosav", sel, null, {savMonthly:0}), bS=simAlt("sav:"+Math.round(mAmt*SAV_RATE), sel, null, {savMonthly:mAmt*SAV_RATE});
+  const savC=`<div class="card"><div class="ch3"><h3>${esc(t("savTitle"))}</h3><div class="r">${!man? `<span class="x-pill">${ico("flow",13)}${esc(t("fromBudgetPill"))}</span>` : ""}</div></div>
+    <div class="dg g2" style="margin:0;gap:22px;align-items:start">
+     <div><div class="seg sm" style="margin:0 0 10px"><button data-a="savSrc" data-v="manual" class="${man?"on":""}">${esc(t("savManualBtn"))}</button><button data-a="savSrc" data-v="budget" class="${!man?"on":""}">${esc(t("savBudgetBtn"))}</button></div>
+      ${man? `<label class="x-in"><input data-a="savAmt" inputmode="decimal" aria-label="${esc(t("savTitle"))}" value="${esc(sv.monthly? fmtNum(+sv.monthly) : "")}" placeholder="0"><small>${esc(t("chfMonth"))}</small></label>`
+        : `<div class="x-in" style="justify-content:flex-end"><b class="n" style="font-size:17px">${M(mAmt)}</b><small>${esc(t("chfMonth"))}</small></div>${hasBudget()? "" : `<p class="tiny" style="margin-top:6px"><a class="lk" href="#budget">${esc(t("savNoBudget"))}</a></p>`}`}
+      <label class="sw" style="margin-top:8px"><span class="t"><b>${esc(t("savOnLbl"))}</b><small>${esc(t("savOnSub"))}</small></span><input type="checkbox" data-a="savOn" ${sv.on?"checked":""}><span class="tg"></span></label></div>
+     <div>${xr(esc(t("savPaidTo",{y:r.first})), M(mAmt*12*yrs))}${xr(esc(t("savKept")), M(mAmt*SAV_RATE)+" "+esc(t("perMonthShort")), esc(t("savKeptSub")))}
+      ${mAmt>0? xres(esc(t("savEffect",{s:SL[sel], y:r.first})), `<s>${M(b0.YnetM)}</s>${M(bS.YnetM)}`, bS.YnetM-b0.YnetM) : ""}
+      ${mAmt>0 && !sv.on? `<p class="tiny" style="margin-top:6px">${esc(t("savNotOn"))}</p>` : ""}</div></div></div>`;
+  // concubinage ↔ mariage
+  let cmp="";
+  if(couple()){
+    const other= married()? "concubinage" : "married";
+    const alt=simAlt("civ:"+other, sel, H=>{ H.status=other; H.couple= other==="married"; delete H.eduShare; if(other!=="married") H.marriedSince=null; });
+    const altNP= hasPeriods()? simAlt("civnp:"+other, sel, H=>{ H.status=other; H.couple= other==="married"; delete H.eduShare; H.people.forEach(p=>{ delete p.periods; }); }) : null;
+    cmp=`<div class="card"><div class="ch3"><h3>${esc(t(married()? "cmpConcT" : "cmpMarT"))}</h3></div>
+      ${xr(esc(t("netNow",{s:civilTxt()})), M(r.YnetM))}
+      ${xr(esc(t(married()? "netIfConc" : "netIfMar")), M(alt.YnetM)+` <span class="${alt.YnetM>=r.YnetM?"up":"dn"}" style="font-weight:600">${sgn(alt.YnetM-r.YnetM)}</span>`)}
+      ${altNP? xr(esc(t("netIfNoPer")), M(altNP.YnetM)) : ""}
+      ${xr(esc(t("avsHHk")), M(compAt(r,yFull(r)).avs)+" → "+M(compAt(alt,yFull(alt)).avs))}
+      <div class="x-warn" style="margin-top:10px">${ico("shield",20)}<span><b>${esc(t("concWarnT"))}</b> ${esc(t("concWarnLong"))}</span></div></div>`;
+  }
+  const rem=reminders(), now=rem.filter(x=>x.date<=YEAR+"-12-31"), later=rem.filter(x=>x.date>YEAR+"-12-31");
+  const savTot=now.filter(x=>!x.done).reduce((s,x)=>s+(x.sav||0),0);
+  const nowC=`<div class="card"><div class="ch"><h3>${esc(t("thisYear",{y:YEAR}))}</h3>${savTot>0?`<span class="lk">${esc(t("possibleSaving"))} <span class="n">${fmtNum(Math.round(savTot))}</span></span>`:""}</div>
+    ${now.length? now.map(remRow).join("") : `<div class="empty">${esc(t("noReminder"))}</div>`}</div>`;
+  const laterC= later.length? `<div class="card"><div class="ch"><h3>${esc(t("upcoming"))}</h3></div>${later.slice(0,8).map(remRow).join("")}</div>` : "";
+  $("p-data").innerHTML = subNav()+dh(t("dataMenage"), t(couple()?"dataPageSubHH":"dataPageSub",{n:pname(1)}), acts)+
+    `<div class="dg ${couple()?"g3":"g2"} st">${pc}${sit}</div>
+     <div class="dg g21">${perC}${eff}</div>
+     <div class="dg ${cmp?"g21":"g2"}">${savC}${cmp||`<div class="stk">${mwCard()}</div>`}</div>
+     <div class="dg g3">${cmp? `<div class="stk">${mwCard()}</div>` : ""}${nowC}${laterC}</div>
+     <div class="dg g2">${advCard()}</div>`;
+}
+/* ---------- fiches : périodes, enfants, bonifications ---------- */
+function openPeriod(i, id){
+  const isNew=id==="new", ps=persons();
+  let pi=clamp(i||0,0,ps.length-1), p=P(pi);
+  const q0=isNew? {id:uid(), from:YEAR+1, to:YEAR+1, rate:0, no3a:false} : (p.periods||[]).find(x=>x.id===id);
+  if(!q0) return;
+  const L=[];
+  if(couple() && isNew) L.push({k:"who", label:t("perWho"), type:"select", opts:ps.map((x,j)=>[String(j), pname(j)]), v:String(pi)});
+  L.push({k:"from", plain:1, req:1, label:t("perFrom"), type:"num", dec:0, int:1, min:1950, max:2100, v:q0.from, half:1},
+    {k:"to", plain:1, label:t("perTo"), type:"num", dec:0, int:1, min:1950, max:2100, v:q0.to, half:1, hint:t("perToHint")},
+    {k:"rate", plain:1, label:t("perRate"), type:"num", dec:0, int:1, min:0, max:100, v:q0.rate, half:1, hint:t("perRateHint")},
+    {k:"no3a", label:t("perNo3aLbl"), type:"check", v:q0.no3a, half:1, hint:t("perNo3aHint")});
+  const info=note("info","",esc(t("perRules")));
+  openSheet("period", isNew? t("perAdd") : periodTitle(q0, pi), fields(L,{})+info, { onSave:()=>{ const v=collect(L);
+      if(v.who!==undefined && v.who!==null && v.who!==""){ pi=+v.who; p=P(pi); }
+      const lo=p.birthYear+18, hi=p.birthYear+70; let a=v.from, b=v.to||v.from; if(b<a){ const x=a; a=b; b=x; }
+      if(a<lo || b>hi){ toast(t("perRange",{a:lo, b:hi})); return false; }
+      if((p.periods||[]).some(x=>x.id!==q0.id && x.from<=b && a<=x.to)){ toast(t("perOverlap")); return false; }
+      const q=fillPeriod({id:q0.id, from:a, to:b, rate:v.rate, no3a: v.rate>0 && !!v.no3a});
+      if(!isNew){ persons().forEach(pp=>{ pp.periods=(pp.periods||[]).filter(x=>x.id!==q0.id); }); }
+      p.periods=(p.periods||[]).concat([q]).sort((x,y)=>x.from-y.from); if(S.sim.periodsOn===false) S.sim.periodsOn=true; },
+    onDelete: isNew? null : ()=>{ p.periods=(p.periods||[]).filter(x=>x.id!==q0.id); } });
+  // 3a inutile si 0 %
+  const rate=$("f_rate"), chk=$("f_no3a"); const upd=()=>{ const z=parseNum(rate.value)===0; chk.disabled=z; if(z) chk.checked=false; };
+  if(rate && chk){ rate.addEventListener("input", upd); upd(); }
+}
+function openKids(){
+  const h=S.household, L=[{k:"kids", label:t("kidsBornLbl"), ph:"2019, 2022", v:(h.kidsBorn||[]).join(", "), hint:t("kidsHint")}];
+  openSheet("kids", t("kidsK"), fields(L,{})+(couple()? "" : note("info","",esc(t("kidsSingle")))), { onSave:()=>{ const v=collect(L).kids||"";
+    const ys=v.split(/[^0-9]+/).filter(Boolean).map(Number);
+    if(ys.some(y=>y<1950 || y>YEAR+1)){ toast(t("kidsBad")); return false; }
+    h.kidsBorn=ys.sort((a,b)=>a-b); h.children=Math.max(h.children||0, ys.filter(y=>YEAR-y<25).length); } });
+}
+function openEdu(){
+  const h=S.household, kids=h.kidsBorn||[]; if(!kids.length || !couple()) return;
+  const opts=[["50","50 / 50"],["p0",t("edu100",{n:pname(0)})],["p1",t("edu100",{n:pname(1)})]];
+  const runs=st=>opts.map(([v])=>{ const r=simAlt("edu:"+st+":"+v, S.sim.sel, H=>{ H.status=st; H.couple=st==="married"; delete H.eduShare; if(st==="concubinage" && v==="p0") H.eduShare=[1,0]; if(st==="concubinage" && v==="p1") H.eduShare=[0,1]; }); return {v, r}; });
+  const M0=runs("married"), C0=runs("concubinage"), cur=h.eduShare||"50", ey=[Math.min(...kids)+1, Math.max(...kids)+16];
+  const tb=(R, lock)=>`<table class="x-tbl w edu"><thead><tr><th>${esc(t("eduAttr"))}</th><th>${esc(t("avsFullOf",{n:pname(0)}))}</th><th>${esc(t("avsFullOf",{n:pname(1)}))}</th><th>${esc(t("netMonth"))}</th></tr></thead><tbody>
+    ${R.map((x,j)=>{ const best= !lock && x.r.YnetM>=Math.max(...R.map(y=>y.r.YnetM))-0.5 && R.some(y=>Math.abs(y.r.YnetM-x.r.YnetM)>0.5);
+      return `<tr class="${lock && j? "off" : ""} ${best? "best" : ""}"><td>${esc(opts[j][1])}${lock && j? " · "+esc(t("impossible")) : ""}${best? " ★" : ""}</td><td>${M(x.r.per[0].full)}</td><td>${M(x.r.per[1].full)}</td><td class="${(lock? j===0 : x.v===cur)? "on" : ""}">${M(x.r.YnetM)}</td></tr>`; }).join("")}</tbody></table>`;
+  const noEff=[M0,C0].every(R=>R.every(x=>Math.abs(x.r.YnetM-R[0].r.YnetM)<0.5));
+  const segB=`<div class="seg sm" style="margin:0 0 12px">${opts.map(([v,l])=>`<button type="button" data-a="eduPick" data-v="${v}" class="${cur===v?"on":""}" ${married() && v!=="50"? "disabled" : ""}>${esc(l)}</button>`).join("")}</div>`;
+  const body=`<p class="sub" style="margin-top:0">${esc(t("eduIntro",{k:kids.join(", "), a:ey[0], b:ey[1]}))}</p>
+    <div class="x-lbl" style="margin-top:0">${esc(t("eduDefault"))}</div>${segB}
+    <div class="dg g2" style="margin:0;gap:16px">
+     <div class="card" style="margin:0"><div class="ch3"><h3>${esc(t("eduMarT"))}${married()? " · "+esc(t("yourCase")) : ""}</h3><span class="x-pill">${ico("lock",12)}${esc(t("eduLocked"))}</span></div><p class="tiny" style="margin:0 0 8px">${esc(t("eduMarTxt"))}</p>${tb(M0,true)}</div>
+     <div class="card" style="margin:0"><div class="ch3"><h3>${esc(t("eduConcT"))}${concub()? " · "+esc(t("yourCase")) : ""}</h3><span class="x-pill">${esc(t("eduFree"))}</span></div><p class="tiny" style="margin:0 0 8px">${esc(t("eduConcTxt"))}</p>${tb(C0,false)}</div>
+    </div>${noEff? co(esc(t("eduNoEffect")),"info") : ""}`;
+  openSheet("edu", t("eduTitle"), body, {wide:true, acts:`<button type="button" class="btn" data-a="sheetClose">${esc(t("close"))}</button>`});
+}
+/* ---------- Scénarios enregistrés ---------- */
+const SCC=["#0F3D2E","#B8894A","#B4543A","#5C8B74","#8A6430","#7FA893"];
+function scenRun(x){ return memo("scn:"+x.id, ()=>ENG.simulate(ECTX(), x.snap.H, x.snap.A, x.snap.sc)); }
+function snapNow(k){ return { H:deep(engH()), A:deep(engA()), sc:deep(scOf(k)), label:agesTxt(stopsOf(k)), year:firstYear(stopsOf(k)), mode:S.sim.mode, mix:S.sim.mixShare, civil:status(), names:persons().map((_,i)=>pname(i)) }; }
+function openSaveScen(stops){
+  const k=S.sim.sel, def=t("scenDefName",{s:SL[k], a:stops? stops.join(" · ") : agesTxt(stopsOf(k))});
+  const L=[{k:"name", label:t("scenName"), v:def, req:1}];
+  openSheet("saveScen", t("saveScen"), fields(L,{})+`<p class="tiny">${esc(t("scenSaveNote"))}</p>`, { saveLabel:t("saveScen"), onSave:()=>{ const v=collect(L); if(!v.name){ toast(t("fieldRequired")); return false; }
+    const snap=snapNow(k); if(stops){ snap.sc.stops=stops.slice(); snap.label=stops.join(" · "); snap.year=Math.min(...stops.map((a,i)=>P(i).birthYear+a)); }
+    const on=S.scen.filter(x=>x.on).length<3;
+    S.scen.push({id:uid(), name:v.name.slice(0,60), date:new Date().toISOString(), on, snap}); } });
+}
+function renderScen(){
+  const L=S.scen, on=L.filter(x=>x.on).slice(0,3), gi=ready()? goalInfo() : null;
+  const acts=abtn("print","print",t("printPdf"),"hide-m")+(ready()? abtn("saveScen","bookmark",t("saveCurrent"),"pri") : "");
+  if(!L.length){ $("p-scen").innerHTML=subNav()+dh(t("dataScen"), t("scenSub"), acts)+`<div class="card empty5"><span class="av" style="width:56px;height:56px">${ico("bookmark",26)}</span><h2>${esc(t("scenEmptyT"))}</h2><p>${esc(t("scenEmpty"))}</p>${ready()? `<div style="margin-top:18px">${abtn("saveScen","bookmark",t("saveCurrent"),"pri")}</div>` : ""}</div>`; return; }
+  const list=`<div class="card"><div class="ch3"><h3>${esc(t("scenSaved"))}</h3><span class="x-pill">${esc(t("scenCount",{n:L.length, k:on.length}))}</span></div>
+    ${L.map((x,j)=>{ const r=scenRun(x), c=SCC[j%SCC.length];
+      return `<div class="x-sc"><button class="ck ${x.on?"on":""}" data-a="scenOn" data-id="${x.id}" aria-label="${esc(t("compareBtn"))}">${x.on? ico("check",14,2.4) : ""}</button><span class="t"><b>${dotc(c)}${esc(x.name)}</b><small>${esc(t("depShort"))} ${x.snap.year||r.first} · ${esc(x.snap.label||"")} · ${esc(fmtDate(x.date.slice(0,10)))}</small></span><span class="v">${M(r.YnetM)}<small>${esc(t("netPerMonth"))}</small></span>
+        <button class="x" data-a="scenEdit" data-id="${x.id}" aria-label="${esc(t("edit"))}">${ico("edit",15)}</button></div>`; }).join("")}
+    ${co(esc(t("scenHint")))}</div>`;
+  let cmp;
+  if(on.length<1) cmp=`<div class="card"><div class="ch3"><h3>${esc(t("sideBySide5"))}</h3></div><p class="sub">${esc(t("scenPick"))}</p></div>`;
+  else {
+    const R=on.map(scenRun), idx=on.map(x=>L.indexOf(x)), T=gi? gi.v : 0;
+    const bestOf=vals=>{ const m=Math.max(...vals); return vals.indexOf(m); };
+    const lpp=r=>r.per.reduce((s,p)=>s+p.lpp,0), avs=(r,j)=>{ const ps=on[j].snap.H.people; const y=Math.min(r.yend-1, Math.max(...r.per.map((p,i)=>(ps[i]? ps[i].born : 0)+p.avsAge))); const c=compAt(r,y); return c? c.avs : 0; };
+    const rows=[[t("departK"), R.map((r,j)=>`${on[j].snap.year||r.first} · ${esc((on[j].snap.label||"").replace(/ · /g,"/"))}`)],
+      [t("netMonth"), R.map(r=>M(r.YnetM)), bestOf(R.map(r=>r.YnetM))],
+      [t("grossMonth"), R.map(r=>M(r.Ym))],
+      [t("kLppStart"), R.map(r=>M(lpp(r)))],
+      [t("avsFull"), R.map((r,j)=>M(avs(r,j)))],
+      [t("kCapTax"), R.map(r=>M(r.taxCap))],
+      [t("minPool"), R.map(r=>M(Math.max(0,r.minpool)))],
+      ...(T>0? [[t("gapGoal",{m:M(T)}), R.map(r=>sgn((gi.net? r.YnetM : r.Ym)-T)), bestOf(R.map(r=>(gi.net? r.YnetM : r.Ym)-T))]] : [])];
+    const grid=`<div class="x-cmp" style="grid-template-columns:minmax(130px,1.2fr) repeat(${on.length},minmax(0,1fr))"><div class="hd"></div>${on.map((x,j)=>`<div class="hd"><i style="background:${SCC[idx[j]%SCC.length]}"></i><b>${esc(x.name)}</b></div>`).join("")}
+      ${rows.map(([k,v,bi])=>`<div class="k">${esc(k)}</div>${v.map((x,j)=>`<div class="${bi===j && on.length>1? "best" : ""}${String(x).startsWith("−")? " dn" : ""}">${x}</div>`).join("")}`).join("")}</div>`;
+    let insight="";
+    if(R.length>1){ const b=bestOf(R.map(r=>r.YnetM)), w=R.map(r=>r.YnetM).indexOf(Math.min(...R.map(r=>r.YnetM))); insight=co(`<b>${esc(t("keyGap"))}</b> ${esc(t("keyGapTxt",{a:on[b].name, b:on[w].name, d:M(R[b].YnetM-R[w].YnetM)}))}`); }
+    cmp=`<div class="card"><div class="ch3"><h3>${esc(t("sideBySide5"))}</h3><span class="mini">${esc(t("chfTodayNet"))}</span></div>${grid}
+      <div class="dg g2" style="margin:18px 0 0;gap:24px;align-items:center"><div>${cmpBars(on.map((x,j)=>[x.name, R[j].YnetM, SCC[idx[j]%SCC.length]]), gi && gi.net? T : 0)}</div><div>${insight}${T>0 && gi.net? `<div class="x-leg" style="margin-top:12px"><span>${esc(t("dashGoal",{m:M(T)}))}</span></div>` : ""}<p class="tiny" style="margin-top:10px">${esc(t("scenSnapNote"))}</p></div></div></div>`;
+  }
+  $("p-scen").innerHTML=subNav()+dh(t("dataScen"), t("scenSub"), acts)+`<div class="dg g13">${list}${cmp}</div>`;
+}
+function openScenEdit(id){
+  const x=S.scen.find(s=>s.id===id); if(!x) return;
+  const L=[{k:"name", label:t("scenName"), v:x.name, req:1}];
+  openSheet("scenEdit", x.name, fields(L,{})+`<p class="tiny">${esc(t("scenMeta",{d:fmtDT(x.date), a:x.snap.label||"", c:t(x.snap.civil==="married"?"stMarried":x.snap.civil==="concubinage"?"stConc":"stSingle")}))}</p>
+    <div class="addrow"><button type="button" class="btn sm" data-a="scenLoad" data-id="${x.id}">${ico("refresh",15)}${esc(t("scenLoad"))}</button></div>`,
+    { onSave:()=>{ const v=collect(L); if(!v.name){ toast(t("fieldRequired")); return false; } x.name=v.name.slice(0,60); },
+      onDelete:()=>{ S.scen=S.scen.filter(s=>s!==x); } });
+}
+/* reprendre les âges et le mode d'un scénario enregistré (les données du ménage restent celles d'aujourd'hui) */
+function scenLoad(id){
+  const x=S.scen.find(s=>s.id===id); if(!x) return; const st=x.snap.sc.stops||[], k=S.sim.sel;
+  if(st[0]) S.sim.ages0[k]=st[0]; if(st[1] && couple()){ S.sim.ages1[k]=st[1]; if(S.sim.link && linkedAge(st[0])!==st[1]) S.sim.link=false; }
+  if(x.snap.mode){ S.sim.mode=x.snap.mode; S.sim.mixShare=x.snap.mix!=null? x.snap.mix : S.sim.mixShare; }
+  closeSheet(); touch(); save(); location.hash="#sim"; render(); toast(t("scenLoaded",{s:SL[k]}));
+}
+/* ---------- Réinitialisation (export d'abord, puis EFFACER) ---------- */
+function openReset(){
+  const ps=S.people.filter(p=>p.birthYear), last=S.meta.lastExport, days=last? Math.floor((Date.now()-new Date(last))/864e5) : null;
+  const what=[t("rsProfiles",{n:ps.map((p,i)=>pname(i)).join(", ")||"—"}), t("rsScen",{n:S.scen.length}), t("rsBudget"), t("rsHyp")];
+  const body=`<div class="x-warn">${ico("trash",20)}<span><b>${esc(t("rsFinal"))}</b> ${esc(t("rsFinalTxt"))}</span></div>
+    <div class="dg g2" style="margin:16px 0 0;gap:22px">
+     <div><div class="x-lbl" style="margin-top:0">${esc(t("rsWill"))}</div>${what.map(x=>`<div class="x-chk"><span class="dn">${ico("x",15,2)}</span>${esc(x)}</div>`).join("")}
+      <div class="x-chk" style="color:var(--mut)"><span class="up">${ico("check",15,2)}</span>${esc(t("rsKept"))}</div></div>
+     <div><div class="card soft" style="margin:0;padding:14px;display:flex;gap:12px;align-items:center"><span class="av">${ico("down",18)}</span><span style="flex:1;font-size:12.5px;line-height:1.4"><b style="display:block;font-size:13.5px">${esc(t("rsExportFirst"))}</b>${esc(last? t("rsLast",{d:fmtDate(last.slice(0,10)), n:days}) : t("rsNever"))}</span><button type="button" class="btn sm pri" data-a="export">${esc(t("exportBtn"))}</button></div>
+      <div class="x-lbl">${t("rsType")}</div><label class="x-in dng"><input id="rsWord" autocomplete="off" autocapitalize="characters" spellcheck="false" aria-label="${esc(t("rsTypeAria"))}" style="text-align:left"></label></div>
+    </div>`;
+  openSheet("reset", t("rsTitle"), body, {wide:true, acts:`<button type="button" class="btn" data-a="sheetClose">${esc(t("cancel"))}</button><button type="button" class="btn dng2" data-a="doReset" id="rsGo" disabled>${ico("trash",15)}${esc(t("rsGo"))}</button>`});
+  const w=$("rsWord"); if(w) w.addEventListener("input", ()=>{ $("rsGo").disabled= w.value.trim().toUpperCase()!==t("rsWord"); });
+}
+function doReset(){
+  const w=$("rsWord"); if(!w || w.value.trim().toUpperCase()!==t("rsWord")) return;
+  const keep={mw:S.mw.auto}; S=defaultState(); S.mw.auto=keep.mw; S.meta.disclaimerOk=true; S.meta.touched=true; C.emptyOk=true; saveCloud(); UI.who=0; UI.view="hh"; UI.draft=null; save(); closeSheet(); renderChrome(); location.hash="#sim"; render(); toast(t("resetDone5")); mwRefresh({force:true, silent:true});
+}
+/* ---------- actions v5 ---------- */
+function setCivil(v){
+  const h=S.household;
+  if(v!=="single" && S.people.length<2){ startSetup(4); UI.draft.civil=v; location.hash="#setup"; render(); return; }
+  simSet(()=>{ h.civil=v; h.couple= v==="married"; h.partner= v!=="single"; if(v!=="married") h.marriedSince=h.marriedSince||null; if(v!=="cohab" && h.eduShare!=="50") h.eduShare= v==="married"? "50" : h.eduShare; if(S.people[1]) delete S.people[1].migrated; });
+}
+document.addEventListener("click", e=>{
+  const b=e.target.closest("[data-a]"); if(!b || b.tagName==="INPUT") return;
+  const a=b.dataset.a;
+  switch(a){
+    case "print": window.print(); break;
+    case "goScen": location.hash="#scen"; break;
+    case "saveScen": if(ready()) openSaveScen(); break;
+    case "goalSave": openSaveScen((b.dataset.st||"").split(",").map(Number).filter(Boolean)); break;
+    case "scenOn": { const x=S.scen.find(s=>s.id===b.dataset.id); if(!x) break; if(!x.on && S.scen.filter(s=>s.on).length>=3){ toast(t("scenMax3")); break; } x.on=!x.on; save(true); render(); break; }
+    case "scenEdit": openScenEdit(b.dataset.id); break;
+    case "scenLoad": scenLoad(b.dataset.id); break;
+    case "openReset": openReset(); break;
+    case "doReset": doReset(); break;
+    case "civil5": setCivil(b.dataset.v); break;
+    case "partnerOn": simSet(()=>{ S.household.partner=true; if(S.people[1]) delete S.people[1].migrated; }); break;
+    case "kids": openKids(); break;
+    case "eduDlg": openEdu(); break;
+    case "eduPick": { const v=b.dataset.v; if(married() && v!=="50") break; S.household.eduShare=v; touch(); save(); render(); openEdu(); break; }
+    case "period": openPeriod(+b.dataset.i||0, b.dataset.id); break;
+    case "savSrc": simSet(()=>{ S.savings.src=b.dataset.v; if(b.dataset.v==="budget" && hasBudget()) S.savings.on=true; }); break;
+    case "capQ": { const q=+b.dataset.q; simSet(()=>{ if(q<=0) S.sim.mode="annuity"; else if(q>=1) S.sim.mode="capital"; else { S.sim.mode="mixed"; S.sim.mixShare=Math.round(q*100); } }); break; }
+  }
+});
+document.addEventListener("change", e=>{
+  const el=e.target, a=el.dataset && el.dataset.a; if(!a) return;
+  if(a==="savOn"){ simSet(()=>{ S.savings.on=el.checked; }); return; }
+  if(a==="goalOn"){ simSet(()=>{ S.budget.goalOn=el.checked; }); return; }
+  if(a==="avsMin"){ simSet(()=>{ S.household.avsMinPaid=el.checked; }); return; }
+  if(a==="savAmt"){ const n=parseNum(el.value||"0"); if(isNaN(n) || n<0){ toast(t("toastBadNumber")); return; } simSet(()=>{ S.savings.monthly=Math.round(n); if(n>0) S.savings.on=true; }); return; }
+});
+
+/* ================= v5 : Budget (aujourd'hui / à la retraite) ================= */
+const BGRP=["home","health","mob","life","leisure","ins","kids","tax","save","other"];
+function grpLbl(g){ return t("grp_"+(BGRP.includes(g)? g : "other")); }
+/* modèles fictifs (CHF / mois) : [clé, groupe, aujourd'hui, retraite, note] */
+const BTPL={
+  family:[["bRent","home",3250,3250],["bLamal","health",1420,1180,"bLamalN"],["bPower","home",140,130],["bMob","mob",940,450,"bMobN"],["bFood","life",2100,1050],["bLeisure","leisure",1300,1000],["bIns","ins",230,220],["bHealth","health",520,400],["bKids","kids",1450,0,"bKidsN"],["bTax","tax",2860,0,"bTaxN"],["b3a","save",1210,0,"b3aN"]],
+  couple:[["bRent","home",2600,2600],["bLamal","health",960,1080],["bPower","home",110,110],["bMob","mob",780,420],["bFood","life",1300,1100],["bLeisure","leisure",1200,1100],["bIns","ins",210,200],["bHealth","health",400,420],["bTax","tax",2300,0,"bTaxN"],["b3a","save",1210,0,"b3aN"]],
+  single:[["bRent","home",1850,1850],["bLamal","health",480,540],["bPower","home",80,80],["bMob","mob",520,300],["bFood","life",750,650],["bLeisure","leisure",700,650],["bIns","ins",140,130],["bHealth","health",220,260],["bTax","tax",1250,0,"bTaxN"],["b3a","save",605,0,"b3aN"]]
+};
+function budgetFromTpl(k){
+  const B=S.budget; B.cost=(BTPL[k]||BTPL.family).map(([n,g,a,r,nt])=>({id:uid(), name:t(n), grp:g, amt:a, ret:r, note:nt? t(nt) : ""}));
+  if(!B.inc.length) budgetIncomes(); B.view="now";
+}
+function budgetIncomes(){
+  const B=S.budget, L=[]; persons().forEach((p,i)=>{ const v=estNetSalary(p); if(v>0) L.push({id:uid(), name:t("bSalNet",{n:pname(i)}), amt:v, note:t("bSalNote")}); });
+  const kids=(S.household.kidsBorn||[]).filter(y=>YEAR-y<16).length; if(kids) L.push({id:uid(), name:t("bAlloc"), amt:kids*230, note:t("bAllocNote",{n:kids})});
+  if(!L.length) L.push({id:uid(), name:t("bSalOne"), amt:0, note:""});
+  B.inc=L;
+}
+function bGroups(){ const g={}; (S.budget.cost||[]).forEach(c=>{ const k=BGRP.includes(c.grp)? c.grp : "other"; g[k]=(g[k]||0)+(+c.amt||0); }); return BGRP.filter(k=>g[k]>0).map(k=>[k, g[k]]); }
+function bSeg(){ const v=S.budget.view==="ret"? 1 : 0; return `<div class="seg sm"><button data-a="bView" data-v="now" class="${v?"":"on"}">${esc(t("bToday"))}</button><button data-a="bView" data-v="ret" class="${v?"on":""}">${esc(t("bAtRet"))}</button></div>`; }
+function renderBudget(){
+  const B=S.budget, el=$("p-budget");
+  if(!hasBudget()){
+    el.innerHTML=dh(t("navBudget"), t("bSubNow"))+`<div class="card empty5">
+      <svg width="96" height="96" viewBox="0 0 96 96" aria-hidden="true"><circle cx="48" cy="48" r="46" fill="#F3E7CF"/><ellipse cx="48" cy="70" rx="22" ry="7" fill="#0F3D2E"/><ellipse cx="48" cy="55" rx="15" ry="6" fill="#2E6B55"/><ellipse cx="48" cy="43" rx="9" ry="4.5" fill="#7FA893"/><circle cx="48" cy="32" r="5" fill="#B8894A"/></svg>
+      <h2>${esc(t("bEmptyT"))}</h2><p>${t("bEmptyP")}</p>
+      <div class="steps">${[1,2,3].map(n=>`<div class="step"><span class="sn">${n}</span><span><b>${esc(t("bStep"+n))}</b><small>${esc(t("bStep"+n+"s"))}</small></span></div>`).join("")}</div>
+      <div class="x-lbl">${esc(t("bTplPick"))}</div>
+      <div class="tpl">${[["family","kids"],["couple","users"],["single","user"]].map(([k,ic])=>`<button data-a="bTpl" data-v="${k}"><span class="av">${ico(ic,18)}</span><span class="t"><b>${esc(t("bTpl_"+k))}</b><small>${esc(t("bTpl_"+k+"s",{m:M(BTPL[k].reduce((s,x)=>s+x[2],0))}))}</small></span>${ico("chev",16)}</button>`).join("")}</div>
+      <div style="display:flex;gap:10px;margin-top:16px;flex-wrap:wrap;justify-content:center"><button class="btn pri" data-a="bStart">${ico("plus",15)}${esc(t("bStartInc"))}</button></div>
+      <div class="mini" style="margin-top:14px">${esc(t("bEmptyNote"))}</div></div>`;
+    return;
+  }
+  const inc=budgetIncT(), cost=budgetCostT(), cap=budgetCap(), ret=budgetRetT(), grp=bGroups(), k=S.sim.sel, rd=ready();
+  const acts=bSeg()+abtn("bCsv","down",t("bCsv"),"hide-m");
+  if(B.view!=="ret"){
+    const sv=S.savings, linked=sv.on && sv.src==="budget";
+    let flow;
+    if(!rd) flow=`<div class="card kpi"><div class="eb"><span>${esc(t("savTitle"))}</span></div><div class="ks">${esc(t("bNeedData"))}</div></div>`;
+    else if(linked && cap>0){ const r0=simAlt("nosav",k,null,{savMonthly:0}), r1=simK(k);
+      flow=`<a class="x-flow" style="margin:0" href="#sim"><span class="i">${ico("flow",18)}</span><span class="t"><b>${esc(t("bFeeds"))}</b>${esc(t("bFeedsTxt",{m:M(cap*SAV_RATE)}))}<br>${esc(scenLbl(k))} : ${M(r0.YnetM)} → ${M(r1.YnetM)}</span><span class="go">${ico("chev",18)}</span></a>`; }
+    else flow=`<div class="x-flow" style="margin:0"><span class="i">${ico("flow",18)}</span><span class="t"><b>${esc(t("bNotFeeds"))}</b>${esc(t(cap>0? "bNotFeedsTxt" : "bNoCap"))}</span>${cap>0? `<button class="btn sm pri" data-a="bUseSav">${esc(t("bUse"))}</button>` : ""}</div>`;
+    const kpis=`<div class="dg g4 st">
+      <div class="card kpi"><div class="eb"><span>${esc(t("bInc"))}</span></div><div class="kv2">${M(inc)}</div><div class="ks">${esc(t("bLines",{n:B.inc.length}))}</div></div>
+      <div class="card kpi"><div class="eb"><span>${esc(t("bCost"))}</span></div><div class="kv2">${M(cost)}</div><div class="ks">${esc(t("bLinesCat",{n:B.cost.length, g:grp.length}))}</div></div>
+      <div class="card kpi hero"><div class="eb"><span>${esc(t("bCap"))}</span></div><div class="kv2 ${cap<0?"dn":""}">${M(cap)}</div><div class="ks">${inc>0? esc(t("bCapPct",{p:fmtNum(cap/inc*100,1)})) : "—"}</div></div>
+      ${flow}</div>`;
+    const don=`<div class="card"><div class="ch3"><h3>${esc(t("bSplit"))}</h3></div>${grp.length? `<div class="don">${donut(grp.map(([g,v])=>[g,v]), GC, 104, 70, t("chfMonth"))}</div>
+      ${grp.map(([g,v],i)=>`<div class="x-row" style="padding:6px 0"><span style="color:var(--ink)">${dotc(GC[i%GC.length])}&nbsp;${esc(grpLbl(g))}</span><b>${M(v)} <span class="mini" style="font-weight:500;display:inline-block;width:40px;text-align:right">${fmtNum(v/cost*100,0)} %</span></b></div>`).join("")}` : `<p class="sub">${esc(t("bNoCost"))}</p>`}</div>`;
+    const incC=`<div class="card"><div class="ch3"><h3>${esc(t("bInc"))}</h3><div class="r"><b class="n">${M(inc)}</b><button class="lk" data-a="bInc" data-id="new" aria-label="${esc(t("bAddInc"))}">${ico("plus",16)}</button></div></div>
+      ${B.inc.map(x=>`<button class="x-row" data-a="bInc" data-id="${x.id}"><span>${esc(x.name)}${x.note?`<small>${esc(x.note)}</small>`:""}</span><b>${M(x.amt)}</b></button>`).join("")}</div>`;
+    let rows=""; grp.forEach(([g,v],i)=>{ rows+=`<tr class="grp"><td>${dotc(GC[i%GC.length])}&nbsp;${esc(grpLbl(g))}</td><td>${M(v)}</td><td>${M(v*12)}</td><td>${fmtNum(v/cost*100,1)} %</td></tr>`;
+      B.cost.filter(c=>(BGRP.includes(c.grp)? c.grp : "other")===g).forEach(c=>{ rows+=`<tr class="ck" data-a="bCost" data-id="${c.id}"><td class="l" style="padding-left:26px">${esc(c.name)}${c.note?`<small class="mini" style="display:block">${esc(c.note)}</small>`:""}</td><td>${M(c.amt)}</td><td>${M(c.amt*12)}</td><td class="mini">${fmtNum((+c.amt||0)/cost*100,1)} %</td></tr>`; }); });
+    const zero=B.cost.filter(c=>!(+c.amt>0)); zero.forEach(c=>{ rows+=`<tr class="ck" data-a="bCost" data-id="${c.id}"><td class="l" style="padding-left:26px">${esc(c.name)}<small class="mini" style="display:block">${esc(grpLbl(c.grp))} · ${esc(t("bOnlyRet"))}</small></td><td>–</td><td>–</td><td class="mini">–</td></tr>`; });
+    const tbl=`<div class="card"><div class="ch3"><h3>${esc(t("bByCat"))}</h3><button class="btn sm" data-a="bCost" data-id="new">${ico("plus",15)}<span>${esc(t("bAddLine"))}</span></button></div>
+      <div class="tw2"><table class="x-tbl w"><thead><tr><th>${esc(t("bItem"))}</th><th>${esc(t("perMonth"))}</th><th>${esc(t("perYear5"))}</th><th>${esc(t("bShare"))}</th></tr></thead><tbody>${rows}</tbody>
+      <tfoot><tr><td>${esc(t("bTotalCost"))}</td><td>${M(cost)}</td><td>${M(cost*12)}</td><td>100 %</td></tr></tfoot></table></div></div>`;
+    el.innerHTML=dh(t("navBudget"), t("bSubNow"), acts)+kpis+`<div class="dg g12"><div class="stk">${don}${incC}</div>${tbl}</div>`;
+    return;
+  }
+  // à la retraite
+  const mx=Math.max(1, ...B.cost.map(c=>Math.max(+c.amt||0, +c.ret||0)));
+  const tr=B.cost.map(c=>{ const a=+c.amt||0, r=+c.ret||0; return `<tr class="ck" data-a="bCost" data-id="${c.id}"><td class="l">${esc(c.name)}${c.note?`<small class="mini" style="display:block">${esc(c.note)}</small>`:""}</td><td>${a? M(a) : "–"}</td>
+    <td><div style="position:relative;height:16px"><i style="position:absolute;left:0;top:2px;height:5px;border-radius:3px;background:#D9CDB4;width:${(a/mx*100).toFixed(1)}%"></i><i style="position:absolute;left:0;top:9px;height:5px;border-radius:3px;background:#2E6B55;width:${(r/mx*100).toFixed(1)}%"></i></div></td>
+    <td>${r? M(r) : "–"}</td><td class="${r<a?"up":r>a?"dn":""}">${r===a? "=" : sgn(r-a)}</td></tr>`; }).join("");
+  const cmpT=`<div class="card"><div class="ch3"><h3>${esc(t("bNowToRet"))}</h3><button class="btn sm" data-a="bCost" data-id="new">${ico("plus",15)}<span>${esc(t("bAddLine"))}</span></button></div>
+    <div class="tw2"><table class="x-tbl w"><thead><tr><th>${esc(t("bItem"))}</th><th>${esc(t("bToday"))}</th><th style="width:30%">&nbsp;</th><th>${esc(t("bRet"))}</th><th>${esc(t("bDiff"))}</th></tr></thead><tbody>${tr}</tbody>
+    <tfoot><tr><td>${esc(t("total"))}</td><td>${M(cost)}</td><td><div class="lgd" style="justify-content:flex-end;font-weight:500"><span><i style="background:#D9CDB4"></i>${esc(t("bToday"))}</span><span><i style="background:#2E6B55"></i>${esc(t("bRet"))}</span></div></td><td>${M(ret)}</td><td class="${ret<cost?"up":"dn"}">${sgn(ret-cost)}</td></tr></tfoot></table></div>
+    <p class="tiny" style="margin-top:10px">${esc(t("bRetNote"))}</p></div>`;
+  const goalC=`<div class="card hero"><div class="eb" style="display:flex;justify-content:space-between;align-items:center"><span>${esc(t("bGoalNet"))}</span></div>
+    <div class="big n"><span class="c">CHF</span>${fmtNum(Math.round(ret))}<span class="u">${esc(t("perMonthU"))}</span></div>
+    <div class="tiny" style="color:var(--mut)">${cost>0? esc(t("bGoalPct",{p:fmtNum(ret/cost*100,0)})) : ""}</div>
+    <label class="sw" style="margin-top:10px"><span class="t"><b>${esc(t("goalBudgetSw"))}</b><small>${esc(t(B.goalOn? "bGoalOnSub" : "bGoalOffSub",{m:M(goalTarget())}))}</small></span><input type="checkbox" data-a="goalOn" ${B.goalOn?"checked":""}><span class="tg"></span></label></div>`;
+  let cov="", flowG="";
+  if(rd && ret>0){
+    const R=[0,1,2].map(simK), hi=Math.max(ret, ...R.map(r=>r.YnetM))*1.12;
+    cov=`<div class="card"><div class="ch3"><h3>${esc(t("bCover"))}</h3><span class="mini">${esc(t(S.savings.on? "bWithSav" : "bNoSav"))}</span></div>
+      ${R.map((r,j)=>{ const ok=r.YnetM>=ret-0.5; return `<button class="cov" data-a="sel" data-k="${j}" style="display:block;width:100%;text-align:left;margin:9px 0"><div class="row" style="font-size:12.5px"><span>${dotc(SCOL[j])} ${esc(SL[j])} · ${r.first} · ${esc(agesTxt(stopsOf(j)))}</span><b class="n ${ok?"up":"dn"}">${M(r.YnetM)} · ${sgn(r.YnetM-ret)}</b></div><div style="position:relative"><div class="x-bar" style="height:9px"><i style="width:${(r.YnetM/hi*100).toFixed(1)}%;background:${ok?"#2E6B55":"#C9A15B"}"></i></div><i style="position:absolute;left:${(ret/hi*100).toFixed(1)}%;top:-3px;width:2px;height:15px;background:var(--ink);border-radius:1px"></i></div></button>`; }).join("")}
+      <div class="mini" style="margin-top:8px">${esc(t("bCoverNote",{m:M(ret)}))}</div></div>`;
+    flowG=`<a class="x-flow" style="margin:0" href="#goal"><span class="i">${ico("target",18)}</span><span class="t"><b>${esc(t("bSeeGoal"))}</b>${esc(t(B.goalOn? "bSeeGoalOn" : "bSeeGoalOff"))}</span><span class="go">${ico("chev",18)}</span></a>`;
+  }
+  el.innerHTML=dh(t("navBudget"), t("bSubRet"), acts)+`<div class="dg g21">${cmpT}<div class="stk">${goalC}${cov}${flowG? `<div style="margin-top:18px">${flowG}</div>` : ""}</div></div>`;
+}
+function openBLine(kind, id){
+  const B=S.budget, isInc=kind==="inc", list=isInc? B.inc : B.cost, isNew=id==="new";
+  const x=isNew? (isInc? {id:uid(), name:"", amt:0, note:""} : {id:uid(), name:"", grp:"other", amt:0, ret:0, note:""}) : list.find(y=>y.id===id);
+  if(!x) return;
+  const L= isInc? [{k:"name", label:t("bName"), v:x.name, req:1},{k:"amt", label:t("bAmtMonth"), type:"num", dec:0, v:x.amt, half:1},{k:"note", label:t("bNote"), v:x.note, opt:1, half:1}]
+    : [{k:"name", label:t("bName"), v:x.name, req:1},{k:"grp", label:t("bGroup"), type:"select", opts:BGRP.map(g=>[g, grpLbl(g)]), v:x.grp, half:1},{k:"note", label:t("bNote"), v:x.note, opt:1, half:1},
+       {k:"amt", label:t("bAmtToday"), type:"num", dec:0, v:x.amt, half:1},{k:"ret", label:t("bAmtRet"), type:"num", dec:0, v:isNew? "" : x.ret, empty:"", half:1, hint:t("bAmtRetHint")}];
+  openSheet("bline", isNew? t(isInc? "bAddInc" : "bAddLine") : x.name, fields(L,{}), { onSave:()=>{ const v=collect(L); if(!v.name){ toast(t("fieldRequired")); return false; }
+      const amt=Math.max(0, +v.amt||0); Object.assign(x, {name:v.name.slice(0,60), amt:Math.round(amt), note:(v.note||"").slice(0,80)});
+      if(!isInc){ x.grp=v.grp; x.ret=Math.max(0, Math.round(v.ret==null || v.ret===""? amt : +v.ret||0)); }
+      if(isNew) list.push(x); },
+    onDelete: isNew? null : ()=>{ const i=list.indexOf(x); if(i>=0) list.splice(i,1); } });
+}
+function budgetCsv(){
+  const B=S.budget, q=s=>`"${String(s==null?"":s).replace(/"/g,'""')}"`, L=[["type","name","group","today_chf_month","retirement_chf_month","note"].join(";")];
+  B.inc.forEach(x=>L.push(["income", q(x.name), "", Math.round(x.amt), "", q(x.note)].join(";")));
+  B.cost.forEach(x=>L.push(["cost", q(x.name), q(grpLbl(x.grp)), Math.round(x.amt), Math.round(x.ret||0), q(x.note)].join(";")));
+  L.push(["total_income","","",Math.round(budgetIncT()),"",""].join(";")); L.push(["total_cost","","",Math.round(budgetCostT()),Math.round(budgetRetT()),""].join(";"));
+  const blob=new Blob(["\ufeff"+L.join("\r\n")],{type:"text/csv;charset=utf-8"}), a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download="mypension-budget-"+today()+".csv"; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
+}
+document.addEventListener("click", e=>{
+  const b=e.target.closest("[data-a]"); if(!b || b.tagName==="INPUT") return;
+  switch(b.dataset.a){
+    case "bView": S.budget.view=b.dataset.v==="ret"? "ret" : "now"; save(true); render(); break;
+    case "bTpl": simSet(()=>budgetFromTpl(b.dataset.v)); toast(t("bTplDone")); break;
+    case "bStart": simSet(()=>{ budgetIncomes(); }); openBLine("inc", S.budget.inc[0].id); break;
+    case "bInc": openBLine("inc", b.dataset.id); break;
+    case "bCost": openBLine("cost", b.dataset.id); break;
+    case "bUseSav": simSet(()=>{ S.savings.src="budget"; S.savings.on=true; }); toast(t("bUsed")); break;
+    case "bCsv": budgetCsv(); break;
+  }
+});
 
 /* ================= Dropbox (OAuth PKCE, dossier « Applications/<app> ») =================
    Un même client sert à deux usages : la synchronisation de MyPension (clé de config.js)
@@ -2349,13 +3378,14 @@ document.addEventListener("visibilitychange", ()=>{ if(document.visibilityState=
 const REMOTE_NAME = "mypension-data.json";                  // nom inchangé depuis la v1
 const V1_BACKUP_NAME = "mypension-data-v1-sauvegarde.json"; // copie intacte du fichier v1 avant sa mise à niveau
 const V3_BACKUP_NAME = "mypension-data-v3-sauvegarde.json"; // copie intacte du fichier v2/v3 (schéma 2) avant sa mise à niveau v4
+const V4_BACKUP_NAME = "mypension-data-v4-sauvegarde.json"; // copie intacte du fichier v4 (schéma 3) avant sa mise à niveau v5
 const CLOUD_KEY = "mypension.cloud.v2";
-function loadCloud(){ try{ return Object.assign({etag:null,syncedKey:null,userDirty:false,lastSync:null,lastBackupMonth:null,lastBackupAt:0,remoteHasContent:false,emptyOk:false,v1Backup:false,v3Backup:false}, JSON.parse(localStorage.getItem(CLOUD_KEY)||"{}")); }catch(e){ return {}; } }
+function loadCloud(){ try{ return Object.assign({etag:null,syncedKey:null,userDirty:false,lastSync:null,lastBackupMonth:null,lastBackupAt:0,remoteHasContent:false,emptyOk:false,v1Backup:false,v3Backup:false,v4Backup:false}, JSON.parse(localStorage.getItem(CLOUD_KEY)||"{}")); }catch(e){ return {}; } }
 let C = loadCloud();
 function saveCloud(){ try{ localStorage.setItem(CLOUD_KEY, JSON.stringify(C)); }catch(e){} }
 const SYNC = { state:"off", err:null, timer:null, busy:false, again:false, blocked:false };
 function cloudOn(){ return DropboxP.configured() && DropboxP.ready && DropboxP.signedIn(); }
-function fileText(){ return JSON.stringify(Object.assign({_info:"MyPension v4 — données personnelles / personal data (schemaVersion 3)."}, S), null, 1); }
+function fileText(){ return JSON.stringify(Object.assign({_info:"MyPension v5 — données personnelles / personal data (schemaVersion 4)."}, S), null, 1); }
 function stateSummary(s){ const keep=S; S=s; try{ return persons().map(p=>initials(p.name, "·")+" "+(p.birthYear? ageOf(p) : "—")).join(" + ")+" · 3a "+fmtNum(Math.round(persons().reduce((a,p)=>a+sum3a(p),0)))+" · LPP "+fmtNum(Math.round(persons().reduce((a,p)=>a+(+p.lpp.balance||0),0))); }catch(e){ return ""; } finally{ S=keep; } }
 function askConflict(remoteS){
   return new Promise(res=>{
@@ -2407,7 +3437,7 @@ async function syncNow(){
       if(!isMPData(j)) throw new Error(t("errUnreadable",{name:REMOTE_NAME}));
       if(schemaOf(j)>SCHEMA_VERSION){ SYNC.blocked=true; alert(futureMsg(schemaOf(j))); throw new Error(t("errFuture")); }
       const rv=schemaOf(j), isV1 = rv<SCHEMA_VERSION, remoteS=migrate(j);
-      const bkFlag = rv===1? "v1Backup" : "v3Backup", bkName = rv===1? V1_BACKUP_NAME : V3_BACKUP_NAME;
+      const bkFlag = rv===1? "v1Backup" : rv===2? "v3Backup" : "v4Backup", bkName = rv===1? V1_BACKUP_NAME : rv===2? V3_BACKUP_NAME : V4_BACKUP_NAME;
       if(isV1 && !C[bkFlag]){   // copie intacte de l'ancien fichier (création seulement ; « conflit » = elle existe déjà)
         const r=await DropboxP.write(bkName, remote.text, null); C[bkFlag]=true; saveCloud();
         if(r && !r.conflict) console.info("old-format cloud backup written", bkName);
@@ -2418,8 +3448,8 @@ async function syncNow(){
       else if(!hasContent(S) && hasContent(remoteS) && !C.emptyOk) keep="remote";
       else if(isV1){
         // fichier encore à un ancien format : si cet appareil a migré ces mêmes données (ou plus récentes), on garde la version locale
-        const mig = rv===1? S.meta.migratedFromV1 : S.meta.migratedFromV3;
-        const rs=String(j.savedAt||""), ls=String((rv===1? S.meta.v1savedAt : S.meta.v3savedAt)||"");
+        const mig = rv===1? S.meta.migratedFromV1 : rv===2? S.meta.migratedFromV3 : S.meta.migratedFromV4;
+        const rs=String(j.savedAt||""), ls=String((rv===1? S.meta.v1savedAt : rv===2? S.meta.v3savedAt : S.meta.v4savedAt)||"");
         keep = !hasContent(remoteS)? "local" : (mig && ls && rs<=ls)? "local" : (mig && ls)? "remote" : (localDirty? await askConflict(remoteS) : "remote");
       }
       else if(remote.etag===C.etag) keep = "local";
@@ -2500,7 +3530,7 @@ function openSheet(kind, title, bodyHTML, o={}){
   SHEET.kind=kind; SHEET.onSave=o.onSave||null; SHEET.onDelete=o.onDelete||null;
   const acts = o.acts? `<div class="acts">${o.acts}</div>` : o.onSave? `<div class="acts">${o.onDelete?`<button type="button" class="btn dng" data-a="sheetDel">${ico("trash",16)}${esc(t("del"))}</button>`:""}<button type="button" class="btn pri" data-a="sheetSave">${esc(o.saveLabel||t("save"))}</button></div>` : "";
   $("sheetIn").innerHTML = `<div class="grab"></div><div class="shd"><h2>${esc(title)}</h2><button type="button" class="x" data-a="sheetClose" aria-label="${esc(t("close"))}">${ico("x",16,2)}</button></div><form id="sheetForm" onsubmit="return false">${bodyHTML}${acts}</form>`;
-  const d=$("sheet"); if(!d.open) d.showModal();
+  const d=$("sheet"); d.classList.toggle("wide", !!o.wide); if(!d.open) d.showModal();
   applyShowRules(); if(!o.keepScroll) $("sheetIn").scrollTop=0;
 }
 $("sheet").addEventListener("click", e=>{ if(e.target===$("sheet")) closeSheet(); });
@@ -2731,7 +3761,7 @@ document.addEventListener("click", e=>{
     case "exportV3": download("mypension-v3-sauvegarde.json", localStorage.getItem(BACKUP_V3_KEY)||"{}"); break;
     case "import": importMode="mp"; $("fileIn").click(); break;
     case "importMW": importMode="mw"; $("fileIn").click(); break;
-    case "reset": if(confirm(t("confirmReset"))){ const keep={mw:S.mw.auto}; S=defaultState(); S.mw.auto=keep.mw; S.meta.disclaimerOk=true; S.meta.touched=true; C.emptyOk=true; saveCloud(); UI.who=0; UI.view="hh"; UI.draft=null; save(); closeSheet(); renderChrome(); location.hash="#sim"; render(); toast(t("resetDone")); mwRefresh({force:true, silent:true}); } break;
+    case "reset": openReset(); break;
     case "relaySave": { const v=($("f_relay").value||"").trim(); if(v && !/^https:\/\//i.test(v)){ toast(t("relayBad")); break; } S.settings.relayUrl=v; save(); openSettings("relay"); render(); toast(t("toastSaved")); break; }
   }
 });
@@ -2756,6 +3786,7 @@ function rangeSet(el, final){
   if(!r.obj) return;
   if(/^sim\.ages1\./.test(el.dataset.r) && S.sim.link) return;
   setIn(r.obj, r.key, v);
+  if(el.id==="r_mix5"){ S.sim.mode= v<=0? "annuity" : v>=100? "capital" : "mixed"; }
   clearTimeout(rangeT);
   const go=()=>{ const id=el.id, sc=window.scrollY; render(); const fresh=$(id); if(fresh && fresh!==el && !final){ fresh.replaceWith(el); } window.scrollTo(0,sc); };
   if(final){ touch(); save(); go(); } else rangeT=setTimeout(go, 90);
@@ -2796,7 +3827,7 @@ function renderBanners(){
   const B=[];
   if(BOOT.localBlocked) B.push(banner("warn", esc(t(BOOT.unreadable? "localUnreadable" : "futureLocal"))));
   if(SYNC.blocked && !BOOT.localBlocked) B.push(banner("warn", esc(t("futureCloudShort"))));
-  if((S.meta.migratedFromV1 || S.meta.migratedFromV3) && !S.meta.migV4NoticeOk && UI.page!=="setup") B.push(banner("ok", `<b>${esc(t("migTitle4"))}</b>${esc(t(S.meta.migratedFromV1 && !S.meta.v3savedAt? "migText4v1" : "migText4"))}`, "migOk", t("understood")));
+  if((S.meta.migratedFromV1 || S.meta.migratedFromV3 || S.meta.migratedFromV4) && !S.meta.migV5NoticeOk && UI.page!=="setup") B.push(banner("ok", `<b>${esc(t("migTitle5"))}</b>${esc(t(S.meta.migratedFromV4? "migText5" : S.meta.migratedFromV1 && !S.meta.v3savedAt? "migText4v1" : "migText4"))}`, "migOk", t("understood")));
   if(couple() && S.people[1] && S.people[1].migrated && UI.page!=="setup") B.push(banner("info", esc(t("spouseMigrated")), "setup", t("complete")));
   if(ready() && !S.meta.onboarded && UI.page!=="setup") B.push(banner("info", esc(t("checkInputs")), "setup", t("checkBtn")));
   if(SYNC.state==="reauth") B.push(banner("warn", esc(t("stReauth")), "cloudLogin", t("loginDropbox")));
@@ -2804,14 +3835,14 @@ function renderBanners(){
 }
 document.addEventListener("click", e=>{
   const b=e.target.closest("[data-a=migOk]"); if(!b) return;
-  S.meta.migV4NoticeOk=true; S.meta.migNoticeOk=true; save(true); render();
+  S.meta.migV5NoticeOk=true; S.meta.migV4NoticeOk=true; S.meta.migNoticeOk=true; save(true); render();
 });
 window.addEventListener("hashchange", route);
 
 /* ================= Démarrage ================= */
 (async function boot(){
   lastKey=dataKey(S);
-  if(BOOT.migrated) console.info("MyPension: schema "+BOOT.migratedFrom+" data migrated to v4 (copy kept in "+(BOOT.migratedFrom===1? BACKUP_V1_KEY : BACKUP_V3_KEY)+")");
+  if(BOOT.migrated) console.info("MyPension: schema "+BOOT.migratedFrom+" data migrated to v5 (copy kept in "+(BOOT.migratedFrom===1? BACKUP_V1_KEY : BOOT.migratedFrom===2? BACKUP_V3_KEY : BACKUP_V4_KEY)+")");
   renderChrome(); route();
   $("firstTitle").textContent="MyPension"; $("firstText").innerHTML=t("discLong"); $("firstOk").textContent=t("understood");
   $("firstOk").onclick=()=>{ S.meta.disclaimerOk=true; writeLocal(); lastKey=null; $("firstDlg").close(); };

@@ -1,8 +1,8 @@
-/* MyPension v2 — service worker : application disponible hors ligne.
+/* MyPension v5 — service worker : application disponible hors ligne.
    Seuls les fichiers de l'application sont mis en cache ; vos données restent dans le stockage local
    de l'appareil (et dans votre Dropbox si vous l'activez), jamais ici.
    Only app files are cached here — never your data. */
-const VERSION = "mypension-v4";
+const VERSION = "mypension-v5";
 const ASSETS = [
   "./", "./index.html", "./manifest.webmanifest", "./privacy.html",
   "params-2026.js", "tax-tables-2026.js",
